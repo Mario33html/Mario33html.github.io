@@ -6,6 +6,8 @@
   <title>VANTA — Fitness Tracker</title>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@10..48,75..100,400..800&family=Chakra+Petch:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&family=Tektur:wght@400;500;600;700;800&family=Unbounded:wght@400;500;600;700;800&display=swap');
+
     :root {
       --bg: #08090c;
       --panel: #111318;
@@ -21,6 +23,7 @@
       --red: #ff6575;
       --green: #67e39a;
       --radius: 18px;
+      --font-ui: "Bricolage Grotesque", Arial, Helvetica, sans-serif;
     }
 
     /* TEMAS — colección premium/exótica */
@@ -142,6 +145,177 @@
       --orange: #ffbf69;
     }
 
+    /* NUEVOS TEMAS — cristal, liquid glass y gym */
+
+    body.theme-glass {
+      --bg: #07131f;
+      --panel: rgba(14, 35, 54, 0.58);
+      --panel-2: rgba(25, 56, 82, 0.52);
+      --panel-3: rgba(44, 91, 126, 0.56);
+      --border: rgba(182, 232, 255, 0.26);
+      --accent: #8be9ff;
+      --accent-2: #4bbcff;
+      --blue: #b1cfff;
+      --green: #8ff3c5;
+    }
+
+    body.theme-frost {
+      --bg: #10121e;
+      --panel: rgba(38, 39, 71, 0.55);
+      --panel-2: rgba(78, 82, 128, 0.42);
+      --panel-3: rgba(123, 127, 184, 0.45);
+      --border: rgba(235, 235, 255, 0.29);
+      --accent: #ddd5ff;
+      --accent-2: #ad9bff;
+      --blue: #94d8ff;
+      --orange: #ffce9d;
+    }
+
+    body.theme-gym {
+      --bg: #090b0d;
+      --panel: rgba(17, 21, 23, 0.88);
+      --panel-2: rgba(31, 37, 40, 0.91);
+      --panel-3: #394348;
+      --border: rgba(216, 230, 222, 0.13);
+      --accent: #d7ff2f;
+      --accent-2: #a2db0c;
+      --blue: #6bc8ff;
+      --orange: #ffb253;
+      --red: #ff5d67;
+    }
+
+    body.theme-onyx {
+      --bg: #070708;
+      --panel: rgba(19, 20, 22, 0.76);
+      --panel-2: rgba(36, 38, 42, 0.68);
+      --panel-3: rgba(68, 72, 79, 0.74);
+      --border: rgba(255, 255, 255, 0.15);
+      --accent: #f3f5f7;
+      --accent-2: #b8c0c8;
+      --blue: #9fceff;
+      --green: #9ee6b3;
+    }
+
+    body.theme-emberglass {
+      --bg: #190b0d;
+      --panel: rgba(55, 19, 24, 0.58);
+      --panel-2: rgba(95, 34, 31, 0.48);
+      --panel-3: rgba(140, 61, 42, 0.52);
+      --border: rgba(255, 210, 175, 0.25);
+      --accent: #ffd08a;
+      --accent-2: #ff744d;
+      --blue: #a9d8ff;
+      --orange: #ff9d56;
+    }
+
+    body.theme-mintglass {
+      --bg: #031411;
+      --panel: rgba(7, 49, 42, 0.55);
+      --panel-2: rgba(11, 83, 70, 0.48);
+      --panel-3: rgba(29, 127, 105, 0.52);
+      --border: rgba(181, 255, 232, 0.24);
+      --accent: #78ffd1;
+      --accent-2: #2cd9a8;
+      --blue: #80dfff;
+      --green: #8dffc0;
+    }
+
+    body.theme-prism {
+      --bg: #08051a;
+      --panel: rgba(30, 18, 74, 0.68);
+      --panel-2: rgba(57, 31, 122, 0.58);
+      --panel-3: rgba(100, 61, 185, 0.55);
+      --border: rgba(202, 180, 255, 0.30);
+      --accent: #e3b8ff;
+      --accent-2: #a969ff;
+      --blue: #79ddff;
+      --green: #9dffd2;
+    }
+
+    body.theme-carbon {
+      --bg: #080a0e;
+      --panel: rgba(18, 25, 35, 0.76);
+      --panel-2: rgba(31, 43, 57, 0.66);
+      --panel-3: rgba(58, 77, 96, 0.58);
+      --border: rgba(194, 225, 255, 0.24);
+      --accent: #b9e5ff;
+      --accent-2: #5eb9ef;
+      --blue: #7bd8ff;
+      --green: #a7f7cf;
+    }
+
+    body.theme-volt {
+      --bg: #080c08;
+      --panel: rgba(20, 36, 17, 0.72);
+      --panel-2: rgba(42, 75, 26, 0.59);
+      --panel-3: rgba(74, 126, 42, 0.56);
+      --border: rgba(216, 255, 125, 0.27);
+      --accent: #dfff65;
+      --accent-2: #9ee51b;
+      --blue: #91dbff;
+      --green: #aaff83;
+    }
+
+    body.theme-amethyst {
+      --bg: #0b0618;
+      --panel: rgba(42, 21, 79, 0.74);
+      --panel-2: rgba(75, 37, 129, 0.61);
+      --panel-3: rgba(122, 71, 193, 0.56);
+      --border: rgba(232, 195, 255, 0.29);
+      --accent: #f0b7ff;
+      --accent-2: #c963ff;
+      --blue: #8bd5ff;
+      --green: #a4ffdb;
+    }
+
+    body.theme-cherry {
+      --bg: #17050d;
+      --panel: rgba(72, 13, 35, 0.74);
+      --panel-2: rgba(123, 30, 60, 0.61);
+      --panel-3: rgba(183, 55, 90, 0.55);
+      --border: rgba(255, 194, 211, 0.28);
+      --accent: #ffb0cb;
+      --accent-2: #ff4d92;
+      --blue: #a4d9ff;
+      --green: #a1ffd1;
+    }
+
+    body.theme-solar {
+      --bg: #180b03;
+      --panel: rgba(73, 32, 8, 0.74);
+      --panel-2: rgba(126, 60, 14, 0.61);
+      --panel-3: rgba(187, 105, 32, 0.55);
+      --border: rgba(255, 222, 170, 0.28);
+      --accent: #ffe29a;
+      --accent-2: #ffad3d;
+      --blue: #9cdcff;
+      --green: #b9ff9a;
+    }
+
+    body.theme-velocity {
+      --bg: #050a19;
+      --panel: rgba(11, 32, 72, 0.76);
+      --panel-2: rgba(16, 65, 137, 0.62);
+      --panel-3: rgba(28, 116, 205, 0.56);
+      --border: rgba(133, 213, 255, 0.29);
+      --accent: #62d9ff;
+      --accent-2: #3986ff;
+      --blue: #a4dcff;
+      --green: #7ffff0;
+    }
+
+    body.theme-carbonx {
+      --bg: #080b0d;
+      --panel: rgba(19, 26, 30, 0.78);
+      --panel-2: rgba(35, 49, 55, 0.64);
+      --panel-3: rgba(61, 87, 95, 0.56);
+      --border: rgba(169, 244, 255, 0.24);
+      --accent: #80f4ff;
+      --accent-2: #28afcb;
+      --blue: #93d9ff;
+      --green: #b6ff70;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -151,9 +325,40 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: var(--font-ui);
       min-height: 100vh;
       transition: background 0.3s, color 0.3s;
+    }
+
+    body.theme-glass,
+    body.theme-frost,
+    body.theme-emberglass,
+    body.theme-mintglass {
+      background-attachment: fixed;
+    }
+
+    body.theme-glass {
+      background-image: radial-gradient(circle at 12% 5%, rgba(82, 197, 255, 0.27), transparent 29%), radial-gradient(circle at 88% 82%, rgba(41, 255, 201, 0.18), transparent 32%);
+    }
+
+    body.theme-frost {
+      background-image: radial-gradient(circle at 15% 8%, rgba(177, 159, 255, 0.27), transparent 30%), radial-gradient(circle at 85% 86%, rgba(104, 211, 255, 0.17), transparent 34%);
+    }
+
+    body.theme-gym {
+      background-image: radial-gradient(ellipse at 80% -10%, rgba(213, 255, 47, 0.12), transparent 35%), linear-gradient(135deg, rgba(255,255,255,0.025) 25%, transparent 25%) 0 0 / 24px 24px;
+    }
+
+    body.theme-onyx {
+      background-image: radial-gradient(circle at 78% 12%, rgba(255,255,255,0.10), transparent 28%);
+    }
+
+    body.theme-emberglass {
+      background-image: radial-gradient(circle at 12% 10%, rgba(255, 135, 75, 0.30), transparent 29%), radial-gradient(circle at 84% 85%, rgba(255, 211, 123, 0.15), transparent 34%);
+    }
+
+    body.theme-mintglass {
+      background-image: radial-gradient(circle at 10% 5%, rgba(52, 255, 189, 0.22), transparent 30%), radial-gradient(circle at 90% 75%, rgba(54, 160, 255, 0.17), transparent 35%);
     }
 
     button,
@@ -181,6 +386,20 @@
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
+    }
+
+    body.theme-glass .sidebar,
+    body.theme-frost .sidebar,
+    body.theme-emberglass .sidebar,
+    body.theme-mintglass .sidebar {
+      background: rgba(6, 14, 24, 0.42);
+      backdrop-filter: blur(22px) saturate(145%);
+      -webkit-backdrop-filter: blur(22px) saturate(145%);
+    }
+
+    body.theme-gym .sidebar,
+    body.theme-onyx .sidebar {
+      background: rgba(7, 9, 10, 0.92);
     }
 
     .brand {
@@ -352,6 +571,23 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 22px;
+    }
+
+    body.theme-glass .card,
+    body.theme-frost .card,
+    body.theme-emberglass .card,
+    body.theme-mintglass .card,
+    body.theme-glass .top-date,
+    body.theme-frost .top-date,
+    body.theme-emberglass .top-date,
+    body.theme-mintglass .top-date,
+    body.theme-glass .day-navigation,
+    body.theme-frost .day-navigation,
+    body.theme-emberglass .day-navigation,
+    body.theme-mintglass .day-navigation {
+      backdrop-filter: blur(18px) saturate(145%);
+      -webkit-backdrop-filter: blur(18px) saturate(145%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.11), 0 14px 40px rgba(0,0,0,0.15);
     }
 
     .card-title {
@@ -870,6 +1106,8 @@
       cursor: pointer;
       text-align: left;
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      isolation: isolate;
     }
 
     .theme-option::after {
@@ -883,6 +1121,15 @@
       background: var(--theme-glow, var(--accent));
       opacity: 0.14;
       filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .theme-option::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(125deg, rgba(255,255,255,0.11), transparent 32%, rgba(255,255,255,0.02));
       pointer-events: none;
     }
 
@@ -916,11 +1163,83 @@
 
     .theme-color {
       width: 100%;
-      height: 38px;
+      height: 46px;
       border-radius: 10px;
       margin: 0 0 12px;
       border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.38), inset 0 -12px 22px rgba(0,0,0,0.18), 0 9px 18px rgba(0,0,0,0.20);
+    }
+
+    .theme-option strong {
+      display: block;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+
+    .theme-option .small {
+      margin-top: 4px;
+    }
+
+    .font-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .font-option {
+      position: relative;
+      overflow: hidden;
+      min-height: 105px;
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, var(--panel-2), var(--panel));
+      color: var(--text);
+      border-radius: 15px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .font-option:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.24);
+    }
+
+    .font-option.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), 0 12px 28px rgba(0,0,0,0.22);
+    }
+
+    .font-option.active::after {
+      content: "✓";
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      display: grid;
+      place-items: center;
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      color: #07101a;
+      background: var(--accent);
+      font-weight: 900;
+      font-family: Arial, sans-serif;
+    }
+
+    .font-bricolage { font-family: "Bricolage Grotesque", Arial, sans-serif; }
+    .font-unbounded { font-family: "Unbounded", Arial, sans-serif; }
+    .font-oxanium { font-family: "Oxanium", Arial, sans-serif; }
+    .font-chakra { font-family: "Chakra Petch", Arial, sans-serif; }
+    .font-tektur { font-family: "Tektur", Arial, sans-serif; }
+
+    .font-sample {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--accent);
+      font-size: 19px;
+      font-weight: 800;
     }
 
     .theme-vanta {
@@ -978,6 +1297,506 @@
       background: linear-gradient(120deg, #9f8cff, #725cff, #0a0817);
     }
 
+    .theme-glass {
+      --theme-glow: #8be9ff;
+      background: linear-gradient(120deg, rgba(180,245,255,0.95), #4bbcff 52%, #0b2238);
+    }
+
+    .theme-frost {
+      --theme-glow: #ddd5ff;
+      background: linear-gradient(120deg, #f0edff, #a895ff 51%, #29244d);
+    }
+
+    .theme-gym {
+      --theme-glow: #d7ff2f;
+      background: linear-gradient(120deg, #d7ff2f, #637708 48%, #111719);
+    }
+
+    .theme-onyx {
+      --theme-glow: #f3f5f7;
+      background: linear-gradient(120deg, #f4f6f8, #59616a 50%, #0c0d0f);
+    }
+
+    .theme-emberglass {
+      --theme-glow: #ffd08a;
+      background: linear-gradient(120deg, #ffd08a, #ff744d 51%, #351116);
+    }
+
+    .theme-mintglass {
+      --theme-glow: #78ffd1;
+      background: linear-gradient(120deg, #b1ffe3, #2cd9a8 50%, #063d35);
+    }
+
+    .theme-color.theme-glass,
+    .theme-color.theme-frost,
+    .theme-color.theme-emberglass,
+    .theme-color.theme-mintglass,
+    .theme-color.theme-onyx,
+    .theme-color.theme-gym {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .theme-color.theme-glass {
+      background-image: linear-gradient(110deg, rgba(27,214,255,0.30), rgba(236,47,232,0.25)), url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-frost {
+      background-image: linear-gradient(110deg, rgba(150,106,255,0.38), rgba(43,215,255,0.25)), url("https://images.unsplash.com/photo-1764266182510-dd3104b8cb58?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-emberglass {
+      background-image: linear-gradient(110deg, rgba(255,179,52,0.36), rgba(255,54,102,0.27)), url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-mintglass {
+      background-image: linear-gradient(110deg, rgba(46,255,183,0.33), rgba(30,129,255,0.27)), url("https://images.unsplash.com/photo-1764266182510-dd3104b8cb58?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-onyx {
+      background-image: linear-gradient(110deg, rgba(255,255,255,0.16), rgba(0,0,0,0.30)), url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-gym {
+      background-image: linear-gradient(110deg, rgba(214,255,42,0.28), rgba(0,0,0,0.64)), url("https://images.unsplash.com/photo-1778828450059-f39d5bbb01af?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-prism {
+      --theme-glow: #e3b8ff;
+      background-image: linear-gradient(110deg, rgba(224,121,255,0.40), rgba(65,105,255,0.25)), url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-carbon {
+      --theme-glow: #b9e5ff;
+      background-image: linear-gradient(110deg, rgba(161,221,255,0.28), rgba(5,15,27,0.48)), url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-volt {
+      --theme-glow: #dfff65;
+      background-image: linear-gradient(110deg, rgba(217,255,56,0.32), rgba(0,0,0,0.66)), url("https://images.unsplash.com/photo-1778828450059-f39d5bbb01af?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-amethyst {
+      --theme-glow: #f0b7ff;
+      background-image: linear-gradient(110deg, rgba(241,132,255,0.40), rgba(85,67,255,0.28)), url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-cherry {
+      --theme-glow: #ffb0cb;
+      background-image: linear-gradient(110deg, rgba(255,82,160,0.40), rgba(73,3,35,0.42)), url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-solar {
+      --theme-glow: #ffe29a;
+      background-image: linear-gradient(110deg, rgba(255,217,111,0.42), rgba(166,69,7,0.32)), url("https://images.unsplash.com/photo-1778828450059-f39d5bbb01af?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-velocity {
+      --theme-glow: #62d9ff;
+      background-image: linear-gradient(110deg, rgba(38,222,255,0.32), rgba(49,63,255,0.25)), url("https://images.unsplash.com/photo-1764347295963-4fc3602ae0dd?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+    .theme-color.theme-carbonx {
+      --theme-glow: #80f4ff;
+      background-image: linear-gradient(110deg, rgba(66,239,255,0.22), rgba(5,13,17,0.55)), url("https://images.unsplash.com/photo-1786575508505-89cc007d43e6?auto=format&fit=crop&fm=jpg&q=85&w=900");
+    }
+
+    .theme-option[data-theme="glass"] { --theme-glow: #8be9ff; }
+    .theme-option[data-theme="frost"] { --theme-glow: #ddd5ff; }
+    .theme-option[data-theme="gym"] { --theme-glow: #d7ff2f; }
+    .theme-option[data-theme="onyx"] { --theme-glow: #f3f5f7; }
+    .theme-option[data-theme="emberglass"] { --theme-glow: #ffd08a; }
+    .theme-option[data-theme="mintglass"] { --theme-glow: #78ffd1; }
+    .theme-option[data-theme="prism"] { --theme-glow: #e3b8ff; }
+    .theme-option[data-theme="carbon"] { --theme-glow: #b9e5ff; }
+    .theme-option[data-theme="volt"] { --theme-glow: #dfff65; }
+    .theme-option[data-theme="amethyst"] { --theme-glow: #f0b7ff; }
+    .theme-option[data-theme="cherry"] { --theme-glow: #ffb0cb; }
+    .theme-option[data-theme="solar"] { --theme-glow: #ffe29a; }
+    .theme-option[data-theme="velocity"] { --theme-glow: #62d9ff; }
+    .theme-option[data-theme="carbonx"] { --theme-glow: #80f4ff; }
+
+    /* CAPA PREMIUM: liquid glass con contraste accesible */
+
+    body.theme-glass,
+    body.theme-frost,
+    body.theme-emberglass,
+    body.theme-mintglass,
+    body.theme-onyx {
+      --text: #f8fbff;
+      --muted: #c4d1df;
+      --glass-line: rgba(255, 255, 255, 0.25);
+      --glass-shine: rgba(255, 255, 255, 0.14);
+      --glass-shadow: rgba(0, 0, 0, 0.46);
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: soft-light, normal;
+    }
+
+    body.theme-glass {
+      background-image:
+        radial-gradient(circle at 12% 15%, rgba(60, 218, 255, 0.48), transparent 25%),
+        radial-gradient(circle at 84% 82%, rgba(255, 57, 205, 0.31), transparent 32%),
+        linear-gradient(135deg, rgba(0, 17, 61, 0.66), rgba(7, 3, 35, 0.61)),
+        url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-frost {
+      background-image:
+        radial-gradient(circle at 15% 18%, rgba(155, 104, 255, 0.43), transparent 27%),
+        radial-gradient(circle at 84% 85%, rgba(73, 213, 255, 0.29), transparent 33%),
+        linear-gradient(135deg, rgba(16, 14, 53, 0.68), rgba(7, 25, 57, 0.67)),
+        url("https://images.unsplash.com/photo-1764266182510-dd3104b8cb58?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-emberglass {
+      background-image:
+        radial-gradient(circle at 12% 13%, rgba(255, 179, 76, 0.48), transparent 24%),
+        radial-gradient(circle at 86% 84%, rgba(255, 46, 116, 0.30), transparent 32%),
+        linear-gradient(135deg, rgba(48, 12, 13, 0.70), rgba(14, 5, 24, 0.67)),
+        url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-mintglass {
+      background-image:
+        radial-gradient(circle at 13% 13%, rgba(38, 255, 190, 0.40), transparent 26%),
+        radial-gradient(circle at 86% 82%, rgba(55, 143, 255, 0.35), transparent 31%),
+        linear-gradient(135deg, rgba(1, 39, 34, 0.70), rgba(1, 11, 35, 0.70)),
+        url("https://images.unsplash.com/photo-1764266182510-dd3104b8cb58?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-onyx {
+      background-image:
+        radial-gradient(circle at 82% 12%, rgba(255,255,255,0.17), transparent 26%),
+        linear-gradient(rgba(2, 4, 7, 0.62), rgba(2, 4, 7, 0.74)),
+        url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-glass::before,
+    body.theme-frost::before,
+    body.theme-emberglass::before,
+    body.theme-mintglass::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background: linear-gradient(115deg, rgba(255,255,255,0.08), transparent 22%, transparent 70%, rgba(255,255,255,0.05));
+    }
+
+    body.theme-glass .sidebar,
+    body.theme-frost .sidebar,
+    body.theme-emberglass .sidebar,
+    body.theme-mintglass .sidebar,
+    body.theme-onyx .sidebar {
+      background: linear-gradient(160deg, rgba(9, 15, 30, 0.68), rgba(6, 9, 20, 0.48));
+      border-right-color: var(--glass-line);
+      box-shadow: inset -1px 0 rgba(255,255,255,0.08);
+      backdrop-filter: blur(28px) saturate(155%);
+      -webkit-backdrop-filter: blur(28px) saturate(155%);
+    }
+
+    body.theme-glass .card,
+    body.theme-frost .card,
+    body.theme-emberglass .card,
+    body.theme-mintglass .card,
+    body.theme-onyx .card,
+    body.theme-glass .top-date,
+    body.theme-frost .top-date,
+    body.theme-emberglass .top-date,
+    body.theme-mintglass .top-date,
+    body.theme-onyx .top-date,
+    body.theme-glass .day-navigation,
+    body.theme-frost .day-navigation,
+    body.theme-emberglass .day-navigation,
+    body.theme-mintglass .day-navigation,
+    body.theme-onyx .day-navigation {
+      background: linear-gradient(135deg, var(--glass-shine), rgba(255,255,255,0.025) 38%, rgba(0,0,0,0.16));
+      border-color: var(--glass-line);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), inset 1px 0 0 rgba(255,255,255,0.05), 0 18px 45px var(--glass-shadow);
+      backdrop-filter: blur(25px) saturate(165%);
+      -webkit-backdrop-filter: blur(25px) saturate(165%);
+    }
+
+    body.theme-glass .stat-box,
+    body.theme-frost .stat-box,
+    body.theme-emberglass .stat-box,
+    body.theme-mintglass .stat-box,
+    body.theme-onyx .stat-box,
+    body.theme-glass .status-card,
+    body.theme-frost .status-card,
+    body.theme-emberglass .status-card,
+    body.theme-mintglass .status-card,
+    body.theme-onyx .status-card,
+    body.theme-glass .entry,
+    body.theme-frost .entry,
+    body.theme-emberglass .entry,
+    body.theme-mintglass .entry,
+    body.theme-onyx .entry {
+      background: rgba(8, 16, 31, 0.40);
+      border-color: rgba(255,255,255,0.17);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.09);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    body.theme-glass .button,
+    body.theme-frost .button,
+    body.theme-emberglass .button,
+    body.theme-mintglass .button,
+    body.theme-onyx .button,
+    body.theme-glass .toggle-option,
+    body.theme-frost .toggle-option,
+    body.theme-emberglass .toggle-option,
+    body.theme-mintglass .toggle-option,
+    body.theme-onyx .toggle-option,
+    body.theme-glass .field input,
+    body.theme-frost .field input,
+    body.theme-emberglass .field input,
+    body.theme-mintglass .field input,
+    body.theme-onyx .field input,
+    body.theme-glass .field select,
+    body.theme-frost .field select,
+    body.theme-emberglass .field select,
+    body.theme-mintglass .field select,
+    body.theme-onyx .field select {
+      background: rgba(8, 14, 28, 0.50);
+      border-color: rgba(255,255,255,0.20);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    body.theme-glass .button.primary,
+    body.theme-frost .button.primary,
+    body.theme-emberglass .button.primary,
+    body.theme-mintglass .button.primary,
+    body.theme-onyx .button.primary {
+      color: #07101a;
+      box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 43%, transparent), inset 0 1px 0 rgba(255,255,255,0.40);
+    }
+
+    body.theme-gym {
+      --text: #f7f8f3;
+      --muted: #b9c2bd;
+      background-image:
+        radial-gradient(circle at 78% 8%, rgba(215,255,47,0.20), transparent 22%),
+        linear-gradient(135deg, rgba(0,0,0,0.72), rgba(6,11,11,0.66)),
+        url("https://images.unsplash.com/photo-1778828450059-f39d5bbb01af?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+      background-size: cover;
+      background-position: center;
+    }
+
+    body.theme-gym .sidebar { background: rgba(5, 8, 8, 0.90); }
+    body.theme-gym .card,
+    body.theme-gym .top-date,
+    body.theme-gym .day-navigation {
+      background: linear-gradient(140deg, rgba(32,40,39,0.86), rgba(8,11,11,0.80));
+      border-color: rgba(215,255,47,0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 15px 35px rgba(0,0,0,0.38);
+    }
+    body.theme-gym .button.primary { box-shadow: 0 0 22px rgba(215,255,47,0.32); }
+
+    /* Contraste uniforme para todos los temas premium */
+    body.theme-premium {
+      --text: #fbfdff;
+      --muted: #d0dbe8;
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+    }
+
+    body.theme-premium .card,
+    body.theme-premium .top-date,
+    body.theme-premium .day-navigation {
+      background: linear-gradient(135deg, rgba(19, 27, 48, 0.87), rgba(5, 9, 20, 0.78));
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.19), 0 18px 42px rgba(0,0,0,0.40);
+    }
+
+    body.theme-premium .stat-box,
+    body.theme-premium .status-card,
+    body.theme-premium .entry,
+    body.theme-premium .notification {
+      background: rgba(6, 12, 27, 0.73);
+      border-color: rgba(255,255,255,0.17);
+    }
+
+    body.theme-premium .button:not(.primary),
+    body.theme-premium .toggle-option,
+    body.theme-premium .field input,
+    body.theme-premium .field select,
+    body.theme-premium .entry-form input,
+    body.theme-premium .day-arrow {
+      background: rgba(4, 9, 21, 0.80);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.22);
+    }
+
+    body.theme-premium .button:hover,
+    body.theme-premium .day-arrow:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: var(--accent);
+    }
+
+    body.theme-premium .button.primary {
+      color: #070b12;
+      box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 38%, transparent), inset 0 1px 0 rgba(255,255,255,0.42);
+    }
+
+    body.theme-premium .toggle-option.selected,
+    body.theme-premium .nav-button.active {
+      background: color-mix(in srgb, var(--accent) 19%, rgba(5,9,20,0.82));
+      border-color: color-mix(in srgb, var(--accent) 68%, white 0%);
+      color: var(--accent);
+    }
+
+    body.theme-premium .progress,
+    body.theme-premium .ring {
+      background-color: rgba(1, 5, 13, 0.80);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+    }
+
+    body.theme-premium .field select option {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    body.theme-frost {
+      background-image:
+        radial-gradient(circle at 15% 18%, rgba(155,104,255,0.22), transparent 27%),
+        radial-gradient(circle at 84% 85%, rgba(73,213,255,0.17), transparent 33%),
+        linear-gradient(135deg, rgba(8,9,35,0.88), rgba(7,16,42,0.84)),
+        url("https://images.unsplash.com/photo-1764266182510-dd3104b8cb58?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-prism {
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(219,105,255,0.25), transparent 28%),
+        linear-gradient(135deg, rgba(10,4,32,0.86), rgba(14,9,52,0.81)),
+        url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-carbon {
+      background-image:
+        radial-gradient(circle at 80% 11%, rgba(91,184,239,0.18), transparent 25%),
+        linear-gradient(135deg, rgba(4,8,14,0.88), rgba(10,18,29,0.82)),
+        url("https://images.unsplash.com/photo-1786575508505-89cc007d43e6?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-volt {
+      background-image:
+        radial-gradient(circle at 78% 12%, rgba(193,255,53,0.20), transparent 24%),
+        linear-gradient(135deg, rgba(4,12,5,0.88), rgba(10,25,9,0.82)),
+        url("https://images.unsplash.com/photo-1778828450059-f39d5bbb01af?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-amethyst {
+      background-image:
+        radial-gradient(circle at 13% 12%, rgba(241,121,255,0.22), transparent 27%),
+        linear-gradient(135deg, rgba(18,4,37,0.88), rgba(18,6,51,0.82)),
+        url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-cherry {
+      background-image:
+        radial-gradient(circle at 84% 13%, rgba(255,69,148,0.22), transparent 26%),
+        linear-gradient(135deg, rgba(37,3,17,0.89), rgba(62,9,32,0.82)),
+        url("https://images.unsplash.com/photo-1758843417734-f4710410e185?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-solar {
+      background-image:
+        radial-gradient(circle at 80% 12%, rgba(255,194,63,0.23), transparent 25%),
+        linear-gradient(135deg, rgba(38,13,2,0.89), rgba(61,28,4,0.82)),
+        url("https://images.unsplash.com/photo-1778828450059-f39d5bbb01af?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-velocity {
+      background-image:
+        radial-gradient(circle at 12% 14%, rgba(39,225,255,0.27), transparent 24%),
+        linear-gradient(135deg, rgba(2,8,30,0.86), rgba(6,15,55,0.81)),
+        url("https://images.unsplash.com/photo-1764347295963-4fc3602ae0dd?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    body.theme-carbonx {
+      background-image:
+        radial-gradient(circle at 81% 14%, rgba(65,247,255,0.20), transparent 24%),
+        linear-gradient(135deg, rgba(4,8,12,0.87), rgba(8,18,22,0.82)),
+        url("https://images.unsplash.com/photo-1786575508505-89cc007d43e6?auto=format&fit=crop&fm=jpg&q=85&w=3000");
+    }
+
+    /* Botones, barras y textos: legibles incluso sobre los fondos más brillantes */
+    body.theme-premium .button,
+    body.theme-premium .day-arrow,
+    body.theme-premium .toggle-option {
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.55);
+    }
+
+    body.theme-premium .button.primary {
+      color: #060a10 !important;
+      text-shadow: none;
+      border-color: rgba(255,255,255,0.55);
+      background-image: linear-gradient(135deg, rgba(255,255,255,0.25), transparent 45%);
+      box-shadow: 0 0 26px color-mix(in srgb, var(--accent) 43%, transparent), inset 0 1px 0 rgba(255,255,255,0.58), inset 0 -1px 0 rgba(0,0,0,0.16);
+    }
+
+    body.theme-premium .button.danger {
+      color: #ffb5bf;
+      border-color: rgba(255,112,128,0.48);
+      background: rgba(66, 8, 20, 0.78);
+    }
+
+    body.theme-premium .progress {
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    body.theme-premium .progress-bar {
+      box-shadow: 0 0 13px color-mix(in srgb, var(--accent) 74%, transparent), inset 0 1px 0 rgba(255,255,255,0.34);
+    }
+
+    body.theme-premium .status-badge.neutral {
+      color: #e7edf7;
+      background: rgba(6,10,20,0.72);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    /* Los temas glass usan botones oscuros con neón, no bloques claros sin contraste */
+    body.theme-glass .button.primary,
+    body.theme-frost .button.primary,
+    body.theme-onyx .button.primary,
+    body.theme-emberglass .button.primary,
+    body.theme-mintglass .button.primary {
+      color: var(--accent) !important;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 23%, #07101c), rgba(3,8,18,0.96)) !important;
+      border-color: color-mix(in srgb, var(--accent) 74%, white 0%) !important;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+      box-shadow: 0 0 26px color-mix(in srgb, var(--accent) 46%, transparent), inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(0,0,0,0.45) !important;
+    }
+
+    body.theme-glass .button.primary:hover,
+    body.theme-frost .button.primary:hover,
+    body.theme-onyx .button.primary:hover,
+    body.theme-emberglass .button.primary:hover,
+    body.theme-mintglass .button.primary:hover {
+      color: #ffffff !important;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 42%, #08111d), rgba(3,8,18,0.94)) !important;
+      box-shadow: 0 0 34px color-mix(in srgb, var(--accent) 64%, transparent), inset 0 1px 0 rgba(255,255,255,0.26) !important;
+    }
+
+    /* Frost y Mint: títulos siempre legibles sobre las zonas claras del fondo */
+    body.theme-frost .card-title,
+    body.theme-mintglass .card-title,
+    body.theme-frost .day-navigation-title,
+    body.theme-mintglass .day-navigation-title {
+      display: inline-block;
+      color: #ffffff;
+      background: rgba(4, 10, 28, 0.78);
+      border: 1px solid rgba(255,255,255,0.20);
+      border-radius: 9px;
+      padding: 5px 9px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.90);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 5px 14px rgba(0,0,0,0.26);
+    }
+
+    body.theme-frost .page-title,
+    body.theme-mintglass .page-title,
+    body.theme-frost .brand-name,
+    body.theme-mintglass .brand-name {
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.92), 0 0 18px color-mix(in srgb, var(--accent) 36%, transparent);
+    }
+
     /* NOTIFICATION */
 
     .notification {
@@ -1014,6 +1833,10 @@
       }
 
       .theme-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .font-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
@@ -1105,6 +1928,10 @@
 
       .theme-grid {
         grid-template-columns: 1fr 1fr;
+      }
+
+      .font-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -1771,53 +2598,134 @@
               <div class="small muted">Electric Violet</div>
             </div>
 
-            <div class="theme-option" data-theme="red">
-              <div class="theme-color theme-red"></div>
-              <strong>Crimson</strong>
-              <div class="small muted">Dark Red</div>
-            </div>
-
             <div class="theme-option" data-theme="cyber">
               <div class="theme-color theme-cyber"></div>
               <strong>Cyber Pulse</strong>
               <div class="small muted">Teal + UV</div>
             </div>
 
-            <div class="theme-option" data-theme="aurora">
-              <div class="theme-color theme-aurora"></div>
-              <strong>Aurora</strong>
-              <div class="small muted">Mint Spectrum</div>
+            <div class="theme-option" data-theme="glass">
+              <div class="theme-color theme-glass"></div>
+              <strong>Liquid Glass</strong>
+              <div class="small muted">Aqua translúcido</div>
             </div>
 
-            <div class="theme-option" data-theme="plasma">
-              <div class="theme-color theme-plasma"></div>
-              <strong>Plasma</strong>
-              <div class="small muted">Magenta Energy</div>
+            <div class="theme-option" data-theme="frost">
+              <div class="theme-color theme-frost"></div>
+              <strong>Frost Glass</strong>
+              <div class="small muted">Cristal lila helado</div>
             </div>
 
-            <div class="theme-option" data-theme="sakura">
-              <div class="theme-color theme-sakura"></div>
-              <strong>Sakura</strong>
-              <div class="small muted">Neon Rose</div>
+            <div class="theme-option" data-theme="gym">
+              <div class="theme-color theme-gym"></div>
+              <strong>Iron Gym</strong>
+              <div class="small muted">Negro + lima eléctrico</div>
             </div>
 
-            <div class="theme-option" data-theme="arctic">
-              <div class="theme-color theme-arctic"></div>
-              <strong>Arctic</strong>
-              <div class="small muted">Ice Cyan</div>
+            <div class="theme-option" data-theme="onyx">
+              <div class="theme-color theme-onyx"></div>
+              <strong>Onyx</strong>
+              <div class="small muted">Metal oscuro minimal</div>
             </div>
 
-            <div class="theme-option" data-theme="inferno">
-              <div class="theme-color theme-inferno"></div>
-              <strong>Inferno</strong>
-              <div class="small muted">Molten Orange</div>
+            <div class="theme-option" data-theme="emberglass">
+              <div class="theme-color theme-emberglass"></div>
+              <strong>Ember Glass</strong>
+              <div class="small muted">Cristal ámbar</div>
             </div>
 
-            <div class="theme-option" data-theme="royal">
-              <div class="theme-color theme-royal"></div>
-              <strong>Royal</strong>
-              <div class="small muted">Sapphire Violet</div>
+            <div class="theme-option" data-theme="mintglass">
+              <div class="theme-color theme-mintglass"></div>
+              <strong>Mint Glass</strong>
+              <div class="small muted">Cristal verde menta</div>
             </div>
+
+            <div class="theme-option" data-theme="prism">
+              <div class="theme-color theme-prism"></div>
+              <strong>Prism Noir</strong>
+              <div class="small muted">Violeta líquido nocturno</div>
+            </div>
+
+            <div class="theme-option" data-theme="carbon">
+              <div class="theme-color theme-carbon"></div>
+              <strong>Carbon Glass</strong>
+              <div class="small muted">Acero, humo y cian</div>
+            </div>
+
+            <div class="theme-option" data-theme="volt">
+              <div class="theme-color theme-volt"></div>
+              <strong>Volt Elite</strong>
+              <div class="small muted">Gym neón de alto contraste</div>
+            </div>
+
+            <div class="theme-option" data-theme="amethyst">
+              <div class="theme-color theme-amethyst"></div>
+              <strong>Amethyst Lux</strong>
+              <div class="small muted">Cristal violeta profundo</div>
+            </div>
+
+            <div class="theme-option" data-theme="cherry">
+              <div class="theme-color theme-cherry"></div>
+              <strong>Cherry Chrome</strong>
+              <div class="small muted">Cromo rosa intenso</div>
+            </div>
+
+            <div class="theme-option" data-theme="solar">
+              <div class="theme-color theme-solar"></div>
+              <strong>Solar Forge</strong>
+              <div class="small muted">Oro, ámbar y energía</div>
+            </div>
+
+            <div class="theme-option" data-theme="velocity">
+              <div class="theme-color theme-velocity"></div>
+              <strong>Velocity Neon</strong>
+              <div class="small muted">Velocidad azul y violeta</div>
+            </div>
+
+            <div class="theme-option" data-theme="carbonx">
+              <div class="theme-color theme-carbonx"></div>
+              <strong>Carbon X</strong>
+              <div class="small muted">Fibra de carbono luminosa</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TIPOGRAFÍA -->
+
+        <div class="card settings-grid section-space">
+
+          <div class="card-title">✦ Tipografía</div>
+
+          <div class="card-subtitle">
+            Elige un estilo para toda la app. También se guarda en tus copias de seguridad.
+          </div>
+
+          <div class="font-grid">
+            <button class="font-option font-bricolage" type="button" data-font="bricolage">
+              <span class="font-sample">VANTA / Bricolage</span>
+              <span class="small muted">Luxury organic</span>
+            </button>
+
+            <button class="font-option font-unbounded" type="button" data-font="unbounded">
+              <span class="font-sample">VANTA / Unbounded</span>
+              <span class="small muted">Bold future luxury</span>
+            </button>
+
+            <button class="font-option font-oxanium" type="button" data-font="oxanium">
+              <span class="font-sample">VANTA / Oxanium</span>
+              <span class="small muted">Kinetic neon tech</span>
+            </button>
+
+            <button class="font-option font-chakra" type="button" data-font="chakra">
+              <span class="font-sample">VANTA / Chakra</span>
+              <span class="small muted">Precision gym</span>
+            </button>
+
+            <button class="font-option font-tektur" type="button" data-font="tektur">
+              <span class="font-sample">VANTA / Tektur</span>
+              <span class="small muted">Architectural edge</span>
+            </button>
           </div>
 
         </div>
@@ -1889,7 +2797,8 @@
         calorieGoal: 2800,
         proteinFactor: 2,
         proteinGoal: 160,
-        theme: "vanta"
+        theme: "vanta",
+        font: "bricolage"
       },
       days: {}
     };
@@ -2752,6 +3661,7 @@
       calculateCalories(false);
 
       renderThemeOptions();
+      renderFontOptions();
     }
 
     function calculateCalories(showMessage = true) {
@@ -3104,7 +4014,21 @@
         "sakura",
         "arctic",
         "inferno",
-        "royal"
+        "royal",
+        "glass",
+        "frost",
+        "gym",
+        "onyx",
+        "emberglass",
+        "mintglass",
+        "prism",
+        "carbon",
+        "volt",
+        "amethyst",
+        "cherry",
+        "solar",
+        "velocity",
+        "carbonx"
       ];
 
       const safeTheme = supportedThemes.includes(theme)
@@ -3121,11 +4045,36 @@
         "theme-sakura",
         "theme-arctic",
         "theme-inferno",
-        "theme-royal"
+        "theme-royal",
+        "theme-glass",
+        "theme-frost",
+        "theme-gym",
+        "theme-onyx",
+        "theme-emberglass",
+        "theme-mintglass",
+        "theme-prism",
+        "theme-carbon",
+        "theme-volt",
+        "theme-amethyst",
+        "theme-cherry",
+        "theme-solar",
+        "theme-velocity",
+        "theme-carbonx",
+        "theme-premium"
       );
 
       if (safeTheme !== "vanta") {
         document.body.classList.add(`theme-${safeTheme}`);
+      }
+
+      const premiumThemes = [
+        "glass", "frost", "gym", "onyx", "emberglass", "mintglass",
+        "prism", "carbon", "volt", "amethyst", "cherry", "solar",
+        "velocity", "carbonx"
+      ];
+
+      if (premiumThemes.includes(safeTheme)) {
+        document.body.classList.add("theme-premium");
       }
 
       appData.settings.theme = safeTheme;
@@ -3148,6 +4097,45 @@
             option.dataset.theme === currentTheme
           );
 
+        });
+    }
+
+    /* TIPOGRAFÍAS */
+
+    function applyFont(font) {
+      const fontFamilies = {
+        bricolage: '"Bricolage Grotesque", Arial, Helvetica, sans-serif',
+        unbounded: '"Unbounded", Arial, Helvetica, sans-serif',
+        oxanium: '"Oxanium", Arial, Helvetica, sans-serif',
+        chakra: '"Chakra Petch", Arial, Helvetica, sans-serif',
+        tektur: '"Tektur", Arial, Helvetica, sans-serif'
+      };
+
+      const safeFont = Object.prototype.hasOwnProperty.call(fontFamilies, font)
+        ? font
+        : "bricolage";
+
+      document.documentElement.style.setProperty(
+        "--font-ui",
+        fontFamilies[safeFont]
+      );
+
+      appData.settings.font = safeFont;
+
+      saveData();
+      renderFontOptions();
+    }
+
+    function renderFontOptions() {
+      const currentFont = appData.settings.font || "bricolage";
+
+      document
+        .querySelectorAll(".font-option")
+        .forEach(option => {
+          option.classList.toggle(
+            "active",
+            option.dataset.font === currentFont
+          );
         });
     }
 
@@ -3462,6 +4450,27 @@
 
       });
 
+    document
+      .querySelectorAll(".font-option")
+      .forEach(option => {
+
+        option.addEventListener(
+          "click",
+          () => {
+
+            applyFont(
+              option.dataset.font
+            );
+
+            showNotification(
+              "Tipografía cambiada"
+            );
+
+          }
+        );
+
+      });
+
     /* EXPORTAR */
     document
       .getElementById("exportDataButton")
@@ -3576,6 +4585,7 @@
 
               saveData();
               applyTheme(appData.settings.theme || "vanta");
+              applyFont(appData.settings.font || "bricolage");
               selectedDate = getTodayString();
               document.getElementById("globalDatePicker").value = selectedDate;
               renderAll();
@@ -3621,6 +4631,7 @@
           saveData();
 
           applyTheme("vanta");
+          applyFont("bricolage");
 
           renderAll();
 
@@ -3635,6 +4646,10 @@
 
     applyTheme(
       appData.settings.theme || "vanta"
+    );
+
+    applyFont(
+      appData.settings.font || "bricolage"
     );
 
     document
