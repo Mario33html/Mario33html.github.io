@@ -1,1265 +1,2130 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FuelTrack — Nutrition & Performance</title>
-<style>
-:root {
-  --bg: #080b14;
-  --panel: #101522;
-  --panel2: #151c2d;
-  --border: rgba(255,255,255,.08);
-  --text: #f4f7fb;
-  --muted: #8d98ad;
-  --blue: #5b8cff;
-  --violet: #8b5cf6;
-  --green: #35d399;
-  --orange: #f59e0b;
-  --red: #f87171;
-  --radius: 18px;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: radial-gradient(circle at 80% -10%, #1b2450 0, transparent 35%), var(--bg);
-  color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-.app { display: flex; min-height: 100vh; }
-.sidebar {
-  width: 245px;
-  border-right: 1px solid var(--border);
-  padding: 24px 15px;
-  background: rgba(8,11,20,.88);
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  flex-shrink: 0;
-}
-.logo {
-  display: flex; align-items: center; gap: 11px;
-  padding: 0 12px 30px;
-}
-.logo-mark {
-  width: 38px; height: 38px; border-radius: 12px;
-  display: grid; place-items: center;
-  background: linear-gradient(135deg,var(--blue),var(--violet));
-  font-size: 20px;
-}
-.logo strong { font-size: 19px; letter-spacing: -.5px; }
-.logo small { color: var(--muted); display: block; font-size: 10px; margin-top: 2px; }
-.nav-label {
-  color: #59647a; text-transform: uppercase; font-size: 10px;
-  font-weight: 800; letter-spacing: 1.5px; padding: 0 13px 10px;
-}
-.nav button {
-  width: 100%; background: transparent; color: var(--muted);
-  border: 0; padding: 12px 13px; border-radius: 12px;
-  display: flex; align-items: center; gap: 12px;
-  text-align: left; margin-bottom: 4px; transition: .2s;
-}
-.nav button:hover { background: var(--panel2); color: var(--text); }
-.nav button.active {
-  background: linear-gradient(90deg,rgba(91,140,255,.18),rgba(139,92,246,.08));
-  color: #fff;
-}
-.nav-icon { width: 20px; text-align: center; font-size: 17px; }
-.main { flex: 1; min-width: 0; }
-.topbar {
-  height: 76px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 34px; background: rgba(8,11,20,.4);
-}
-.page-title { font-size: 21px; font-weight: 750; letter-spacing: -.5px; }
-.page-subtitle { color: var(--muted); font-size: 12px; margin-top: 4px; }
-.top-actions { display: flex; align-items: center; gap: 10px; }
-.date-badge {
-  color: var(--muted); background: var(--panel);
-  border: 1px solid var(--border); padding: 9px 12px;
-  border-radius: 10px; font-size: 12px;
-}
-.content { max-width: 1450px; margin: auto; padding: 30px 34px 50px; }
-.view { display: none; }
-.view.active { display: block; }
-.hero {
-  display: flex; justify-content: space-between; align-items: flex-end;
-  gap: 20px; margin-bottom: 25px;
-}
-.eyebrow { color: var(--blue); font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
-h1 { margin: 7px 0 0; font-size: clamp(25px,3vw,35px); letter-spacing: -1.2px; }
-h2 { margin: 0; font-size: 17px; letter-spacing: -.4px; }
-h3 { margin: 0; font-size: 14px; }
-.muted { color: var(--muted); }
-.small { font-size: 12px; }
-.cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 15px; margin-bottom: 18px; }
-.card {
-  background: linear-gradient(145deg,rgba(20,28,45,.94),rgba(13,18,30,.94));
-  border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 20px; box-shadow: 0 15px 45px rgba(0,0,0,.08);
-}
-.metric-head { display: flex; justify-content: space-between; align-items: center; }
-.metric-label { color: var(--muted); font-size: 12px; }
-.metric-icon {
-  width: 31px; height: 31px; border-radius: 10px;
-  display: grid; place-items: center; font-size: 15px;
-}
-.blue-bg { background: rgba(91,140,255,.14); color: var(--blue); }
-.green-bg { background: rgba(53,211,153,.14); color: var(--green); }
-.orange-bg { background: rgba(245,158,11,.14); color: var(--orange); }
-.violet-bg { background: rgba(139,92,246,.14); color: #b197fc; }
-.metric-value { font-size: 29px; font-weight: 800; margin-top: 15px; letter-spacing: -1px; }
-.metric-value span { font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
-.progress {
-  height: 7px; background: #242d40; border-radius: 99px;
-  overflow: hidden; margin-top: 14px;
-}
-.progress-fill { height: 100%; border-radius: inherit; transition: width .35s; }
-.fill-blue { background: linear-gradient(90deg,#4f7fff,#8b5cf6); }
-.fill-green { background: linear-gradient(90deg,#22c997,#6ee7b7); }
-.fill-orange { background: linear-gradient(90deg,#f59e0b,#fbbf24); }
-.metric-foot { display: flex; justify-content: space-between; margin-top: 9px; font-size: 11px; color: var(--muted); }
-.grid-2 { display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
-.section-card { margin-bottom: 18px; }
-.card-header {
-  display: flex; justify-content: space-between; align-items: center;
-  gap: 12px; margin-bottom: 18px;
-}
-.btn {
-  border: 1px solid var(--border); border-radius: 10px;
-  padding: 9px 13px; color: var(--text); background: var(--panel2);
-  transition: .2s; font-size: 12px; font-weight: 650;
-}
-.btn:hover { border-color: rgba(91,140,255,.5); transform: translateY(-1px); }
-.btn-primary { background: linear-gradient(135deg,var(--blue),#7060e9); border: 0; }
-.btn-danger { color: var(--red); }
-.btn-sm { padding: 7px 10px; font-size: 11px; }
-.btn-wide { width: 100%; }
-.meal {
-  border: 1px solid var(--border); border-radius: 13px;
-  padding: 13px; margin-bottom: 9px; background: rgba(255,255,255,.015);
-}
-.meal-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.meal-name { display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; }
-.meal-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
-.meal-info { display: flex; gap: 13px; color: var(--muted); font-size: 11px; margin-top: 7px; }
-.meal-info strong { color: #dce3f1; font-weight: 650; }
-.meal-actions { display: flex; gap: 5px; }
-.icon-btn {
-  border: 0; background: transparent; color: var(--muted);
-  padding: 3px 5px; border-radius: 6px;
-}
-.icon-btn:hover { background: var(--panel2); color: white; }
-.empty {
-  text-align: center; padding: 28px 10px; color: var(--muted);
-  font-size: 12px; border: 1px dashed var(--border); border-radius: 12px;
-}
-.quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.quick-btn {
-  background: var(--panel2); border: 1px solid var(--border);
-  color: var(--text); border-radius: 12px; padding: 16px 12px;
-  text-align: left; transition: .2s;
-}
-.quick-btn:hover { border-color: var(--blue); }
-.quick-btn b { display: block; margin-top: 8px; font-size: 12px; }
-.quick-btn span { font-size: 18px; }
-.status-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 12px;
-}
-.status-row:last-child { border-bottom: 0; }
-.status { display: inline-flex; align-items: center; gap: 6px; }
-.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
-.status-dot.off { background: #4b5563; }
-.pill {
-  border-radius: 99px; padding: 5px 9px; font-size: 10px; font-weight: 700;
-  background: rgba(53,211,153,.1); color: var(--green);
-}
-.pill.gray { background: rgba(255,255,255,.07); color: var(--muted); }
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-th { color: var(--muted); text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .8px; padding: 11px 10px; border-bottom: 1px solid var(--border); }
-td { padding: 13px 10px; border-bottom: 1px solid var(--border); }
-tr:last-child td { border-bottom: 0; }
-.form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 13px; }
-.form-grid.three { grid-template-columns: repeat(3,1fr); }
-.field { display: flex; flex-direction: column; gap: 6px; }
-.field.full { grid-column: 1/-1; }
-label { color: var(--muted); font-size: 11px; font-weight: 600; }
-input, select, textarea {
-  width: 100%; background: #0b101c; color: var(--text);
-  border: 1px solid var(--border); border-radius: 10px;
-  padding: 11px 12px; outline: none;
-}
-input:focus, select:focus, textarea:focus { border-color: var(--blue); }
-textarea { min-height: 80px; resize: vertical; }
-.modal-backdrop {
-  display: none; position: fixed; inset: 0; z-index: 20;
-  background: rgba(0,0,0,.7); backdrop-filter: blur(6px);
-  align-items: center; justify-content: center; padding: 20px;
-}
-.modal-backdrop.open { display: flex; }
-.modal {
-  width: min(560px,100%); max-height: 90vh; overflow-y: auto;
-  background: #111827; border: 1px solid var(--border);
-  border-radius: 20px; padding: 24px; box-shadow: 0 30px 100px #000;
-}
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.close { background: transparent; border: 0; color: var(--muted); font-size: 23px; }
-.modal-footer { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
-.tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
-.tab {
-  background: var(--panel2); color: var(--muted); border: 1px solid var(--border);
-  padding: 9px 13px; border-radius: 9px; font-size: 11px;
-}
-.tab.active { background: rgba(91,140,255,.15); color: white; border-color: rgba(91,140,255,.4); }
-.chart {
-  height: 230px; display: flex; align-items: flex-end; gap: 10px;
-  padding: 20px 5px 5px; border-bottom: 1px solid var(--border);
-}
-.bar-wrap { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 8px; min-width: 20px; }
-.bar { width: 100%; max-width: 34px; border-radius: 7px 7px 2px 2px; background: linear-gradient(180deg,var(--blue),var(--violet)); min-height: 3px; }
-.bar-label { color: var(--muted); font-size: 9px; }
-.bar-value { color: #cbd5e1; font-size: 9px; }
-.settings-section { padding: 18px 0; border-bottom: 1px solid var(--border); }
-.settings-section:last-child { border-bottom: 0; }
-.settings-section h3 { margin-bottom: 15px; }
-.notice {
-  background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2);
-  color: #fcd34d; padding: 12px; border-radius: 11px; font-size: 11px; line-height: 1.5;
-}
-.toast {
-  position: fixed; right: 20px; bottom: 20px; z-index: 50;
-  background: #1d293d; border: 1px solid var(--border); color: white;
-  border-radius: 12px; padding: 13px 17px; font-size: 12px;
-  box-shadow: 0 10px 35px #0008; transform: translateY(20px);
-  opacity: 0; pointer-events: none; transition: .25s;
-}
-.toast.show { opacity: 1; transform: translateY(0); }
-.mobile-menu { display: none; }
-@media (max-width: 1100px) {
-  .cards { grid-template-columns: repeat(2,1fr); }
-  .grid-2 { grid-template-columns: 1fr; }
-}
-@media (max-width: 720px) {
-  .sidebar {
-    position: fixed; z-index: 10; left: -260px; transition: .25s;
-    box-shadow: 15px 0 50px #0008;
-  }
-  .sidebar.open { left: 0; }
-  .mobile-menu { display: inline-flex; }
-  .topbar { padding: 0 17px; height: 70px; }
-  .content { padding: 22px 16px 40px; }
-  .cards { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .card { padding: 15px; }
-  .metric-value { font-size: 23px; }
-  .hero { align-items: flex-start; flex-direction: column; }
-  .form-grid, .form-grid.three { grid-template-columns: 1fr; }
-  .page-title { font-size: 17px; }
-  .date-badge { display: none; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VANTA — Fitness Tracker</title>
+
+  <style>
+    :root {
+      --bg: #08090c;
+      --panel: #111318;
+      --panel-2: #171a21;
+      --panel-3: #20242d;
+      --border: rgba(255,255,255,0.08);
+      --text: #f5f7fb;
+      --muted: #8e96a6;
+      --accent: #a7f542;
+      --accent-2: #7ddc24;
+      --blue: #55a7ff;
+      --orange: #ffad5c;
+      --red: #ff6575;
+      --green: #67e39a;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      width: 250px;
+      background: #0d0f13;
+      border-right: 1px solid var(--border);
+      padding: 26px 18px;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      padding: 0 12px 30px;
+    }
+
+    .brand-name {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 5px;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-top: 7px;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-button {
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      padding: 14px 13px;
+      border-radius: 12px;
+      text-align: left;
+      transition: 0.2s;
+    }
+
+    .nav-button:hover {
+      background: var(--panel-2);
+      color: var(--text);
+    }
+
+    .nav-button.active {
+      background: rgba(167,245,66,0.1);
+      color: var(--accent);
+      border-color: rgba(167,245,66,0.18);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 15px 12px 0;
+      color: #555d6b;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    /* MAIN */
+
+    .main {
+      flex: 1;
+      min-width: 0;
+      padding: 28px;
+      overflow-x: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .page-title {
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .page-description {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 7px;
+    }
+
+    .top-date {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 12px;
+    }
+
+    .top-date input {
+      background: transparent;
+      color: var(--text);
+      border: none;
+      outline: none;
+    }
+
+    .top-date input::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      cursor: pointer;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    /* COMMON */
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 17px;
+    }
+
+    .card-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: -9px;
+      margin-bottom: 18px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 12px;
+    }
+
+    .large-number {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .accent {
+      color: var(--accent);
+    }
+
+    .blue {
+      color: var(--blue);
+    }
+
+    .orange {
+      color: var(--orange);
+    }
+
+    .red {
+      color: var(--red);
+    }
+
+    .green {
+      color: var(--green);
+    }
+
+    .button {
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 11px 15px;
+      transition: 0.2s;
+    }
+
+    .button:hover {
+      background: var(--panel-3);
+      border-color: rgba(255,255,255,0.16);
+    }
+
+    .button.primary {
+      background: var(--accent);
+      color: #101500;
+      border-color: var(--accent);
+      font-weight: 800;
+    }
+
+    .button.primary:hover {
+      background: var(--accent-2);
+    }
+
+    .button.danger {
+      color: var(--red);
+      border-color: rgba(255,101,117,0.2);
+    }
+
+    .button.full {
+      width: 100%;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--accent);
+    }
+
+    .field select option {
+      background: #15171c;
+      color: white;
+    }
+
+    .section-space {
+      margin-top: 18px;
+    }
+
+    .empty {
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* DAY NAVIGATION */
+
+    .day-navigation {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 17px;
+    }
+
+    .day-navigation-center {
+      text-align: center;
+      min-width: 0;
+    }
+
+    .day-navigation-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .day-navigation-date {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .day-arrow {
+      min-width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 19px;
+    }
+
+    .day-arrow:hover {
+      background: var(--panel-3);
+    }
+
+    /* STATUS */
+
+    .status-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 16px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      margin-bottom: 12px;
+    }
+
+    .status-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .status-value {
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    .status-badge {
+      padding: 7px 11px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-badge.yes {
+      background: rgba(103,227,154,0.12);
+      color: var(--green);
+    }
+
+    .status-badge.no {
+      background: rgba(255,101,117,0.12);
+      color: var(--red);
+    }
+
+    .status-badge.neutral {
+      background: rgba(255,255,255,0.08);
+      color: var(--muted);
+    }
+
+    /* TOGGLE */
+
+    .toggle-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .toggle-option {
+      flex: 1;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--muted);
+      padding: 13px;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 13px;
+    }
+
+    .toggle-option.selected {
+      border-color: var(--accent);
+      background: rgba(167,245,66,0.1);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* CALORIE RING */
+
+    .calorie-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 370px;
+    }
+
+    .ring {
+      width: 245px;
+      height: 245px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      position: relative;
+      margin: 10px auto 22px;
+      background: conic-gradient(
+        var(--accent) 0deg,
+        var(--accent) 0deg,
+        #292e38 0deg,
+        #292e38 360deg
+      );
+      transition: background 0.5s ease;
+    }
+
+    .ring::before {
+      content: "";
+      position: absolute;
+      inset: 17px;
+      border-radius: 50%;
+      background: var(--panel);
+    }
+
+    .ring-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .ring-number {
+      font-size: 37px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .ring-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .ring-extra {
+      color: var(--accent);
+      font-size: 12px;
+      margin-top: 12px;
+      font-weight: 700;
+    }
+
+    .calorie-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 100%;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .calorie-stat-value {
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .calorie-stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    /* CALORIE ENTRIES */
+
+    .entry-form {
+      display: grid;
+      grid-template-columns: 1fr 130px auto;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .entry-form input {
+      background: var(--panel-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .entry-form input:focus {
+      border-color: var(--accent);
+    }
+
+    .entries {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px;
+      border-radius: 11px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+    }
+
+    .entry-name {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .entry-info {
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .entry-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .entry-calories {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .delete-entry {
+      background: transparent;
+      color: var(--muted);
+      border: none;
+      font-size: 17px;
+      padding: 3px;
+    }
+
+    .delete-entry:hover {
+      color: var(--red);
+    }
+
+    /* STATISTICS */
+
+    .stat-box {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 17px;
+    }
+
+    .stat-box-label {
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 9px;
+    }
+
+    .stat-box-value {
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .progress-container {
+      margin-top: 12px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .progress {
+      height: 8px;
+      background: #292e38;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      border-radius: inherit;
+      transition: width 0.4s;
+    }
+
+    .progress-bar.blue-bar {
+      background: var(--blue);
+    }
+
+    .progress-bar.orange-bar {
+      background: var(--orange);
+    }
+
+    .progress-bar.red-bar {
+      background: var(--red);
+    }
+
+    .progress-bar.green-bar {
+      background: var(--green);
+    }
+
+    /* SETTINGS */
+
+    .settings-grid {
+      max-width: 850px;
+    }
+
+    .calculation-result {
+      border: 1px solid rgba(167,245,66,0.2);
+      background: rgba(167,245,66,0.07);
+      padding: 18px;
+      border-radius: 13px;
+      margin-top: 10px;
+    }
+
+    .calculation-result strong {
+      display: block;
+      font-size: 28px;
+      color: var(--accent);
+      margin-top: 7px;
+    }
+
+    /* NOTIFICATION */
+
+    .notification {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      background: var(--panel-3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 17px;
+      color: var(--text);
+      font-size: 13px;
+      opacity: 0;
+      transform: translateY(15px);
+      pointer-events: none;
+      transition: 0.25s;
+      z-index: 100;
+    }
+
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1100px) {
+      .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 850px) {
+      .app {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 15px;
+      }
+
+      .brand {
+        padding: 5px 10px 17px;
+      }
+
+      .nav {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .nav-button {
+        white-space: nowrap;
+        padding: 11px 13px;
+      }
+
+      .sidebar-footer {
+        display: none;
+      }
+
+      .main {
+        padding: 18px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-date {
+        width: 100%;
+      }
+
+      .top-date input {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .day-navigation {
+        padding: 12px;
+      }
+
+      .day-navigation-title {
+        font-size: 14px;
+      }
+
+      .day-arrow {
+        min-width: 36px;
+        height: 36px;
+      }
+
+      .entry-form {
+        grid-template-columns: 1fr;
+      }
+
+      .calorie-card {
+        min-height: 330px;
+      }
+
+      .ring {
+        width: 215px;
+        height: 215px;
+      }
+
+      .ring-number {
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="app">
 
-<div class="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="logo">
-      <div class="logo-mark">⚡</div>
-      <div><strong>FuelTrack</strong><small>NUTRITION & PERFORMANCE</small></div>
-    </div>
-    <div class="nav-label">Workspace</div>
-    <nav class="nav">
-      <button class="active" data-view="dashboard"><span class="nav-icon">⌂</span> Dashboard</button>
-      <button data-view="food"><span class="nav-icon">◉</span> Comidas</button>
-      <button data-view="supplements"><span class="nav-icon">✦</span> Suplementos</button>
-      <button data-view="training"><span class="nav-icon">▣</span> Entrenamiento</button>
-      <button data-view="progress"><span class="nav-icon">↗</span> Progreso</button>
-    </nav>
-    <div class="nav-label" style="margin-top:25px">Sistema</div>
-    <nav class="nav">
-      <button data-view="settings"><span class="nav-icon">⚙</span> Configuración</button>
-    </nav>
-    <div style="position:absolute;bottom:25px;left:28px;right:28px;color:#4f5b70;font-size:10px;line-height:1.5">
-      DATOS LOCALES<br>
-      <span style="color:#35d399">●</span> Guardado en este dispositivo
-    </div>
-  </aside>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-name">VANTA</div>
+        <div class="brand-subtitle">Personal fitness OS</div>
+      </div>
 
-  <main class="main">
-    <header class="topbar">
-      <div style="display:flex;align-items:center;gap:12px">
-        <button class="btn mobile-menu" id="menuBtn">☰</button>
+      <nav class="nav">
+        <button class="nav-button active" data-view="day">📅 Día seleccionado</button>
+        <button class="nav-button" data-view="calories">🔥 Mis kcal</button>
+        <button class="nav-button" data-view="statistics">📊 Estadísticas</button>
+        <button class="nav-button" data-view="settings">⚙️ Configuración</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        Todos tus datos se guardan localmente en este navegador.
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <header class="topbar">
         <div>
-          <div class="page-title" id="pageTitle">Dashboard</div>
-          <div class="page-subtitle" id="pageSubtitle">Tu resumen de rendimiento</div>
-        </div>
-      </div>
-      <div class="top-actions">
-        <div class="date-badge" id="topDate"></div>
-        <button class="btn btn-primary" id="quickAddBtn">+ Añadir</button>
-      </div>
-    </header>
-
-    <div class="content">
-
-      <!-- DASHBOARD -->
-      <section class="view active" id="view-dashboard">
-        <div class="hero">
-          <div>
-            <div class="eyebrow">Resumen diario</div>
-            <h1>Hola, Mario. <span style="color:var(--blue)">A por ello.</span></h1>
-            <div class="muted small" style="margin-top:8px">Aquí tienes el estado de tu nutrición y entrenamiento.</div>
-          </div>
-          <button class="btn" id="todayBtn">↻ Hoy</button>
+          <h1 class="page-title" id="pageTitle">Día seleccionado</h1>
+          <p class="page-description" id="pageDescription">
+            Registra y modifica la información de cualquier día.
+          </p>
         </div>
 
-        <div class="cards">
-          <div class="card">
-            <div class="metric-head"><span class="metric-label">Calorías consumidas</span><span class="metric-icon blue-bg">🔥</span></div>
-            <div class="metric-value" id="dashKcal">0 <span>/ 0 kcal</span></div>
-            <div class="progress"><div class="progress-fill fill-blue" id="kcalProgress"></div></div>
-            <div class="metric-foot"><span id="kcalRemaining">0 kcal restantes</span><span id="kcalPercent">0%</span></div>
-          </div>
-          <div class="card">
-            <div class="metric-head"><span class="metric-label">Proteína</span><span class="metric-icon green-bg">◈</span></div>
-            <div class="metric-value" id="dashProtein">0 <span>/ 0 g</span></div>
-            <div class="progress"><div class="progress-fill fill-green" id="proteinProgress"></div></div>
-            <div class="metric-foot"><span id="proteinRemaining">0 g restantes</span><span id="proteinPercent">0%</span></div>
-          </div>
-          <div class="card">
-            <div class="metric-head"><span class="metric-label">Creatina</span><span class="metric-icon violet-bg">✦</span></div>
-            <div class="metric-value" id="dashCreatine">0 <span>g</span></div>
-            <div class="metric-foot"><span>Objetivo: <b id="creatineTarget">5 g</b></span><span id="creatineStatus">Pendiente</span></div>
-            <div class="progress"><div class="progress-fill fill-blue" id="creatineProgress"></div></div>
-          </div>
-          <div class="card">
-            <div class="metric-head"><span class="metric-label">Entrenamiento</span><span class="metric-icon orange-bg">⚡</span></div>
-            <div class="metric-value" id="dashWorkout">—</div>
-            <div class="metric-foot"><span id="dashWorkoutDetail">Sin registrar</span><span id="dashWorkoutDuration"></span></div>
-          </div>
+        <div class="top-date">
+          <span>Fecha</span>
+          <input type="date" id="globalDatePicker">
         </div>
+      </header>
 
-        <div class="grid-2">
-          <div class="card section-card">
-            <div class="card-header">
-              <div><h2>Registro de hoy</h2><div class="muted small" style="margin-top:4px">Tus comidas y aportes nutricionales</div></div>
-              <button class="btn btn-primary btn-sm" data-open-modal="meal">+ Comida</button>
+      <!-- VISTA DEL DÍA -->
+
+      <section class="view active" id="view-day">
+
+        <div class="day-navigation">
+          <button class="day-arrow" id="previousDay">←</button>
+
+          <div class="day-navigation-center">
+            <div class="day-navigation-title" id="selectedDayTitle">
+              Miércoles, 17 de septiembre
             </div>
-            <div id="dashboardMeals"></div>
+            <div class="day-navigation-date" id="selectedDayDate">
+              17/09/2026
+            </div>
           </div>
-          <div>
-            <div class="card section-card">
-              <div class="card-header"><div><h2>Acciones rápidas</h2><div class="muted small" style="margin-top:4px">Registra lo importante en segundos</div></div></div>
-              <div class="quick-actions">
-                <button class="quick-btn" data-open-modal="meal"><span>🍽️</span><b>Añadir comida</b><small class="muted">Kcal y macros</small></button>
-                <button class="quick-btn" data-open-modal="supplement"><span>✦</span><b>Suplemento</b><small class="muted">Proteína / creatina</small></button>
-                <button class="quick-btn" data-open-modal="weight"><span>⚖️</span><b>Registrar peso</b><small class="muted">Evolución corporal</small></button>
-                <button class="quick-btn" data-open-modal="workout"><span>🏋️</span><b>Entrenamiento</b><small class="muted">Sesión de hoy</small></button>
+
+          <button class="day-arrow" id="nextDay">→</button>
+        </div>
+
+        <div class="grid grid-2">
+
+          <div class="card">
+            <div class="card-title">Actividad del día</div>
+            <div class="card-subtitle">
+              Indica si has entrenado y qué grupo muscular has trabajado.
+            </div>
+
+            <div class="field">
+              <label>¿Has ido al gimnasio?</label>
+
+              <div class="toggle-row">
+                <div class="toggle-option" id="gymYes">Sí, he ido</div>
+                <div class="toggle-option" id="gymNo">No, descanso</div>
               </div>
             </div>
-            <div class="card">
-              <div class="card-header"><div><h2>Estado del día</h2><div class="muted small" style="margin-top:4px">Control de hábitos</div></div></div>
-              <div class="status-row"><span>Objetivo de kcal</span><span class="pill" id="kcalState">En progreso</span></div>
-              <div class="status-row"><span>Objetivo de proteína</span><span class="pill" id="proteinState">En progreso</span></div>
-              <div class="status-row"><span>Creatina registrada</span><span class="status" id="creatineState"><i class="status-dot off"></i> Pendiente</span></div>
-              <div class="status-row"><span>Entrenamiento registrado</span><span class="status" id="trainingState"><i class="status-dot off"></i> Pendiente</span></div>
+
+            <div id="gymDetails">
+              <div class="field">
+                <label>¿Qué has entrenado?</label>
+                <select id="workoutType">
+                  <option value="">Selecciona una opción</option>
+                  <option value="Pecho">Pecho</option>
+                  <option value="Espalda">Espalda</option>
+                  <option value="Pierna">Pierna</option>
+                  <option value="Hombro">Hombro</option>
+                  <option value="Brazos">Brazos</option>
+                  <option value="Full body">Full body</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>¿A qué hora has ido?</label>
+                <input type="time" id="gymTime">
+              </div>
+            </div>
+
+            <div class="button-row">
+              <button class="button primary" id="saveGymData">
+                Guardar actividad
+              </button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Suplementación y peso</div>
+            <div class="card-subtitle">
+              Registra los datos correspondientes a este día.
+            </div>
+
+            <div class="field">
+              <label>¿Has tomado el scoop de creatina?</label>
+
+              <div class="toggle-row">
+                <div class="toggle-option" id="creatineYes">Sí</div>
+                <div class="toggle-option" id="creatineNo">No</div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Peso de hoy, en kg</label>
+              <input type="number" id="dayWeight" step="0.1" min="0" placeholder="Ejemplo: 80">
+            </div>
+
+            <button class="button primary" id="saveSupplementData">
+              Guardar suplementación y peso
+            </button>
+          </div>
+
+        </div>
+
+        <div class="grid grid-4 section-space">
+          <div class="stat-box">
+            <div class="stat-box-label">Gimnasio</div>
+            <div class="stat-box-value" id="summaryGym">—</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-box-label">Entrenamiento</div>
+            <div class="stat-box-value" id="summaryWorkout">—</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-box-label">Creatina</div>
+            <div class="stat-box-value" id="summaryCreatine">—</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-box-label">Peso registrado</div>
+            <div class="stat-box-value" id="summaryWeight">—</div>
+          </div>
+        </div>
+
+        <div class="card section-space">
+          <div class="card-title">Resumen del día</div>
+          <div class="card-subtitle">
+            También puedes consultar y modificar las kcal de esta fecha desde el apartado “Mis kcal”.
+          </div>
+
+          <div class="grid grid-3">
+            <div class="stat-box">
+              <div class="stat-box-label">Objetivo de kcal</div>
+              <div class="stat-box-value accent" id="dayGoalSummary">0</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Kcal consumidas</div>
+              <div class="stat-box-value blue" id="dayConsumedSummary">0</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Kcal restantes</div>
+              <div class="stat-box-value green" id="dayRemainingSummary">0</div>
             </div>
           </div>
         </div>
+
       </section>
 
-      <!-- FOOD -->
-      <section class="view" id="view-food">
-        <div class="hero">
-          <div><div class="eyebrow">Nutrición</div><h1>Comidas</h1><div class="muted small" style="margin-top:8px">Registra y controla lo que consumes.</div></div>
-          <button class="btn btn-primary" data-open-modal="meal">+ Añadir comida</button>
+      <!-- VISTA DE KCAL -->
+
+      <section class="view" id="view-calories">
+
+        <div class="day-navigation">
+          <button class="day-arrow" id="previousDayCalories">←</button>
+
+          <div class="day-navigation-center">
+            <div class="day-navigation-title" id="caloriesDayTitle">
+              Miércoles, 17 de septiembre
+            </div>
+            <div class="day-navigation-date" id="caloriesDayDate">
+              17/09/2026
+            </div>
+          </div>
+
+          <button class="day-arrow" id="nextDayCalories">→</button>
         </div>
-        <div class="cards">
-          <div class="card"><div class="metric-label">Kcal del día</div><div class="metric-value" id="foodKcal">0 <span>kcal</span></div></div>
-          <div class="card"><div class="metric-label">Proteína del día</div><div class="metric-value" id="foodProtein">0 <span>g</span></div></div>
-          <div class="card"><div class="metric-label">Kcal restantes</div><div class="metric-value" id="foodRemaining">0 <span>kcal</span></div></div>
-          <div class="card"><div class="metric-label">Comidas registradas</div><div class="metric-value" id="foodCount">0</div></div>
+
+        <div class="grid grid-2">
+
+          <div class="card calorie-card">
+            <div class="card-title">Balance calórico diario</div>
+
+            <div class="ring" id="calorieRing">
+              <div class="ring-content">
+                <div class="ring-number" id="ringRemaining">0</div>
+                <div class="ring-label">kcal restantes</div>
+                <div class="ring-extra" id="ringPercentage">0 % completado</div>
+              </div>
+            </div>
+
+            <div class="calorie-stats">
+              <div>
+                <div class="calorie-stat-value accent" id="calorieGoal">0</div>
+                <div class="calorie-stat-label">Objetivo</div>
+              </div>
+
+              <div>
+                <div class="calorie-stat-value blue" id="calorieConsumed">0</div>
+                <div class="calorie-stat-label">Consumidas</div>
+              </div>
+
+              <div>
+                <div class="calorie-stat-value green" id="calorieRemaining">0</div>
+                <div class="calorie-stat-label">Restantes</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Añadir kcal</div>
+            <div class="card-subtitle">
+              Añade cada comida o introduce directamente las kcal que quieras registrar.
+            </div>
+
+            <div class="entry-form">
+              <input type="text" id="calorieEntryName" placeholder="Nombre, por ejemplo: Comida">
+              <input type="number" id="calorieEntryValue" placeholder="Kcal" min="0">
+              <button class="button primary" id="addCalorieEntry">Añadir</button>
+            </div>
+
+            <div class="entries" id="calorieEntries"></div>
+          </div>
+
         </div>
+
+        <div class="card section-space">
+          <div class="card-title">Resumen calórico</div>
+
+          <div class="grid grid-3">
+            <div class="stat-box">
+              <div class="stat-box-label">Objetivo del día</div>
+              <div class="stat-box-value accent" id="calorieSummaryGoal">0 kcal</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Total consumido</div>
+              <div class="stat-box-value blue" id="calorieSummaryConsumed">0 kcal</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Balance</div>
+              <div class="stat-box-value" id="calorieSummaryBalance">0 kcal</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- VISTA DE ESTADÍSTICAS -->
+
+      <section class="view" id="view-statistics">
+
         <div class="card">
-          <div class="card-header"><div><h2>Comidas de hoy</h2><div class="muted small" style="margin-top:4px" id="foodDateLabel"></div></div></div>
-          <div id="foodList"></div>
-        </div>
-      </section>
-
-      <!-- SUPPLEMENTS -->
-      <section class="view" id="view-supplements">
-        <div class="hero">
-          <div><div class="eyebrow">Suplementación</div><h1>Suplementos</h1><div class="muted small" style="margin-top:8px">Controla tu consumo y el producto disponible.</div></div>
-          <button class="btn btn-primary" data-open-modal="supplement">+ Registrar toma</button>
-        </div>
-        <div class="grid-2">
-          <div class="card">
-            <div class="card-header"><div><h2>Configuración de proteína</h2><div class="muted small" style="margin-top:4px">Datos de tu producto</div></div></div>
-            <div class="form-grid">
-              <div class="field"><label>Nombre</label><input id="supName" placeholder="Proteína de chocolate"></div>
-              <div class="field"><label>Gramos del bote</label><input id="supTotal" type="number" min="0"></div>
-              <div class="field"><label>Gramos por scoop</label><input id="supScoop" type="number" min="0" step=".1"></div>
-              <div class="field"><label>Proteína por scoop</label><input id="supProtein" type="number" min="0" step=".1"></div>
-              <div class="field"><label>Kcal por scoop</label><input id="supKcal" type="number" min="0" step=".1"></div>
-              <div class="field"><label>Gramos consumidos del bote</label><input id="supUsed" type="number" min="0" step=".1"></div>
-            </div>
-            <button class="btn btn-primary btn-wide" style="margin-top:15px" id="saveSupConfig">Guardar configuración</button>
-            <div class="progress" style="margin-top:20px"><div class="progress-fill fill-green" id="supStockProgress"></div></div>
-            <div class="metric-foot"><span>Producto restante</span><b id="supStockText">0 g</b></div>
+          <div class="card-title">Estadísticas generales</div>
+          <div class="card-subtitle">
+            Los porcentajes se calculan usando todos los días que hayas guardado.
           </div>
-          <div class="card">
-            <div class="card-header"><div><h2>Creatina</h2><div class="muted small" style="margin-top:4px">Registro diario</div></div><span class="pill">Monohidrato</span></div>
-            <div class="notice">La creatina se registra en gramos. Para el recuento habitual de calorías se considera 0 kcal relevantes. La dosis objetivo es editable.</div>
-            <div class="form-grid" style="margin-top:15px">
-              <div class="field"><label>Objetivo diario (g)</label><input id="creatineConfig" type="number" min="0" step=".1"></div>
-              <div class="field"><label>Marca / producto</label><input id="creatineName" placeholder="Creatina monohidrato"></div>
+
+          <div class="grid grid-4">
+            <div class="stat-box">
+              <div class="stat-box-label">Días guardados</div>
+              <div class="stat-box-value" id="totalDaysStat">0</div>
             </div>
-            <button class="btn btn-primary btn-wide" style="margin-top:15px" id="saveCreatineConfig">Guardar configuración</button>
-            <div style="margin-top:22px">
-              <div class="metric-label">Hoy has tomado</div>
-              <div class="metric-value" id="supTodayCreatine">0 <span>g</span></div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Días entrenados</div>
+              <div class="stat-box-value green" id="gymDaysStat">0</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Días de descanso</div>
+              <div class="stat-box-value red" id="restDaysStat">0</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Días con creatina</div>
+              <div class="stat-box-value accent" id="creatineDaysStat">0</div>
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-header"><div><h2>Historial de suplementos</h2><div class="muted small">Últimos registros</div></div></div>
-          <div id="supplementHistory"></div>
-        </div>
-      </section>
 
-      <!-- TRAINING -->
-      <section class="view" id="view-training">
-        <div class="hero">
-          <div><div class="eyebrow">Rendimiento</div><h1>Entrenamiento</h1><div class="muted small" style="margin-top:8px">Registra tus sesiones y observa tu constancia.</div></div>
-          <button class="btn btn-primary" data-open-modal="workout">+ Registrar sesión</button>
-        </div>
-        <div class="cards">
-          <div class="card"><div class="metric-label">Sesiones este mes</div><div class="metric-value" id="monthWorkouts">0</div></div>
-          <div class="card"><div class="metric-label">Sesiones esta semana</div><div class="metric-value" id="weekWorkouts">0</div></div>
-          <div class="card"><div class="metric-label">Minutos este mes</div><div class="metric-value" id="monthMinutes">0 <span>min</span></div></div>
-          <div class="card"><div class="metric-label">Última sesión</div><div class="metric-value" style="font-size:18px" id="lastWorkout">—</div></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div><h2>Historial de entrenamientos</h2><div class="muted small">Tus sesiones registradas</div></div></div>
-          <div id="workoutHistory"></div>
-        </div>
-      </section>
+        <div class="grid grid-2 section-space">
 
-      <!-- PROGRESS -->
-      <section class="view" id="view-progress">
-        <div class="hero">
-          <div><div class="eyebrow">Análisis</div><h1>Progreso</h1><div class="muted small" style="margin-top:8px">Mira la evolución de tus datos.</div></div>
-          <button class="btn btn-primary" data-open-modal="weight">+ Registrar peso</button>
-        </div>
-        <div class="grid-2">
           <div class="card">
-            <div class="card-header"><div><h2>Evolución del peso</h2><div class="muted small" style="margin-top:4px">Últimos registros</div></div></div>
-            <div class="chart" id="weightChart"></div>
-            <div class="muted small" style="margin-top:14px">El peso diario puede variar por agua, glucógeno y comida. Observa la tendencia.</div>
+            <div class="card-title">Porcentaje de actividad</div>
+
+            <div class="progress-container">
+              <div class="progress-header">
+                <span>Días entrenados</span>
+                <span id="gymPercentage">0 %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar green-bar" id="gymProgress"></div>
+              </div>
+            </div>
+
+            <div class="progress-container">
+              <div class="progress-header">
+                <span>Días de descanso</span>
+                <span id="restPercentage">0 %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar red-bar" id="restProgress"></div>
+              </div>
+            </div>
+
+            <div class="progress-container">
+              <div class="progress-header">
+                <span>Días con creatina</span>
+                <span id="creatinePercentage">0 %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" id="creatineProgress"></div>
+              </div>
+            </div>
           </div>
+
           <div class="card">
-            <div class="card-header"><div><h2>Promedio nutricional</h2><div class="muted small" style="margin-top:4px">Últimos 7 días registrados</div></div></div>
-            <div style="margin:20px 0">
-              <div class="metric-label">Media de kcal</div>
-              <div class="metric-value" id="avgKcal">0 <span>kcal/día</span></div>
-              <div class="progress"><div class="progress-fill fill-blue" id="avgKcalProgress"></div></div>
+            <div class="card-title">Distribución de entrenamientos</div>
+
+            <div class="progress-container">
+              <div class="progress-header">
+                <span>Pecho</span>
+                <span id="chestPercentage">0 %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" id="chestProgress"></div>
+              </div>
             </div>
-            <div style="margin:20px 0">
-              <div class="metric-label">Media de proteína</div>
-              <div class="metric-value" id="avgProtein">0 <span>g/día</span></div>
-              <div class="progress"><div class="progress-fill fill-green" id="avgProteinProgress"></div></div>
+
+            <div class="progress-container">
+              <div class="progress-header">
+                <span>Espalda</span>
+                <span id="backPercentage">0 %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar blue-bar" id="backProgress"></div>
+              </div>
             </div>
-            <div class="notice">Para valorar cambios, compara medias semanales y tu rendimiento, no solo un día aislado.</div>
+
+            <div class="progress-container">
+              <div class="progress-header">
+                <span>Pierna</span>
+                <span id="legPercentage">0 %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar orange-bar" id="legProgress"></div>
+              </div>
+            </div>
+
+            <div class="progress-container">
+              <div class="progress-header">
+                <span>Otros</span>
+                <span id="otherPercentage">0 %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar" id="otherProgress"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="grid grid-3 section-space">
+          <div class="stat-box">
+            <div class="stat-box-label">Media de kcal consumidas</div>
+            <div class="stat-box-value" id="averageCaloriesStat">0</div>
+            <div class="small muted">Solo días con kcal registradas</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-box-label">Media de peso</div>
+            <div class="stat-box-value" id="averageWeightStat">—</div>
+            <div class="small muted">Solo días con peso registrado</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-box-label">Entrenamiento más frecuente</div>
+            <div class="stat-box-value accent" id="mostFrequentWorkout">—</div>
           </div>
         </div>
-        <div class="card" style="margin-top:18px">
-          <div class="card-header"><div><h2>Registros de peso</h2><div class="muted small">Historial corporal</div></div></div>
-          <div id="weightHistory"></div>
-        </div>
+
       </section>
 
-      <!-- SETTINGS -->
+      <!-- VISTA CONFIGURACIÓN -->
+
       <section class="view" id="view-settings">
-        <div class="hero">
-          <div><div class="eyebrow">Sistema</div><h1>Configuración</h1><div class="muted small" style="margin-top:8px">Personaliza tus objetivos y tus datos.</div></div>
+
+        <div class="card settings-grid">
+          <div class="card-title">Datos personales y cálculo de kcal</div>
+          <div class="card-subtitle">
+            Introduce tus datos para obtener una estimación inicial de tus necesidades calóricas.
+          </div>
+
+          <div class="grid grid-2">
+            <div class="field">
+              <label>Edad</label>
+              <input type="number" id="userAge" min="10" max="100" placeholder="Ejemplo: 18">
+            </div>
+
+            <div class="field">
+              <label>Sexo biológico utilizado para la fórmula</label>
+              <select id="userSex">
+                <option value="male">Hombre</option>
+                <option value="female">Mujer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Peso actual, en kg</label>
+              <input type="number" id="userWeight" min="0" step="0.1" placeholder="Ejemplo: 80">
+            </div>
+
+            <div class="field">
+              <label>Altura, en cm</label>
+              <input type="number" id="userHeight" min="0" placeholder="Ejemplo: 180">
+            </div>
+
+            <div class="field">
+              <label>Días de gimnasio por semana</label>
+              <input type="number" id="trainingDays" min="0" max="7" placeholder="Ejemplo: 5">
+            </div>
+
+            <div class="field">
+              <label>Nivel de actividad fuera del gimnasio</label>
+              <select id="activityLevel">
+                <option value="1.2">Muy sedentario</option>
+                <option value="1.35">Poco activo</option>
+                <option value="1.5" selected>Moderadamente activo</option>
+                <option value="1.65">Activo</option>
+                <option value="1.8">Muy activo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="calculation-result">
+            <div class="small muted">Estimación calculada de mantenimiento</div>
+            <strong id="calculatedCalories">Introduce tus datos</strong>
+            <div class="small muted">
+              Es una estimación inicial, no una cifra exacta. Puedes ajustarla según tu evolución y rendimiento.
+            </div>
+          </div>
+
+          <div class="field section-space">
+            <label>Objetivo diario de kcal que utilizará la aplicación</label>
+            <input type="number" id="dailyCalorieGoal" min="0" placeholder="Ejemplo: 2800">
+          </div>
+
+          <div class="button-row">
+            <button class="button primary" id="calculateCaloriesButton">
+              Calcular kcal
+            </button>
+
+            <button class="button primary" id="saveSettingsButton">
+              Guardar configuración
+            </button>
+          </div>
         </div>
-        <div class="card">
-          <div class="settings-section">
-            <h3>Perfil y objetivos diarios</h3>
-            <div class="form-grid three">
-              <div class="field"><label>Nombre</label><input id="cfgName"></div>
-              <div class="field"><label>Edad</label><input id="cfgAge" type="number"></div>
-              <div class="field"><label>Peso inicial (kg)</label><input id="cfgWeight" type="number" step=".1"></div>
-              <div class="field"><label>Altura (cm)</label><input id="cfgHeight" type="number"></div>
-              <div class="field"><label>Calorías objetivo</label><input id="cfgKcal" type="number"></div>
-              <div class="field"><label>Proteína objetivo (g)</label><input id="cfgProtein" type="number"></div>
-            </div>
-            <button class="btn btn-primary" style="margin-top:15px" id="saveGoals">Guardar objetivos</button>
+
+        <div class="card settings-grid section-space">
+          <div class="card-title">Gestión de datos</div>
+          <div class="card-subtitle">
+            Puedes exportar una copia de tus registros o borrar todos los datos.
           </div>
-          <div class="settings-section">
-            <h3>Distribución orientativa de kcal</h3>
-            <div class="muted small" style="margin-bottom:15px">Puedes modificar cómo repartes tu objetivo durante el día.</div>
-            <div class="form-grid three">
-              <div class="field"><label>Desayuno (%)</label><input id="distBreakfast" type="number" min="0" max="100"></div>
-              <div class="field"><label>Comida (%)</label><input id="distLunch" type="number" min="0" max="100"></div>
-              <div class="field"><label>Merienda / preentreno (%)</label><input id="distSnack" type="number" min="0" max="100"></div>
-              <div class="field"><label>Cena / postentreno (%)</label><input id="distDinner" type="number" min="0" max="100"></div>
-            </div>
-            <div class="muted small" style="margin-top:10px">La suma debería ser 100%. No es obligatorio comer exactamente esas cantidades.</div>
-            <button class="btn" style="margin-top:15px" id="saveDistribution">Guardar distribución</button>
-          </div>
-          <div class="settings-section">
-            <h3>Datos y copias de seguridad</h3>
-            <div class="muted small" style="margin-bottom:15px">Tus datos se guardan en localStorage en este navegador. Exporta una copia para no perderlos.</div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn btn-primary" id="exportData">↓ Exportar datos</button>
-              <button class="btn" id="importDataBtn">↑ Importar datos</button>
-              <input type="file" id="importFile" accept=".json" style="display:none">
-              <button class="btn btn-danger" id="resetData">Restablecer todos los datos</button>
-            </div>
-          </div>
-          <div class="settings-section">
-            <h3>Información</h3>
-            <div class="notice">FuelTrack funciona completamente en local. No envía tus datos a ningún servidor. Si borras el almacenamiento del navegador, los datos podrían perderse: usa Exportar datos periódicamente.</div>
+
+          <div class="button-row">
+            <button class="button" id="exportDataButton">
+              Exportar datos
+            </button>
+
+            <button class="button danger" id="resetDataButton">
+              Borrar todos los datos
+            </button>
           </div>
         </div>
+
       </section>
 
-    </div>
-  </main>
-</div>
-
-<!-- MODAL: COMIDA -->
-<div class="modal-backdrop" id="modal-meal">
-  <div class="modal">
-    <div class="modal-header"><h2 id="mealModalTitle">Añadir comida</h2><button class="close" data-close-modal>×</button></div>
-    <form id="mealForm">
-      <input type="hidden" id="mealId">
-      <div class="form-grid">
-        <div class="field"><label>Comida del día</label>
-          <select id="mealType"><option>Desayuno</option><option>Media mañana</option><option>Comida</option><option>Merienda / preentreno</option><option>Cena / postentreno</option><option>Extra</option></select>
-        </div>
-        <div class="field"><label>Nombre / descripción</label><input id="mealName" required placeholder="Ej. Pollo con arroz"></div>
-        <div class="field"><label>Calorías (kcal)</label><input id="mealKcal" type="number" min="0" step="1" required></div>
-        <div class="field"><label>Proteína (g)</label><input id="mealProtein" type="number" min="0" step=".1" required></div>
-        <div class="field"><label>Hidratos (g), opcional</label><input id="mealCarbs" type="number" min="0" step=".1"></div>
-        <div class="field"><label>Grasas (g), opcional</label><input id="mealFat" type="number" min="0" step=".1"></div>
-        <div class="field full"><label>Notas</label><textarea id="mealNotes" placeholder="Cantidad, marca, ingredientes..."></textarea></div>
-      </div>
-      <div class="modal-footer"><button type="button" class="btn" data-close-modal>Cancelar</button><button class="btn btn-primary">Guardar comida</button></div>
-    </form>
+    </main>
   </div>
-</div>
 
-<!-- MODAL: SUPLEMENTO -->
-<div class="modal-backdrop" id="modal-supplement">
-  <div class="modal">
-    <div class="modal-header"><h2>Registrar suplemento</h2><button class="close" data-close-modal>×</button></div>
-    <form id="supplementForm">
-      <div class="form-grid">
-        <div class="field"><label>Suplemento</label><select id="supplementType"><option value="protein">Proteína en polvo</option><option value="creatine">Creatina</option><option value="other">Otro</option></select></div>
-        <div class="field"><label>Cantidad (g de polvo)</label><input id="supplementGrams" type="number" min="0" step=".1" required placeholder="Ej. 33.8"></div>
-        <div class="field"><label>Proteína aportada (g)</label><input id="supplementProtein" type="number" min="0" step=".1" required></div>
-        <div class="field"><label>Calorías aportadas</label><input id="supplementKcal" type="number" min="0" step=".1" required></div>
-        <div class="field full"><label>Notas</label><input id="supplementNotes" placeholder="Ej. 1 scoop"></div>
-      </div>
-      <div class="modal-footer"><button type="button" class="btn" data-close-modal>Cancelar</button><button class="btn btn-primary">Guardar toma</button></div>
-    </form>
-  </div>
-</div>
+  <div class="notification" id="notification"></div>
 
-<!-- MODAL: PESO -->
-<div class="modal-backdrop" id="modal-weight">
-  <div class="modal">
-    <div class="modal-header"><h2>Registrar peso</h2><button class="close" data-close-modal>×</button></div>
-    <form id="weightForm">
-      <div class="form-grid">
-        <div class="field"><label>Peso (kg)</label><input id="weightValue" type="number" min="0" step=".1" required></div>
-        <div class="field"><label>Cintura (cm), opcional</label><input id="waistValue" type="number" min="0" step=".1"></div>
-        <div class="field full"><label>Notas</label><textarea id="weightNotes" placeholder="Condiciones de la medición..."></textarea></div>
-      </div>
-      <div class="modal-footer"><button type="button" class="btn" data-close-modal>Cancelar</button><button class="btn btn-primary">Guardar registro</button></div>
-    </form>
-  </div>
-</div>
+  <script>
+    /*
+      VANTA FITNESS TRACKER
+      Todos los datos se guardan en localStorage.
+    */
 
-<!-- MODAL: ENTRENO -->
-<div class="modal-backdrop" id="modal-workout">
-  <div class="modal">
-    <div class="modal-header"><h2>Registrar entrenamiento</h2><button class="close" data-close-modal>×</button></div>
-    <form id="workoutForm">
-      <div class="form-grid">
-        <div class="field"><label>Tipo / rutina</label><input id="workoutName" required placeholder="Ej. Espalda y bíceps"></div>
-        <div class="field"><label>Duración (minutos)</label><input id="workoutDuration" type="number" min="0" required></div>
-        <div class="field full"><label>Notas de rendimiento</label><textarea id="workoutNotes" placeholder="Ej. Buen rendimiento, progresión en dominadas..."></textarea></div>
-      </div>
-      <div class="modal-footer"><button type="button" class="btn" data-close-modal>Cancelar</button><button class="btn btn-primary">Guardar sesión</button></div>
-    </form>
-  </div>
-</div>
+    const STORAGE_KEY = "vanta_fitness_tracker_v1";
 
-<div class="toast" id="toast"></div>
-
-<script>
-/* =========================================================
-   FUELTRACK — DATOS Y ALMACENAMIENTO LOCAL
-========================================================= */
-const STORAGE_KEY = "fueltrack_v1";
-
-const defaultData = {
-  settings: {
-    name: "Mario",
-    age: 18,
-    weight: 80,
-    height: 0,
-    kcalTarget: 2700,
-    proteinTarget: 150,
-    creatineTarget: 5,
-    creatineName: "Creatina monohidrato",
-    protein: {
-      name: "Proteína de chocolate",
-      totalGrams: 2000,
-      scoopGrams: 33.8,
-      proteinPerScoop: 23,
-      kcalPerScoop: 0,
-      usedGrams: 0
-    },
-    distribution: {
-      breakfast: 20,
-      lunch: 30,
-      snack: 15,
-      dinner: 35
-    }
-  },
-  meals: [],
-  supplements: [],
-  workouts: [],
-  weights: []
-};
-
-let data = loadData();
-let currentView = "dashboard";
-let editingMealId = null;
-
-function loadData() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return structuredClone(defaultData);
-    const parsed = JSON.parse(saved);
-    return {
-      ...structuredClone(defaultData),
-      ...parsed,
+    const defaultData = {
       settings: {
-        ...structuredClone(defaultData.settings),
-        ...(parsed.settings || {}),
-        protein: {
-          ...structuredClone(defaultData.settings.protein),
-          ...(parsed.settings?.protein || {})
-        },
-        distribution: {
-          ...structuredClone(defaultData.settings.distribution),
-          ...(parsed.settings?.distribution || {})
-        }
+        age: 18,
+        sex: "male",
+        weight: 80,
+        height: 180,
+        trainingDays: 5,
+        activityLevel: 1.5,
+        calorieGoal: 2800
       },
-      meals: parsed.meals || [],
-      supplements: parsed.supplements || [],
-      workouts: parsed.workouts || [],
-      weights: parsed.weights || []
+      days: {}
     };
-  } catch {
-    return structuredClone(defaultData);
-  }
-}
 
-function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
+    let appData = loadData();
 
-function today() {
-  return new Date().toISOString().slice(0,10);
-}
+    let selectedDate = getTodayString();
 
-function formatDate(dateString) {
-  return new Date(dateString + "T12:00:00").toLocaleDateString("es-ES", {
-    day: "2-digit", month: "2-digit", year: "numeric"
-  });
-}
+    const monthNames = [
+      "enero",
+      "febrero",
+      "marzo",
+      "abril",
+      "mayo",
+      "junio",
+      "julio",
+      "agosto",
+      "septiembre",
+      "octubre",
+      "noviembre",
+      "diciembre"
+    ];
 
-function formatShortDate(dateString) {
-  return new Date(dateString + "T12:00:00").toLocaleDateString("es-ES", {
-    day: "2-digit", month: "short"
-  }).replace(".", "");
-}
+    const weekdayNames = [
+      "domingo",
+      "lunes",
+      "martes",
+      "miércoles",
+      "jueves",
+      "viernes",
+      "sábado"
+    ];
 
-function esc(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
-  }[char]));
-}
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
 
-function num(value) {
-  return Number(value) || 0;
-}
+      if (!saved) {
+        return structuredClone(defaultData);
+      }
 
-function mealsToday() {
-  return data.meals.filter(x => x.date === today());
-}
+      try {
+        const parsed = JSON.parse(saved);
 
-function supplementsToday() {
-  return data.supplements.filter(x => x.date === today());
-}
-
-function workoutsToday() {
-  return data.workouts.filter(x => x.date === today());
-}
-
-function totalsToday() {
-  const meals = mealsToday();
-  const sups = supplementsToday();
-  return {
-    kcal: meals.reduce((s,x) => s + num(x.kcal), 0) + sups.reduce((s,x) => s + num(x.kcal), 0),
-    protein: meals.reduce((s,x) => s + num(x.protein), 0) + sups.reduce((s,x) => s + num(x.protein), 0),
-    creatine: sups.filter(x => x.type === "creatine").reduce((s,x) => s + num(x.grams), 0),
-    supplementProtein: sups.filter(x => x.type === "protein").reduce((s,x) => s + num(x.protein), 0)
-  };
-}
-
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 2500);
-}
-
-/* =========================================================
-   NAVEGACIÓN
-========================================================= */
-const viewInfo = {
-  dashboard: ["Dashboard", "Tu resumen de rendimiento"],
-  food: ["Comidas", "Registro y control nutricional"],
-  supplements: ["Suplementos", "Control de suplementación"],
-  training: ["Entrenamiento", "Historial de sesiones"],
-  progress: ["Progreso", "Evolución de tus datos"],
-  settings: ["Configuración", "Personaliza tus objetivos y datos"]
-};
-
-document.querySelectorAll(".nav button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    switchView(btn.dataset.view);
-    document.getElementById("sidebar").classList.remove("open");
-  });
-});
-
-function switchView(view) {
-  currentView = view;
-  document.querySelectorAll(".nav button").forEach(b => b.classList.toggle("active", b.dataset.view === view));
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.getElementById("view-" + view).classList.add("active");
-  document.getElementById("pageTitle").textContent = viewInfo[view][0];
-  document.getElementById("pageSubtitle").textContent = viewInfo[view][1];
-  renderAll();
-}
-
-document.getElementById("menuBtn").addEventListener("click", () => {
-  document.getElementById("sidebar").classList.toggle("open");
-});
-document.getElementById("quickAddBtn").addEventListener("click", () => openModal("meal"));
-document.getElementById("todayBtn").addEventListener("click", () => renderAll());
-
-/* =========================================================
-   MODALES
-========================================================= */
-document.querySelectorAll("[data-open-modal]").forEach(btn => {
-  btn.addEventListener("click", () => openModal(btn.dataset.openModal));
-});
-document.querySelectorAll("[data-close-modal]").forEach(btn => {
-  btn.addEventListener("click", () => closeAllModals());
-});
-document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
-  backdrop.addEventListener("click", e => {
-    if (e.target === backdrop) closeAllModals();
-  });
-});
-
-function openModal(type) {
-  closeAllModals();
-  if (type === "meal") {
-    editingMealId = null;
-    document.getElementById("mealForm").reset();
-    document.getElementById("mealId").value = "";
-    document.getElementById("mealModalTitle").textContent = "Añadir comida";
-  }
-  if (type === "supplement") {
-    document.getElementById("supplementForm").reset();
-    document.getElementById("supplementType").value = "protein";
-    document.getElementById("supplementProtein").value = data.settings.protein.proteinPerScoop;
-    document.getElementById("supplementKcal").value = data.settings.protein.kcalPerScoop;
-  }
-  if (type === "weight") {
-    document.getElementById("weightForm").reset();
-    const latest = [...data.weights].sort((a,b) => b.date.localeCompare(a.date))[0];
-    document.getElementById("weightValue").value = latest?.weight || data.settings.weight || "";
-  }
-  if (type === "workout") document.getElementById("workoutForm").reset();
-  document.getElementById("modal-" + type).classList.add("open");
-}
-
-function closeAllModals() {
-  document.querySelectorAll(".modal-backdrop").forEach(m => m.classList.remove("open"));
-}
-
-/* =========================================================
-   FORMULARIO COMIDAS
-========================================================= */
-document.getElementById("mealForm").addEventListener("submit", e => {
-  e.preventDefault();
-  const item = {
-    id: editingMealId || crypto.randomUUID(),
-    date: today(),
-    type: document.getElementById("mealType").value,
-    name: document.getElementById("mealName").value.trim(),
-    kcal: num(document.getElementById("mealKcal").value),
-    protein: num(document.getElementById("mealProtein").value),
-    carbs: num(document.getElementById("mealCarbs").value),
-    fat: num(document.getElementById("mealFat").value),
-    notes: document.getElementById("mealNotes").value.trim(),
-    createdAt: new Date().toISOString()
-  };
-  if (editingMealId) {
-    const index = data.meals.findIndex(x => x.id === editingMealId);
-    if (index >= 0) data.meals[index] = item;
-  } else {
-    data.meals.push(item);
-  }
-  saveData();
-  closeAllModals();
-  renderAll();
-  showToast(editingMealId ? "Comida actualizada" : "Comida guardada");
-});
-
-function editMeal(id) {
-  const item = data.meals.find(x => x.id === id);
-  if (!item) return;
-  editingMealId = id;
-  document.getElementById("mealModalTitle").textContent = "Editar comida";
-  document.getElementById("mealId").value = id;
-  document.getElementById("mealType").value = item.type;
-  document.getElementById("mealName").value = item.name;
-  document.getElementById("mealKcal").value = item.kcal;
-  document.getElementById("mealProtein").value = item.protein;
-  document.getElementById("mealCarbs").value = item.carbs || "";
-  document.getElementById("mealFat").value = item.fat || "";
-  document.getElementById("mealNotes").value = item.notes || "";
-  document.getElementById("modal-meal").classList.add("open");
-}
-
-function deleteMeal(id) {
-  if (!confirm("¿Eliminar esta comida?")) return;
-  data.meals = data.meals.filter(x => x.id !== id);
-  saveData(); renderAll(); showToast("Comida eliminada");
-}
-
-/* =========================================================
-   FORMULARIO SUPLEMENTOS
-========================================================= */
-document.getElementById("supplementType").addEventListener("change", () => {
-  const type = document.getElementById("supplementType").value;
-  if (type === "protein") {
-    document.getElementById("supplementProtein").value = data.settings.protein.proteinPerScoop;
-    document.getElementById("supplementKcal").value = data.settings.protein.kcalPerScoop;
-  } else if (type === "creatine") {
-    document.getElementById("supplementProtein").value = 0;
-    document.getElementById("supplementKcal").value = 0;
-  } else {
-    document.getElementById("supplementProtein").value = "";
-    document.getElementById("supplementKcal").value = "";
-  }
-});
-
-document.getElementById("supplementForm").addEventListener("submit", e => {
-  e.preventDefault();
-  const type = document.getElementById("supplementType").value;
-  const grams = num(document.getElementById("supplementGrams").value);
-  const item = {
-    id: crypto.randomUUID(),
-    date: today(),
-    type,
-    grams,
-    protein: num(document.getElementById("supplementProtein").value),
-    kcal: num(document.getElementById("supplementKcal").value),
-    notes: document.getElementById("supplementNotes").value.trim(),
-    createdAt: new Date().toISOString()
-  };
-  data.supplements.push(item);
-  if (type === "protein") data.settings.protein.usedGrams += grams;
-  saveData(); closeAllModals(); renderAll(); showToast("Suplemento registrado");
-});
-
-function deleteSupplement(id) {
-  if (!confirm("¿Eliminar este registro?")) return;
-  const item = data.supplements.find(x => x.id === id);
-  if (item?.type === "protein") data.settings.protein.usedGrams = Math.max(0, data.settings.protein.usedGrams - num(item.grams));
-  data.supplements = data.supplements.filter(x => x.id !== id);
-  saveData(); renderAll(); showToast("Registro eliminado");
-}
-
-/* =========================================================
-   FORMULARIO PESO
-========================================================= */
-document.getElementById("weightForm").addEventListener("submit", e => {
-  e.preventDefault();
-  data.weights.push({
-    id: crypto.randomUUID(),
-    date: today(),
-    weight: num(document.getElementById("weightValue").value),
-    waist: num(document.getElementById("waistValue").value),
-    notes: document.getElementById("weightNotes").value.trim()
-  });
-  saveData(); closeAllModals(); renderAll(); showToast("Peso registrado");
-});
-
-function deleteWeight(id) {
-  data.weights = data.weights.filter(x => x.id !== id);
-  saveData(); renderAll(); showToast("Registro eliminado");
-}
-
-/* =========================================================
-   FORMULARIO ENTRENAMIENTO
-========================================================= */
-document.getElementById("workoutForm").addEventListener("submit", e => {
-  e.preventDefault();
-  data.workouts.push({
-    id: crypto.randomUUID(),
-    date: today(),
-    name: document.getElementById("workoutName").value.trim(),
-    duration: num(document.getElementById("workoutDuration").value),
-    notes: document.getElementById("workoutNotes").value.trim()
-  });
-  saveData(); closeAllModals(); renderAll(); showToast("Entrenamiento registrado");
-});
-
-function deleteWorkout(id) {
-  data.workouts = data.workouts.filter(x => x.id !== id);
-  saveData(); renderAll(); showToast("Sesión eliminada");
-}
-
-/* =========================================================
-   CONFIGURACIÓN
-========================================================= */
-function loadSettingsForm() {
-  const s = data.settings;
-  document.getElementById("cfgName").value = s.name;
-  document.getElementById("cfgAge").value = s.age;
-  document.getElementById("cfgWeight").value = s.weight;
-  document.getElementById("cfgHeight").value = s.height || "";
-  document.getElementById("cfgKcal").value = s.kcalTarget;
-  document.getElementById("cfgProtein").value = s.proteinTarget;
-  document.getElementById("distBreakfast").value = s.distribution.breakfast;
-  document.getElementById("distLunch").value = s.distribution.lunch;
-  document.getElementById("distSnack").value = s.distribution.snack;
-  document.getElementById("distDinner").value = s.distribution.dinner;
-  document.getElementById("supName").value = s.protein.name;
-  document.getElementById("supTotal").value = s.protein.totalGrams;
-  document.getElementById("supScoop").value = s.protein.scoopGrams;
-  document.getElementById("supProtein").value = s.protein.proteinPerScoop;
-  document.getElementById("supKcal").value = s.protein.kcalPerScoop;
-  document.getElementById("supUsed").value = s.protein.usedGrams;
-  document.getElementById("creatineConfig").value = s.creatineTarget;
-  document.getElementById("creatineName").value = s.creatineName;
-}
-
-document.getElementById("saveGoals").addEventListener("click", () => {
-  data.settings.name = document.getElementById("cfgName").value.trim() || "Usuario";
-  data.settings.age = num(document.getElementById("cfgAge").value);
-  data.settings.weight = num(document.getElementById("cfgWeight").value);
-  data.settings.height = num(document.getElementById("cfgHeight").value);
-  data.settings.kcalTarget = num(document.getElementById("cfgKcal").value);
-  data.settings.proteinTarget = num(document.getElementById("cfgProtein").value);
-  saveData(); renderAll(); showToast("Objetivos guardados");
-});
-
-document.getElementById("saveDistribution").addEventListener("click", () => {
-  data.settings.distribution = {
-    breakfast: num(document.getElementById("distBreakfast").value),
-    lunch: num(document.getElementById("distLunch").value),
-    snack: num(document.getElementById("distSnack").value),
-    dinner: num(document.getElementById("distDinner").value)
-  };
-  saveData(); showToast("Distribución guardada");
-});
-
-document.getElementById("saveSupConfig").addEventListener("click", () => {
-  data.settings.protein = {
-    name: document.getElementById("supName").value.trim(),
-    totalGrams: num(document.getElementById("supTotal").value),
-    scoopGrams: num(document.getElementById("supScoop").value),
-    proteinPerScoop: num(document.getElementById("supProtein").value),
-    kcalPerScoop: num(document.getElementById("supKcal").value),
-    usedGrams: num(document.getElementById("supUsed").value)
-  };
-  saveData(); renderAll(); showToast("Proteína configurada");
-});
-
-document.getElementById("saveCreatineConfig").addEventListener("click", () => {
-  data.settings.creatineTarget = num(document.getElementById("creatineConfig").value);
-  data.settings.creatineName = document.getElementById("creatineName").value.trim();
-  saveData(); renderAll(); showToast("Creatina configurada");
-});
-
-/* =========================================================
-   EXPORTAR / IMPORTAR / REINICIAR
-========================================================= */
-document.getElementById("exportData").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "fueltrack-backup-" + today() + ".json";
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast("Copia exportada");
-});
-
-document.getElementById("importDataBtn").addEventListener("click", () => document.getElementById("importFile").click());
-
-document.getElementById("importFile").addEventListener("change", e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = event => {
-    try {
-      const imported = JSON.parse(event.target.result);
-      if (!imported.settings || !Array.isArray(imported.meals)) throw new Error();
-      data = imported;
-      saveData(); renderAll(); showToast("Datos importados correctamente");
-    } catch {
-      alert("El archivo no parece una copia válida de FuelTrack.");
+        return {
+          settings: {
+            ...defaultData.settings,
+            ...(parsed.settings || {})
+          },
+          days: parsed.days || {}
+        };
+      } catch (error) {
+        return structuredClone(defaultData);
+      }
     }
-  };
-  reader.readAsText(file);
-  e.target.value = "";
-});
 
-document.getElementById("resetData").addEventListener("click", () => {
-  if (!confirm("Esto eliminará todos tus registros. ¿Continuar?")) return;
-  if (!confirm("Última confirmación: perderás comidas, peso, entrenamientos y suplementos.")) return;
-  data = structuredClone(defaultData);
-  saveData(); renderAll(); showToast("Datos restablecidos");
-});
-
-/* =========================================================
-   RENDERIZADO
-========================================================= */
-function setProgress(id, value, target) {
-  const percentage = target > 0 ? Math.min(100, Math.max(0, value / target * 100)) : 0;
-  document.getElementById(id).style.width = percentage + "%";
-  return percentage;
-}
-
-function renderDashboard() {
-  const t = totalsToday();
-  const s = data.settings;
-  const kcalTarget = s.kcalTarget;
-  const proteinTarget = s.proteinTarget;
-  const kcalPercent = setProgress("kcalProgress", t.kcal, kcalTarget);
-  const proteinPercent = setProgress("proteinProgress", t.protein, proteinTarget);
-  const creatinePercent = setProgress("creatineProgress", t.creatine, s.creatineTarget);
-
-  document.getElementById("dashKcal").innerHTML = `${Math.round(t.kcal)} <span>/ ${Math.round(kcalTarget)} kcal</span>`;
-  document.getElementById("dashProtein").innerHTML = `${t.protein.toFixed(1)} <span>/ ${proteinTarget} g</span>`;
-  document.getElementById("kcalRemaining").textContent = `${Math.max(0, Math.round(kcalTarget - t.kcal))} kcal restantes`;
-  document.getElementById("proteinRemaining").textContent = `${Math.max(0, (proteinTarget - t.protein).toFixed(1))} g restantes`;
-  document.getElementById("kcalPercent").textContent = Math.round(kcalPercent) + "%";
-  document.getElementById("proteinPercent").textContent = Math.round(proteinPercent) + "%";
-  document.getElementById("dashCreatine").innerHTML = `${t.creatine.toFixed(1)} <span>g</span>`;
-  document.getElementById("creatineTarget").textContent = s.creatineTarget + " g";
-  document.getElementById("creatineStatus").textContent = t.creatine >= s.creatineTarget ? "Completado" : "Pendiente";
-
-  const workout = workoutsToday()[0];
-  document.getElementById("dashWorkout").textContent = workout ? "✓" : "—";
-  document.getElementById("dashWorkout").style.color = workout ? "var(--green)" : "var(--text)";
-  document.getElementById("dashWorkoutDetail").textContent = workout ? workout.name : "Sin registrar";
-  document.getElementById("dashWorkoutDuration").textContent = workout ? workout.duration + " min" : "";
-
-  document.getElementById("kcalState").textContent = t.kcal >= kcalTarget ? "Objetivo alcanzado" : "En progreso";
-  document.getElementById("proteinState").textContent = t.protein >= proteinTarget ? "Objetivo alcanzado" : "En progreso";
-  document.getElementById("creatineState").innerHTML = t.creatine >= s.creatineTarget
-    ? '<i class="status-dot"></i> Completado'
-    : '<i class="status-dot off"></i> Pendiente';
-  document.getElementById("trainingState").innerHTML = workout
-    ? '<i class="status-dot"></i> Registrado'
-    : '<i class="status-dot off"></i> Pendiente';
-
-  const meals = mealsToday();
-  document.getElementById("dashboardMeals").innerHTML = meals.length
-    ? meals.map(mealHTML).join("")
-    : '<div class="empty">Todavía no has registrado comidas.<br><button class="btn btn-primary btn-sm" style="margin-top:12px" data-open-modal="meal">Añadir primera comida</button></div>';
-  bindDynamicButtons();
-}
-
-function mealHTML(item) {
-  return `<div class="meal">
-    <div class="meal-top">
-      <div class="meal-name"><span class="meal-dot"></span>${esc(item.type)} · ${esc(item.name)}</div>
-      <div class="meal-actions">
-        <button class="icon-btn" onclick="editMeal('${item.id}')" title="Editar">✎</button>
-        <button class="icon-btn" onclick="deleteMeal('${item.id}')" title="Eliminar">×</button>
-      </div>
-    </div>
-    <div class="meal-info">
-      <span><strong>${Math.round(item.kcal)}</strong> kcal</span>
-      <span><strong>${num(item.protein).toFixed(1)}</strong> g proteína</span>
-      ${item.carbs ? `<span>${num(item.carbs).toFixed(1)} g HC</span>` : ""}
-      ${item.fat ? `<span>${num(item.fat).toFixed(1)} g grasa</span>` : ""}
-    </div>
-    ${item.notes ? `<div class="muted small" style="margin-top:8px">${esc(item.notes)}</div>` : ""}
-  </div>`;
-}
-
-function renderFood() {
-  const t = totalsToday();
-  document.getElementById("foodKcal").innerHTML = `${Math.round(t.kcal)} <span>kcal</span>`;
-  document.getElementById("foodProtein").innerHTML = `${t.protein.toFixed(1)} <span>g</span>`;
-  document.getElementById("foodRemaining").innerHTML = `${Math.max(0,Math.round(data.settings.kcalTarget-t.kcal))} <span>kcal</span>`;
-  document.getElementById("foodCount").textContent = mealsToday().length;
-  document.getElementById("foodDateLabel").textContent = formatDate(today());
-  document.getElementById("foodList").innerHTML = mealsToday().length
-    ? mealsToday().map(mealHTML).join("")
-    : '<div class="empty">No hay comidas registradas para hoy.</div>';
-  bindDynamicButtons();
-}
-
-function renderSupplements() {
-  const p = data.settings.protein;
-  const t = totalsToday();
-  const remaining = Math.max(0, p.totalGrams - p.usedGrams);
-  const stockPercent = p.totalGrams > 0 ? Math.min(100, remaining / p.totalGrams * 100) : 0;
-
-  document.getElementById("supStockProgress").style.width = stockPercent + "%";
-  document.getElementById("supStockText").textContent = `${remaining.toFixed(0)} g / ${p.totalGrams} g`;
-  document.getElementById("supTodayCreatine").innerHTML = `${t.creatine.toFixed(1)} <span>g</span>`;
-
-  const list = [...data.supplements].sort((a,b) => b.date.localeCompare(a.date));
-  document.getElementById("supplementHistory").innerHTML = list.length ? `
-    <div class="table-wrap"><table>
-      <thead><tr><th>Fecha</th><th>Suplemento</th><th>Cantidad</th><th>Proteína</th><th>Kcal</th><th></th></tr></thead>
-      <tbody>${list.slice(0,30).map(x => `<tr>
-        <td>${formatDate(x.date)}</td>
-        <td>${x.type === "protein" ? "Proteína en polvo" : x.type === "creatine" ? "Creatina" : "Otro"}</td>
-        <td>${num(x.grams).toFixed(1)} g</td>
-        <td>${num(x.protein).toFixed(1)} g</td>
-        <td>${num(x.kcal).toFixed(0)}</td>
-        <td><button class="icon-btn" onclick="deleteSupplement('${x.id}')">×</button></td>
-      </tr>`).join("")}</tbody>
-    </table></div>` : '<div class="empty">Todavía no hay tomas registradas.</div>';
-}
-
-function renderTraining() {
-  const now = new Date();
-  const month = now.toISOString().slice(0,7);
-  const startWeek = new Date(now);
-  const day = (now.getDay() + 6) % 7;
-  startWeek.setDate(now.getDate() - day);
-  const weekStart = startWeek.toISOString().slice(0,10);
-  const monthItems = data.workouts.filter(x => x.date.startsWith(month));
-  const weekItems = data.workouts.filter(x => x.date >= weekStart && x.date <= today());
-  const totalMinutes = monthItems.reduce((s,x) => s + num(x.duration), 0);
-  const sorted = [...data.workouts].sort((a,b) => b.date.localeCompare(a.date));
-
-  document.getElementById("monthWorkouts").textContent = monthItems.length;
-  document.getElementById("weekWorkouts").textContent = weekItems.length;
-  document.getElementById("monthMinutes").innerHTML = `${totalMinutes} <span>min</span>`;
-  document.getElementById("lastWorkout").textContent = sorted[0] ? sorted[0].name : "—";
-
-  document.getElementById("workoutHistory").innerHTML = sorted.length ? `
-    <div class="table-wrap"><table>
-      <thead><tr><th>Fecha</th><th>Sesión</th><th>Duración</th><th>Notas</th><th></th></tr></thead>
-      <tbody>${sorted.slice(0,40).map(x => `<tr>
-        <td>${formatDate(x.date)}</td><td><b>${esc(x.name)}</b></td>
-        <td>${x.duration} min</td><td class="muted">${esc(x.notes || "—")}</td>
-        <td><button class="icon-btn" onclick="deleteWorkout('${x.id}')">×</button></td>
-      </tr>`).join("")}</tbody>
-    </table></div>` : '<div class="empty">Todavía no hay entrenamientos registrados.</div>';
-}
-
-function renderProgress() {
-  const weights = [...data.weights].sort((a,b) => a.date.localeCompare(b.date));
-  const recentWeights = weights.slice(-10);
-  const chart = document.getElementById("weightChart");
-
-  if (!recentWeights.length) {
-    chart.innerHTML = '<div class="empty" style="width:100%;align-self:center">Registra tu peso para ver la gráfica.</div>';
-  } else {
-    const values = recentWeights.map(x => num(x.weight));
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-    const range = Math.max(.5, max - min);
-    chart.innerHTML = recentWeights.map(x => {
-      const height = 20 + ((num(x.weight) - min) / range) * 70;
-      return `<div class="bar-wrap" title="${x.weight} kg">
-        <div class="bar-value">${x.weight}</div>
-        <div class="bar" style="height:${height}%"></div>
-        <div class="bar-label">${formatShortDate(x.date)}</div>
-      </div>`;
-    }).join("");
-  }
-
-  const last7 = [...new Set([...data.meals.map(x=>x.date), ...data.supplements.map(x=>x.date)])].sort().slice(-7);
-  const days = last7.map(date => {
-    const meals = data.meals.filter(x=>x.date===date);
-    const sups = data.supplements.filter(x=>x.date===date);
-    return {
-      kcal: meals.reduce((s,x)=>s+num(x.kcal),0)+sups.reduce((s,x)=>s+num(x.kcal),0),
-      protein: meals.reduce((s,x)=>s+num(x.protein),0)+sups.reduce((s,x)=>s+num(x.protein),0)
-    };
-  });
-  const avgKcal = days.length ? days.reduce((s,x)=>s+x.kcal,0)/days.length : 0;
-  const avgProtein = days.length ? days.reduce((s,x)=>s+x.protein,0)/days.length : 0;
-  document.getElementById("avgKcal").innerHTML = `${Math.round(avgKcal)} <span>kcal/día</span>`;
-  document.getElementById("avgProtein").innerHTML = `${avgProtein.toFixed(1)} <span>g/día</span>`;
-  document.getElementById("avgKcalProgress").style.width = Math.min(100, avgKcal / data.settings.kcalTarget * 100) + "%";
-  document.getElementById("avgProteinProgress").style.width = Math.min(100, avgProtein / data.settings.proteinTarget * 100) + "%";
-
-  document.getElementById("weightHistory").innerHTML = weights.length ? `
-    <div class="table-wrap"><table>
-      <thead><tr><th>Fecha</th><th>Peso</th><th>Cintura</th><th>Notas</th><th></th></tr></thead>
-      <tbody>${weights.slice().reverse().slice(0,40).map(x => `<tr>
-        <td>${formatDate(x.date)}</td><td><b>${x.weight.toFixed(1)} kg</b></td>
-        <td>${x.waist ? x.waist.toFixed(1)+" cm" : "—"}</td>
-        <td class="muted">${esc(x.notes || "—")}</td>
-        <td><button class="icon-btn" onclick="deleteWeight('${x.id}')">×</button></td>
-      </tr>`).join("")}</tbody>
-    </table></div>` : '<div class="empty">Todavía no hay registros de peso.</div>';
-}
-
-function bindDynamicButtons() {
-  document.querySelectorAll("[data-open-modal]").forEach(btn => {
-    if (!btn.dataset.bound) {
-      btn.dataset.bound = "1";
-      btn.addEventListener("click", () => openModal(btn.dataset.openModal));
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
     }
-  });
-}
 
-function renderAll() {
-  document.getElementById("topDate").textContent = formatDate(today());
-  renderDashboard();
-  renderFood();
-  renderSupplements();
-  renderTraining();
-  renderProgress();
-  loadSettingsForm();
-}
+    function getTodayString() {
+      const today = new Date();
 
-/* =========================================================
-   INICIO
-========================================================= */
-renderAll();
-</script>
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    function getDateObject(dateString) {
+      const [year, month, day] = dateString.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    function formatLongDate(dateString) {
+      const date = getDateObject(dateString);
+
+      const weekday = weekdayNames[date.getDay()];
+      const day = date.getDate();
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+
+      return `${capitalize(weekday)}, ${day} de ${month} de ${year}`;
+    }
+
+    function formatShortDate(dateString) {
+      const date = getDateObject(dateString);
+
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+
+      return `${day}/${month}/${year}`;
+    }
+
+    function capitalize(text) {
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function getCurrentDay() {
+      if (!appData.days[selectedDate]) {
+        appData.days[selectedDate] = {
+          gym: null,
+          workout: "",
+          gymTime: "",
+          creatine: null,
+          weight: "",
+          calorieEntries: []
+        };
+      }
+
+      return appData.days[selectedDate];
+    }
+
+    function changeDateByDays(amount) {
+      const date = getDateObject(selectedDate);
+      date.setDate(date.getDate() + amount);
+
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      selectedDate = `${year}-${month}-${day}`;
+
+      document.getElementById("globalDatePicker").value = selectedDate;
+
+      renderAll();
+    }
+
+    function setSelectedDate(date) {
+      if (!date) return;
+
+      selectedDate = date;
+      renderAll();
+    }
+
+    function showNotification(message) {
+      const notification = document.getElementById("notification");
+
+      notification.textContent = message;
+      notification.classList.add("show");
+
+      setTimeout(() => {
+        notification.classList.remove("show");
+      }, 2200);
+    }
+
+    function getDayCalories(day) {
+      if (!day || !Array.isArray(day.calorieEntries)) {
+        return 0;
+      }
+
+      return day.calorieEntries.reduce((total, entry) => {
+        return total + Number(entry.calories || 0);
+      }, 0);
+    }
+
+    function getCalorieGoalForDay() {
+      return Number(appData.settings.calorieGoal || 0);
+    }
+
+    function setToggle(elementId, selected) {
+      const element = document.getElementById(elementId);
+
+      if (selected) {
+        element.classList.add("selected");
+      } else {
+        element.classList.remove("selected");
+      }
+    }
+
+    function renderDateHeaders() {
+      document.getElementById("selectedDayTitle").textContent =
+        formatLongDate(selectedDate);
+
+      document.getElementById("selectedDayDate").textContent =
+        formatShortDate(selectedDate);
+
+      document.getElementById("caloriesDayTitle").textContent =
+        formatLongDate(selectedDate);
+
+      document.getElementById("caloriesDayDate").textContent =
+        formatShortDate(selectedDate);
+
+      document.getElementById("globalDatePicker").value = selectedDate;
+    }
+
+    function renderDayView() {
+      const day = getCurrentDay();
+
+      setToggle("gymYes", day.gym === true);
+      setToggle("gymNo", day.gym === false);
+
+      setToggle("creatineYes", day.creatine === true);
+      setToggle("creatineNo", day.creatine === false);
+
+      document.getElementById("workoutType").value = day.workout || "";
+      document.getElementById("gymTime").value = day.gymTime || "";
+      document.getElementById("dayWeight").value = day.weight || "";
+
+      const gymDetails = document.getElementById("gymDetails");
+
+      if (day.gym === true) {
+        gymDetails.style.display = "block";
+      } else {
+        gymDetails.style.display = "none";
+      }
+
+      document.getElementById("summaryGym").textContent =
+        day.gym === true ? "Sí" : day.gym === false ? "No" : "—";
+
+      document.getElementById("summaryWorkout").textContent =
+        day.gym === true && day.workout ? day.workout : "—";
+
+      document.getElementById("summaryCreatine").textContent =
+        day.creatine === true ? "Sí" : day.creatine === false ? "No" : "—";
+
+      document.getElementById("summaryWeight").textContent =
+        day.weight ? `${day.weight} kg` : "—";
+
+      const consumed = getDayCalories(day);
+      const goal = getCalorieGoalForDay();
+      const remaining = goal - consumed;
+
+      document.getElementById("dayGoalSummary").textContent =
+        `${goal} kcal`;
+
+      document.getElementById("dayConsumedSummary").textContent =
+        `${consumed} kcal`;
+
+      document.getElementById("dayRemainingSummary").textContent =
+        remaining >= 0 ? `${remaining} kcal` : `+${Math.abs(remaining)} kcal`;
+    }
+
+    function renderCaloriesView() {
+      const day = getCurrentDay();
+
+      const goal = getCalorieGoalForDay();
+      const consumed = getDayCalories(day);
+      const remaining = goal - consumed;
+
+      const percentage = goal > 0
+        ? Math.round((consumed / goal) * 100)
+        : 0;
+
+      const visiblePercentage = Math.min(Math.max(consumed / goal, 0), 1);
+      const degrees = visiblePercentage * 360;
+
+      const ring = document.getElementById("calorieRing");
+
+      if (goal <= 0) {
+        ring.style.background =
+          "conic-gradient(#292e38 0deg, #292e38 360deg)";
+      } else if (consumed > goal) {
+        ring.style.background =
+          "conic-gradient(var(--red) 0deg, var(--red) 360deg)";
+      } else {
+        ring.style.background =
+          `conic-gradient(var(--accent) 0deg, var(--accent) ${degrees}deg, #292e38 ${degrees}deg, #292e38 360deg)`;
+      }
+
+      document.getElementById("ringRemaining").textContent =
+        remaining >= 0 ? remaining : `+${Math.abs(remaining)}`;
+
+      document.getElementById("ringPercentage").textContent =
+        consumed > goal
+          ? `${percentage}% · objetivo superado`
+          : `${percentage}% completado`;
+
+      document.getElementById("calorieGoal").textContent = goal;
+      document.getElementById("calorieConsumed").textContent = consumed;
+      document.getElementById("calorieRemaining").textContent =
+        remaining >= 0 ? remaining : `+${Math.abs(remaining)}`;
+
+      document.getElementById("calorieSummaryGoal").textContent =
+        `${goal} kcal`;
+
+      document.getElementById("calorieSummaryConsumed").textContent =
+        `${consumed} kcal`;
+
+      const balanceElement = document.getElementById("calorieSummaryBalance");
+
+      if (remaining >= 0) {
+        balanceElement.textContent = `${remaining} kcal restantes`;
+        balanceElement.className = "stat-box-value green";
+      } else {
+        balanceElement.textContent = `+${Math.abs(remaining)} kcal`;
+        balanceElement.className = "stat-box-value red";
+      }
+
+      renderCalorieEntries(day);
+    }
+
+    function renderCalorieEntries(day) {
+      const container = document.getElementById("calorieEntries");
+      container.innerHTML = "";
+
+      if (!day.calorieEntries || day.calorieEntries.length === 0) {
+        container.innerHTML = `
+          <div class="empty">
+            Todavía no has registrado kcal en este día.
+          </div>
+        `;
+        return;
+      }
+
+      day.calorieEntries.forEach((entry, index) => {
+        const element = document.createElement("div");
+        element.className = "entry";
+
+        element.innerHTML = `
+          <div>
+            <div class="entry-name">${escapeHtml(entry.name)}</div>
+            <div class="entry-info">Registro del día seleccionado</div>
+          </div>
+
+          <div class="entry-right">
+            <div class="entry-calories">${entry.calories} kcal</div>
+            <button class="delete-entry" data-index="${index}" title="Eliminar">
+              ×
+            </button>
+          </div>
+        `;
+
+        container.appendChild(element);
+      });
+
+      document.querySelectorAll(".delete-entry").forEach(button => {
+        button.addEventListener("click", () => {
+          const index = Number(button.dataset.index);
+
+          day.calorieEntries.splice(index, 1);
+          saveData();
+          renderAll();
+
+          showNotification("Registro eliminado");
+        });
+      });
+    }
+
+    function renderStatistics() {
+      const days = Object.values(appData.days);
+
+      const totalDays = days.length;
+
+      const gymDays = days.filter(day => day.gym === true).length;
+      const restDays = days.filter(day => day.gym === false).length;
+      const creatineDays = days.filter(day => day.creatine === true).length;
+
+      const chestDays = days.filter(day =>
+        day.gym === true && day.workout === "Pecho"
+      ).length;
+
+      const backDays = days.filter(day =>
+        day.gym === true && day.workout === "Espalda"
+      ).length;
+
+      const legDays = days.filter(day =>
+        day.gym === true && day.workout === "Pierna"
+      ).length;
+
+      const otherWorkoutDays = days.filter(day =>
+        day.gym === true &&
+        ["Pecho", "Espalda", "Pierna"].indexOf(day.workout) === -1
+      ).length;
+
+      const percentage = value => {
+        if (totalDays === 0) return 0;
+        return Math.round((value / totalDays) * 100);
+      };
+
+      document.getElementById("totalDaysStat").textContent = totalDays;
+      document.getElementById("gymDaysStat").textContent = gymDays;
+      document.getElementById("restDaysStat").textContent = restDays;
+      document.getElementById("creatineDaysStat").textContent = creatineDays;
+
+      const gymPct = percentage(gymDays);
+      const restPct = percentage(restDays);
+      const creatinePct = percentage(creatineDays);
+
+      document.getElementById("gymPercentage").textContent = `${gymPct} %`;
+      document.getElementById("restPercentage").textContent = `${restPct} %`;
+      document.getElementById("creatinePercentage").textContent = `${creatinePct} %`;
+
+      document.getElementById("gymProgress").style.width = `${gymPct}%`;
+      document.getElementById("restProgress").style.width = `${restPct}%`;
+      document.getElementById("creatineProgress").style.width = `${creatinePct}%`;
+
+      const trainedDays = gymDays || 1;
+
+      const chestPct = Math.round((chestDays / trainedDays) * 100);
+      const backPct = Math.round((backDays / trainedDays) * 100);
+      const legPct = Math.round((legDays / trainedDays) * 100);
+      const otherPct = Math.round((otherWorkoutDays / trainedDays) * 100);
+
+      document.getElementById("chestPercentage").textContent = `${chestPct} %`;
+      document.getElementById("backPercentage").textContent = `${backPct} %`;
+      document.getElementById("legPercentage").textContent = `${legPct} %`;
+      document.getElementById("otherPercentage").textContent = `${otherPct} %`;
+
+      document.getElementById("chestProgress").style.width = `${chestPct}%`;
+      document.getElementById("backProgress").style.width = `${backPct}%`;
+      document.getElementById("legProgress").style.width = `${legPct}%`;
+      document.getElementById("otherProgress").style.width = `${otherPct}%`;
+
+      const calorieValues = days
+        .map(day => getDayCalories(day))
+        .filter(value => value > 0);
+
+      const averageCalories = calorieValues.length
+        ? Math.round(
+            calorieValues.reduce((sum, value) => sum + value, 0) /
+            calorieValues.length
+          )
+        : 0;
+
+      const weightValues = days
+        .map(day => Number(day.weight))
+        .filter(value => value > 0);
+
+      const averageWeight = weightValues.length
+        ? (
+            weightValues.reduce((sum, value) => sum + value, 0) /
+            weightValues.length
+          ).toFixed(1)
+        : null;
+
+      document.getElementById("averageCaloriesStat").textContent =
+        averageCalories ? `${averageCalories} kcal` : "—";
+
+      document.getElementById("averageWeightStat").textContent =
+        averageWeight ? `${averageWeight} kg` : "—";
+
+      const workoutCounts = {};
+
+      days.forEach(day => {
+        if (day.gym === true && day.workout) {
+          workoutCounts[day.workout] =
+            (workoutCounts[day.workout] || 0) + 1;
+        }
+      });
+
+      let mostFrequentWorkout = "—";
+      let highestCount = 0;
+
+      Object.entries(workoutCounts).forEach(([workout, count]) => {
+        if (count > highestCount) {
+          highestCount = count;
+          mostFrequentWorkout = workout;
+        }
+      });
+
+      document.getElementById("mostFrequentWorkout").textContent =
+        mostFrequentWorkout;
+    }
+
+    function renderSettings() {
+      const settings = appData.settings;
+
+      document.getElementById("userAge").value = settings.age || "";
+      document.getElementById("userSex").value = settings.sex || "male";
+      document.getElementById("userWeight").value = settings.weight || "";
+      document.getElementById("userHeight").value = settings.height || "";
+      document.getElementById("trainingDays").value = settings.trainingDays ?? "";
+      document.getElementById("activityLevel").value = settings.activityLevel || 1.5;
+      document.getElementById("dailyCalorieGoal").value = settings.calorieGoal || "";
+
+      calculateCalories(false);
+    }
+
+    function calculateCalories(showMessage = true) {
+      const age = Number(document.getElementById("userAge").value);
+      const sex = document.getElementById("userSex").value;
+      const weight = Number(document.getElementById("userWeight").value);
+      const height = Number(document.getElementById("userHeight").value);
+      const activity = Number(document.getElementById("activityLevel").value);
+
+      if (!age || !weight || !height) {
+        document.getElementById("calculatedCalories").textContent =
+          "Introduce tus datos";
+        return;
+      }
+
+      let bmr;
+
+      if (sex === "male") {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+      } else {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+      }
+
+      const estimatedCalories = Math.round(bmr * activity);
+
+      document.getElementById("calculatedCalories").textContent =
+        `${estimatedCalories} kcal/día`;
+
+      if (
+        !document.getElementById("dailyCalorieGoal").value ||
+        showMessage
+      ) {
+        document.getElementById("dailyCalorieGoal").value =
+          estimatedCalories;
+      }
+
+      if (showMessage) {
+        showNotification("Estimación calculada");
+      }
+    }
+
+    function saveSettings() {
+      appData.settings.age =
+        Number(document.getElementById("userAge").value) || 0;
+
+      appData.settings.sex =
+        document.getElementById("userSex").value;
+
+      appData.settings.weight =
+        Number(document.getElementById("userWeight").value) || 0;
+
+      appData.settings.height =
+        Number(document.getElementById("userHeight").value) || 0;
+
+      appData.settings.trainingDays =
+        Number(document.getElementById("trainingDays").value) || 0;
+
+      appData.settings.activityLevel =
+        Number(document.getElementById("activityLevel").value) || 1.5;
+
+      appData.settings.calorieGoal =
+        Number(document.getElementById("dailyCalorieGoal").value) || 0;
+
+      saveData();
+      renderAll();
+
+      showNotification("Configuración guardada");
+    }
+
+    function saveGymData() {
+      const day = getCurrentDay();
+
+      day.gym = document
+        .getElementById("gymYes")
+        .classList.contains("selected");
+
+      if (!day.gym) {
+        day.gym = false;
+        day.workout = "";
+        day.gymTime = "";
+      } else {
+        day.workout = document.getElementById("workoutType").value;
+        day.gymTime = document.getElementById("gymTime").value;
+      }
+
+      saveData();
+      renderAll();
+
+      showNotification("Actividad guardada");
+    }
+
+    function saveSupplementData() {
+      const day = getCurrentDay();
+
+      if (document.getElementById("creatineYes").classList.contains("selected")) {
+        day.creatine = true;
+      } else if (document.getElementById("creatineNo").classList.contains("selected")) {
+        day.creatine = false;
+      } else {
+        day.creatine = null;
+      }
+
+      day.weight = document.getElementById("dayWeight").value;
+
+      saveData();
+      renderAll();
+
+      showNotification("Datos guardados");
+    }
+
+    function addCalorieEntry() {
+      const nameInput = document.getElementById("calorieEntryName");
+      const valueInput = document.getElementById("calorieEntryValue");
+
+      const name = nameInput.value.trim();
+      const calories = Number(valueInput.value);
+
+      if (!name) {
+        showNotification("Escribe el nombre del registro");
+        return;
+      }
+
+      if (!calories || calories < 0) {
+        showNotification("Introduce unas kcal válidas");
+        return;
+      }
+
+      const day = getCurrentDay();
+
+      day.calorieEntries.push({
+        name,
+        calories
+      });
+
+      saveData();
+
+      nameInput.value = "";
+      valueInput.value = "";
+
+      renderAll();
+
+      showNotification("Kcal añadidas");
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function showView(viewName) {
+      document.querySelectorAll(".view").forEach(view => {
+        view.classList.remove("active");
+      });
+
+      document.getElementById(`view-${viewName}`).classList.add("active");
+
+      document.querySelectorAll(".nav-button").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.view === viewName
+        );
+      });
+
+      const titles = {
+        day: [
+          "Día seleccionado",
+          "Registra y modifica la información de cualquier día."
+        ],
+        calories: [
+          "Mis kcal",
+          "Controla las kcal consumidas y las que te quedan."
+        ],
+        statistics: [
+          "Estadísticas",
+          "Analiza tu constancia y la distribución de tus entrenamientos."
+        ],
+        settings: [
+          "Configuración",
+          "Personaliza tus datos y tu objetivo calórico."
+        ]
+      };
+
+      document.getElementById("pageTitle").textContent = titles[viewName][0];
+      document.getElementById("pageDescription").textContent = titles[viewName][1];
+
+      if (viewName === "statistics") {
+        renderStatistics();
+      }
+
+      if (viewName === "settings") {
+        renderSettings();
+      }
+    }
+
+    function renderAll() {
+      renderDateHeaders();
+      renderDayView();
+      renderCaloriesView();
+      renderStatistics();
+      renderSettings();
+    }
+
+    // Navegación lateral
+
+    document.querySelectorAll(".nav-button").forEach(button => {
+      button.addEventListener("click", () => {
+        showView(button.dataset.view);
+      });
+    });
+
+    // Selector de fecha
+
+    document.getElementById("globalDatePicker").addEventListener("change", event => {
+      setSelectedDate(event.target.value);
+    });
+
+    // Navegación de días
+
+    document.getElementById("previousDay").addEventListener("click", () => {
+      changeDateByDays(-1);
+    });
+
+    document.getElementById("nextDay").addEventListener("click", () => {
+      changeDateByDays(1);
+    });
+
+    document.getElementById("previousDayCalories").addEventListener("click", () => {
+      changeDateByDays(-1);
+    });
+
+    document.getElementById("nextDayCalories").addEventListener("click", () => {
+      changeDateByDays(1);
+    });
+
+    // Selección de gimnasio
+
+    document.getElementById("gymYes").addEventListener("click", () => {
+      setToggle("gymYes", true);
+      setToggle("gymNo", false);
+      document.getElementById("gymDetails").style.display = "block";
+    });
+
+    document.getElementById("gymNo").addEventListener("click", () => {
+      setToggle("gymYes", false);
+      setToggle("gymNo", true);
+      document.getElementById("gymDetails").style.display = "none";
+    });
+
+    // Selección de creatina
+
+    document.getElementById("creatineYes").addEventListener("click", () => {
+      setToggle("creatineYes", true);
+      setToggle("creatineNo", false);
+    });
+
+    document.getElementById("creatineNo").addEventListener("click", () => {
+      setToggle("creatineYes", false);
+      setToggle("creatineNo", true);
+    });
+
+    // Guardados
+
+    document.getElementById("saveGymData").addEventListener("click", saveGymData);
+    document.getElementById("saveSupplementData").addEventListener("click", saveSupplementData);
+
+    // Kcal
+
+    document.getElementById("addCalorieEntry").addEventListener("click", addCalorieEntry);
+
+    document.getElementById("calorieEntryValue").addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        addCalorieEntry();
+      }
+    });
+
+    // Configuración
+
+    document.getElementById("calculateCaloriesButton").addEventListener("click", () => {
+      calculateCalories(true);
+    });
+
+    document.getElementById("saveSettingsButton").addEventListener("click", saveSettings);
+
+    // Exportar datos
+
+    document.getElementById("exportDataButton").addEventListener("click", () => {
+      const dataString = JSON.stringify(appData, null, 2);
+      const blob = new Blob([dataString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "vanta-fitness-backup.json";
+      link.click();
+
+      URL.revokeObjectURL(url);
+
+      showNotification("Datos exportados");
+    });
+
+    // Borrar datos
+
+    document.getElementById("resetDataButton").addEventListener("click", () => {
+      const confirmed = confirm(
+        "¿Seguro que quieres borrar todos los registros? Esta acción no se puede deshacer."
+      );
+
+      if (!confirmed) return;
+
+      appData = structuredClone(defaultData);
+      saveData();
+      renderAll();
+
+      showNotification("Todos los datos han sido borrados");
+    });
+
+    // Inicio
+
+    document.getElementById("globalDatePicker").value = selectedDate;
+    renderAll();
+  </script>
 </body>
 </html>
