@@ -23,21 +23,123 @@
       --radius: 18px;
     }
 
-    /* TEMAS */
+    /* TEMAS — colección premium/exótica */
 
     body.theme-blue {
-      --accent: #55a7ff;
-      --accent-2: #318df0;
+      --bg: #06111c;
+      --panel: #0b1927;
+      --panel-2: #102436;
+      --panel-3: #16334a;
+      --border: rgba(85,167,255,0.18);
+      --accent: #55d8ff;
+      --accent-2: #2498ff;
+      --blue: #72b9ff;
     }
 
     body.theme-purple {
-      --accent: #b276ff;
-      --accent-2: #914ee8;
+      --bg: #0c0716;
+      --panel: #160d24;
+      --panel-2: #211334;
+      --panel-3: #301b49;
+      --border: rgba(178,118,255,0.20);
+      --accent: #c78cff;
+      --accent-2: #9a4dff;
+      --blue: #8db7ff;
     }
 
     body.theme-red {
+      --bg: #16080b;
+      --panel: #220e13;
+      --panel-2: #301319;
+      --panel-3: #451a23;
+      --border: rgba(255,101,117,0.20);
       --accent: #ff6575;
-      --accent-2: #ed3f52;
+      --accent-2: #ff334e;
+      --blue: #ff9da8;
+    }
+
+    body.theme-cyber {
+      --bg: #05070d;
+      --panel: #0b0f1c;
+      --panel-2: #11182a;
+      --panel-3: #18233b;
+      --border: rgba(0,245,212,0.22);
+      --accent: #00f5d4;
+      --accent-2: #00c9ad;
+      --blue: #7b8cff;
+      --orange: #ff9f43;
+    }
+
+    body.theme-aurora {
+      --bg: #06100f;
+      --panel: #0b1b19;
+      --panel-2: #102622;
+      --panel-3: #17352f;
+      --border: rgba(98,255,184,0.20);
+      --accent: #62ffb8;
+      --accent-2: #25d995;
+      --blue: #66d9ff;
+      --purple: #bd8cff;
+    }
+
+    body.theme-plasma {
+      --bg: #100611;
+      --panel: #1b0a1e;
+      --panel-2: #28102c;
+      --panel-3: #3b1640;
+      --border: rgba(255,79,216,0.22);
+      --accent: #ff4fd8;
+      --accent-2: #d92bb4;
+      --blue: #8d9cff;
+      --orange: #ff9b5e;
+    }
+
+    body.theme-sakura {
+      --bg: #12090f;
+      --panel: #1d0e17;
+      --panel-2: #2b1420;
+      --panel-3: #3d1c2b;
+      --border: rgba(255,157,210,0.22);
+      --accent: #ff9dd2;
+      --accent-2: #ff6fba;
+      --blue: #9ed9ff;
+      --green: #7ff0bd;
+    }
+
+    body.theme-arctic {
+      --bg: #071017;
+      --panel: #0d1a23;
+      --panel-2: #132630;
+      --panel-3: #1c3642;
+      --border: rgba(139,239,255,0.20);
+      --accent: #8befff;
+      --accent-2: #4acfe8;
+      --blue: #72b8ff;
+      --green: #77f2c1;
+    }
+
+    body.theme-inferno {
+      --bg: #120703;
+      --panel: #1e0c06;
+      --panel-2: #2d1208;
+      --panel-3: #421b0c;
+      --border: rgba(255,157,61,0.22);
+      --accent: #ff9d3d;
+      --accent-2: #ff5c1a;
+      --blue: #7fc9ff;
+      --red: #ff6575;
+    }
+
+    body.theme-royal {
+      --bg: #080714;
+      --panel: #100e20;
+      --panel-2: #181530;
+      --panel-3: #241e43;
+      --border: rgba(154,137,255,0.22);
+      --accent: #9f8cff;
+      --accent-2: #725cff;
+      --blue: #62d8ff;
+      --orange: #ffbf69;
     }
 
     * {
@@ -132,6 +234,40 @@
       color: #555d6b;
       font-size: 11px;
       line-height: 1.6;
+    }
+
+    .creator-credit {
+      margin-top: 7px;
+      color: var(--muted);
+    }
+
+    .creator-credit strong {
+      color: var(--text);
+    }
+
+    .instagram-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 8px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .instagram-link:hover {
+      color: var(--accent);
+    }
+
+    .instagram-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid currentColor;
+      border-radius: 5px;
+      font-size: 13px;
+      line-height: 1;
     }
 
     /* MAIN */
@@ -719,50 +855,127 @@
     .theme-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
+      gap: 12px;
     }
 
     .theme-option {
+      position: relative;
+      overflow: hidden;
+      min-height: 112px;
       border: 1px solid var(--border);
-      background: var(--panel-2);
+      background: linear-gradient(145deg, var(--panel-2), var(--panel));
       color: var(--text);
-      border-radius: 12px;
+      border-radius: 15px;
       padding: 15px;
       cursor: pointer;
-      text-align: center;
-      transition: 0.2s;
+      text-align: left;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .theme-option::after {
+      content: "";
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      right: -35px;
+      bottom: -45px;
+      border-radius: 50%;
+      background: var(--theme-glow, var(--accent));
+      opacity: 0.14;
+      filter: blur(4px);
+      pointer-events: none;
     }
 
     .theme-option:hover {
-      background: var(--panel-3);
+      transform: translateY(-2px);
+      border-color: color-mix(in srgb, var(--theme-glow, var(--accent)) 55%, white 0%);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.22);
     }
 
     .theme-option.active {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px var(--accent);
+      border-color: var(--theme-glow, var(--accent));
+      box-shadow: 0 0 0 1px var(--theme-glow, var(--accent)), 0 10px 28px rgba(0,0,0,0.25);
+    }
+
+    .theme-option.active::before {
+      content: "✓";
+      position: absolute;
+      top: 10px;
+      right: 11px;
+      width: 23px;
+      height: 23px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--theme-glow, var(--accent));
+      color: #08090c;
+      font-size: 13px;
+      font-weight: 900;
+      z-index: 2;
     }
 
     .theme-color {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      margin: 0 auto 9px;
+      width: 100%;
+      height: 38px;
+      border-radius: 10px;
+      margin: 0 0 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
     }
 
     .theme-vanta {
-      background: #a7f542;
+      --theme-glow: #a7f542;
+      background: linear-gradient(120deg, #a7f542, #4fd17b, #0b1410);
     }
 
     .theme-blue {
-      background: #55a7ff;
+      --theme-glow: #55d8ff;
+      background: linear-gradient(120deg, #55d8ff, #247cff, #091522);
     }
 
     .theme-purple {
-      background: #b276ff;
+      --theme-glow: #c78cff;
+      background: linear-gradient(120deg, #c78cff, #7040ff, #120b20);
     }
 
     .theme-red {
-      background: #ff6575;
+      --theme-glow: #ff6575;
+      background: linear-gradient(120deg, #ff6575, #ff334e, #1a080d);
+    }
+
+    .theme-cyber {
+      --theme-glow: #00f5d4;
+      background: linear-gradient(120deg, #00f5d4, #7b61ff, #05070d);
+    }
+
+    .theme-aurora {
+      --theme-glow: #62ffb8;
+      background: linear-gradient(120deg, #62ffb8, #66d9ff, #10251f);
+    }
+
+    .theme-plasma {
+      --theme-glow: #ff4fd8;
+      background: linear-gradient(120deg, #ff4fd8, #8d6bff, #18091d);
+    }
+
+    .theme-sakura {
+      --theme-glow: #ff9dd2;
+      background: linear-gradient(120deg, #ff9dd2, #ff6fba, #170a11);
+    }
+
+    .theme-arctic {
+      --theme-glow: #8befff;
+      background: linear-gradient(120deg, #8befff, #4acfe8, #08151c);
+    }
+
+    .theme-inferno {
+      --theme-glow: #ff9d3d;
+      background: linear-gradient(120deg, #ffcf66, #ff5c1a, #170803);
+    }
+
+    .theme-royal {
+      --theme-glow: #9f8cff;
+      background: linear-gradient(120deg, #9f8cff, #725cff, #0a0817);
     }
 
     /* NOTIFICATION */
@@ -801,7 +1014,7 @@
       }
 
       .theme-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
@@ -915,7 +1128,16 @@
       </nav>
 
       <div class="sidebar-footer">
-        Todos tus datos se guardan localmente en este navegador.
+        <div>Todos tus datos se guardan localmente en este navegador.</div>
+        <div class="creator-credit">Creado por <strong>Mario Espada</strong></div>
+        <a class="instagram-link"
+           href="https://www.instagram.com/mariioo.esp/?hl=es"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Instagram de Mario Espada">
+          <span class="instagram-icon" aria-hidden="true">◎</span>
+          <span>@mariioo.esp</span>
+        </a>
       </div>
     </aside>
 
@@ -1531,31 +1753,71 @@
           </div>
 
           <div class="theme-grid">
-
             <div class="theme-option" data-theme="vanta">
               <div class="theme-color theme-vanta"></div>
               <strong>VANTA</strong>
-              <div class="small muted">Verde</div>
+              <div class="small muted">Lime Core</div>
             </div>
 
             <div class="theme-option" data-theme="blue">
               <div class="theme-color theme-blue"></div>
-              <strong>Ocean</strong>
-              <div class="small muted">Azul</div>
+              <strong>Oceanic</strong>
+              <div class="small muted">Deep Blue</div>
             </div>
 
             <div class="theme-option" data-theme="purple">
               <div class="theme-color theme-purple"></div>
-              <strong>Neon</strong>
-              <div class="small muted">Morado</div>
+              <strong>Void</strong>
+              <div class="small muted">Electric Violet</div>
             </div>
 
             <div class="theme-option" data-theme="red">
               <div class="theme-color theme-red"></div>
               <strong>Crimson</strong>
-              <div class="small muted">Rojo</div>
+              <div class="small muted">Dark Red</div>
             </div>
 
+            <div class="theme-option" data-theme="cyber">
+              <div class="theme-color theme-cyber"></div>
+              <strong>Cyber Pulse</strong>
+              <div class="small muted">Teal + UV</div>
+            </div>
+
+            <div class="theme-option" data-theme="aurora">
+              <div class="theme-color theme-aurora"></div>
+              <strong>Aurora</strong>
+              <div class="small muted">Mint Spectrum</div>
+            </div>
+
+            <div class="theme-option" data-theme="plasma">
+              <div class="theme-color theme-plasma"></div>
+              <strong>Plasma</strong>
+              <div class="small muted">Magenta Energy</div>
+            </div>
+
+            <div class="theme-option" data-theme="sakura">
+              <div class="theme-color theme-sakura"></div>
+              <strong>Sakura</strong>
+              <div class="small muted">Neon Rose</div>
+            </div>
+
+            <div class="theme-option" data-theme="arctic">
+              <div class="theme-color theme-arctic"></div>
+              <strong>Arctic</strong>
+              <div class="small muted">Ice Cyan</div>
+            </div>
+
+            <div class="theme-option" data-theme="inferno">
+              <div class="theme-color theme-inferno"></div>
+              <strong>Inferno</strong>
+              <div class="small muted">Molten Orange</div>
+            </div>
+
+            <div class="theme-option" data-theme="royal">
+              <div class="theme-color theme-royal"></div>
+              <strong>Royal</strong>
+              <div class="small muted">Sapphire Violet</div>
+            </div>
           </div>
 
         </div>
@@ -1567,7 +1829,7 @@
           <div class="card-title">Gestión de datos</div>
 
           <div class="card-subtitle">
-            Puedes exportar una copia de tus registros o borrar todos los datos.
+            Exporta una copia completa y segura de tus registros para guardarla o importarla en otro dispositivo.
           </div>
 
           <div class="button-row">
@@ -1575,6 +1837,17 @@
             <button class="button" id="exportDataButton">
               Exportar datos
             </button>
+
+            <button class="button" id="importDataButton">
+              Importar datos
+            </button>
+
+            <input
+              type="file"
+              id="importDataInput"
+              accept=".json,application/json"
+              hidden
+            />
 
             <button class="button danger" id="resetDataButton">
               Borrar todos los datos
@@ -2820,29 +3093,44 @@
     /* TEMAS */
 
     function applyTheme(theme) {
+      const supportedThemes = [
+        "vanta",
+        "blue",
+        "purple",
+        "red",
+        "cyber",
+        "aurora",
+        "plasma",
+        "sakura",
+        "arctic",
+        "inferno",
+        "royal"
+      ];
+
+      const safeTheme = supportedThemes.includes(theme)
+        ? theme
+        : "vanta";
 
       document.body.classList.remove(
         "theme-blue",
         "theme-purple",
-        "theme-red"
+        "theme-red",
+        "theme-cyber",
+        "theme-aurora",
+        "theme-plasma",
+        "theme-sakura",
+        "theme-arctic",
+        "theme-inferno",
+        "theme-royal"
       );
 
-      if (theme === "blue") {
-        document.body.classList.add("theme-blue");
+      if (safeTheme !== "vanta") {
+        document.body.classList.add(`theme-${safeTheme}`);
       }
 
-      if (theme === "purple") {
-        document.body.classList.add("theme-purple");
-      }
-
-      if (theme === "red") {
-        document.body.classList.add("theme-red");
-      }
-
-      appData.settings.theme = theme;
+      appData.settings.theme = safeTheme;
 
       saveData();
-
       renderThemeOptions();
     }
 
@@ -3175,16 +3463,24 @@
       });
 
     /* EXPORTAR */
-
     document
       .getElementById("exportDataButton")
       .addEventListener(
         "click",
         () => {
+          const exportPayload = {
+            ...appData,
+            exportInfo: {
+              app: "VANTA FITNESS TRACKER",
+              format: "vanta-fitness-backup",
+              version: 1,
+              exportedAt: new Date().toISOString()
+            }
+          };
 
           const dataString =
             JSON.stringify(
-              appData,
+              exportPayload,
               null,
               2
             );
@@ -3193,7 +3489,7 @@
             new Blob(
               [dataString],
               {
-                type: "application/json"
+                type: "application/json;charset=utf-8"
               }
             );
 
@@ -3203,19 +3499,26 @@
           const link =
             document.createElement("a");
 
+          const stamp =
+            new Date()
+              .toISOString()
+              .slice(0, 10);
+
           link.href = url;
-
           link.download =
-            "vanta-fitness-backup.json";
+            `vanta-fitness-backup-${stamp}.json`;
 
+          document.body.appendChild(link);
           link.click();
+          link.remove();
 
-          URL.revokeObjectURL(url);
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+          }, 1000);
 
           showNotification(
-            "Datos exportados"
+            "Copia de seguridad exportada"
           );
-
         }
       );
 
