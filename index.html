@@ -23,6 +23,23 @@
       --radius: 18px;
     }
 
+    /* TEMAS */
+
+    body.theme-blue {
+      --accent: #55a7ff;
+      --accent-2: #318df0;
+    }
+
+    body.theme-purple {
+      --accent: #b276ff;
+      --accent-2: #914ee8;
+    }
+
+    body.theme-red {
+      --accent: #ff6575;
+      --accent-2: #ed3f52;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -34,6 +51,7 @@
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
       min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
     }
 
     button,
@@ -451,7 +469,7 @@
       font-weight: 700;
     }
 
-    /* CALORIE RING */
+    /* RINGS */
 
     .calorie-card {
       display: flex;
@@ -530,7 +548,7 @@
       margin-top: 5px;
     }
 
-    /* CALORIE ENTRIES */
+    /* ENTRIES */
 
     .entry-form {
       display: grid;
@@ -589,6 +607,13 @@
 
     .entry-calories {
       color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .entry-protein {
+      color: var(--blue);
       font-size: 13px;
       font-weight: 800;
       white-space: nowrap;
@@ -691,6 +716,55 @@
       margin-top: 7px;
     }
 
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .theme-option {
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 15px;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.2s;
+    }
+
+    .theme-option:hover {
+      background: var(--panel-3);
+    }
+
+    .theme-option.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+
+    .theme-color {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin: 0 auto 9px;
+    }
+
+    .theme-vanta {
+      background: #a7f542;
+    }
+
+    .theme-blue {
+      background: #55a7ff;
+    }
+
+    .theme-purple {
+      background: #b276ff;
+    }
+
+    .theme-red {
+      background: #ff6575;
+    }
+
     /* NOTIFICATION */
 
     .notification {
@@ -723,6 +797,10 @@
       }
 
       .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .theme-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
@@ -811,6 +889,10 @@
       .ring-number {
         font-size: 30px;
       }
+
+      .theme-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -827,6 +909,7 @@
       <nav class="nav">
         <button class="nav-button active" data-view="day">📅 Día seleccionado</button>
         <button class="nav-button" data-view="calories">🔥 Mis kcal</button>
+        <button class="nav-button" data-view="protein">🥩 Mi proteína</button>
         <button class="nav-button" data-view="statistics">📊 Estadísticas</button>
         <button class="nav-button" data-view="settings">⚙️ Configuración</button>
       </nav>
@@ -968,23 +1051,40 @@
         <div class="card section-space">
           <div class="card-title">Resumen del día</div>
           <div class="card-subtitle">
-            También puedes consultar y modificar las kcal de esta fecha desde el apartado “Mis kcal”.
+            Consulta rápidamente tus objetivos y consumos del día seleccionado.
           </div>
 
-          <div class="grid grid-3">
+          <div class="grid grid-4">
             <div class="stat-box">
               <div class="stat-box-label">Objetivo de kcal</div>
-              <div class="stat-box-value accent" id="dayGoalSummary">0</div>
+              <div class="stat-box-value accent" id="dayGoalSummary">0 kcal</div>
             </div>
 
             <div class="stat-box">
               <div class="stat-box-label">Kcal consumidas</div>
-              <div class="stat-box-value blue" id="dayConsumedSummary">0</div>
+              <div class="stat-box-value blue" id="dayConsumedSummary">0 kcal</div>
             </div>
 
             <div class="stat-box">
+              <div class="stat-box-label">Proteína objetivo</div>
+              <div class="stat-box-value accent" id="dayProteinGoalSummary">0 g</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Proteína consumida</div>
+              <div class="stat-box-value blue" id="dayProteinConsumedSummary">0 g</div>
+            </div>
+          </div>
+
+          <div class="grid grid-2 section-space">
+            <div class="stat-box">
               <div class="stat-box-label">Kcal restantes</div>
-              <div class="stat-box-value green" id="dayRemainingSummary">0</div>
+              <div class="stat-box-value green" id="dayRemainingSummary">0 kcal</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Proteína restante</div>
+              <div class="stat-box-value green" id="dayProteinRemainingSummary">0 g</div>
             </div>
           </div>
         </div>
@@ -1075,6 +1175,96 @@
             <div class="stat-box">
               <div class="stat-box-label">Balance</div>
               <div class="stat-box-value" id="calorieSummaryBalance">0 kcal</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- VISTA DE PROTEÍNA -->
+
+      <section class="view" id="view-protein">
+
+        <div class="day-navigation">
+          <button class="day-arrow" id="previousDayProtein">←</button>
+
+          <div class="day-navigation-center">
+            <div class="day-navigation-title" id="proteinDayTitle">
+              Miércoles, 17 de septiembre
+            </div>
+            <div class="day-navigation-date" id="proteinDayDate">
+              17/09/2026
+            </div>
+          </div>
+
+          <button class="day-arrow" id="nextDayProtein">→</button>
+        </div>
+
+        <div class="grid grid-2">
+
+          <div class="card calorie-card">
+            <div class="card-title">Balance de proteína diario</div>
+
+            <div class="ring" id="proteinRing">
+              <div class="ring-content">
+                <div class="ring-number" id="proteinRingRemaining">0</div>
+                <div class="ring-label">g restantes</div>
+                <div class="ring-extra" id="proteinRingPercentage">0 % completado</div>
+              </div>
+            </div>
+
+            <div class="calorie-stats">
+              <div>
+                <div class="calorie-stat-value accent" id="proteinGoal">0</div>
+                <div class="calorie-stat-label">Objetivo</div>
+              </div>
+
+              <div>
+                <div class="calorie-stat-value blue" id="proteinConsumed">0</div>
+                <div class="calorie-stat-label">Consumidos</div>
+              </div>
+
+              <div>
+                <div class="calorie-stat-value green" id="proteinRemaining">0</div>
+                <div class="calorie-stat-label">Restantes</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Añadir proteína</div>
+            <div class="card-subtitle">
+              Registra los alimentos o batidos y los gramos de proteína que has consumido.
+            </div>
+
+            <div class="entry-form">
+              <input type="text" id="proteinEntryName" placeholder="Nombre, por ejemplo: Pollo">
+              <input type="number" id="proteinEntryValue" placeholder="Proteína (g)" min="0" step="0.1">
+              <button class="button primary" id="addProteinEntry">Añadir</button>
+            </div>
+
+            <div class="entries" id="proteinEntries"></div>
+          </div>
+
+        </div>
+
+        <div class="card section-space">
+          <div class="card-title">Resumen de proteína</div>
+
+          <div class="grid grid-3">
+            <div class="stat-box">
+              <div class="stat-box-label">Objetivo del día</div>
+              <div class="stat-box-value accent" id="proteinSummaryGoal">0 g</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Total consumido</div>
+              <div class="stat-box-value blue" id="proteinSummaryConsumed">0 g</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-box-label">Balance</div>
+              <div class="stat-box-value" id="proteinSummaryBalance">0 g</div>
             </div>
           </div>
         </div>
@@ -1196,11 +1386,18 @@
 
         </div>
 
-        <div class="grid grid-3 section-space">
+        <div class="grid grid-4 section-space">
+
           <div class="stat-box">
             <div class="stat-box-label">Media de kcal consumidas</div>
             <div class="stat-box-value" id="averageCaloriesStat">0</div>
             <div class="small muted">Solo días con kcal registradas</div>
+          </div>
+
+          <div class="stat-box">
+            <div class="stat-box-label">Media de proteína</div>
+            <div class="stat-box-value blue" id="averageProteinStat">0</div>
+            <div class="small muted">Solo días con proteína registrada</div>
           </div>
 
           <div class="stat-box">
@@ -1213,6 +1410,7 @@
             <div class="stat-box-label">Entrenamiento más frecuente</div>
             <div class="stat-box-value accent" id="mostFrequentWorkout">—</div>
           </div>
+
         </div>
 
       </section>
@@ -1222,12 +1420,15 @@
       <section class="view" id="view-settings">
 
         <div class="card settings-grid">
-          <div class="card-title">Datos personales y cálculo de kcal</div>
+
+          <div class="card-title">Datos personales y cálculo de objetivos</div>
+
           <div class="card-subtitle">
-            Introduce tus datos para obtener una estimación inicial de tus necesidades calóricas.
+            Introduce tus datos para obtener una estimación de tus necesidades calóricas y proteicas.
           </div>
 
           <div class="grid grid-2">
+
             <div class="field">
               <label>Edad</label>
               <input type="number" id="userAge" min="10" max="100" placeholder="Ejemplo: 18">
@@ -1266,6 +1467,7 @@
                 <option value="1.8">Muy activo</option>
               </select>
             </div>
+
           </div>
 
           <div class="calculation-result">
@@ -1281,24 +1483,95 @@
             <input type="number" id="dailyCalorieGoal" min="0" placeholder="Ejemplo: 2800">
           </div>
 
+          <div class="calculation-result">
+            <div class="small muted">Estimación calculada de proteína</div>
+            <strong id="calculatedProtein">Introduce tu peso</strong>
+            <div class="small muted">
+              El cálculo usa tu peso y el factor de proteína seleccionado.
+            </div>
+          </div>
+
+          <div class="field section-space">
+            <label>Proteína objetivo por kg de peso</label>
+            <select id="proteinFactor">
+              <option value="1.6">1,6 g/kg</option>
+              <option value="1.8">1,8 g/kg</option>
+              <option value="2" selected>2,0 g/kg</option>
+              <option value="2.2">2,2 g/kg</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Objetivo diario de proteína que utilizará la aplicación</label>
+            <input type="number" id="dailyProteinGoal" min="0" step="0.1" placeholder="Ejemplo: 160">
+          </div>
+
           <div class="button-row">
+
             <button class="button primary" id="calculateCaloriesButton">
-              Calcular kcal
+              Calcular kcal y proteína
             </button>
 
             <button class="button primary" id="saveSettingsButton">
               Guardar configuración
             </button>
+
           </div>
+
         </div>
 
+        <!-- TEMAS -->
+
         <div class="card settings-grid section-space">
+
+          <div class="card-title">🎨 Temas</div>
+
+          <div class="card-subtitle">
+            Cambia el color principal de VANTA. El tema elegido se guardará automáticamente.
+          </div>
+
+          <div class="theme-grid">
+
+            <div class="theme-option" data-theme="vanta">
+              <div class="theme-color theme-vanta"></div>
+              <strong>VANTA</strong>
+              <div class="small muted">Verde</div>
+            </div>
+
+            <div class="theme-option" data-theme="blue">
+              <div class="theme-color theme-blue"></div>
+              <strong>Ocean</strong>
+              <div class="small muted">Azul</div>
+            </div>
+
+            <div class="theme-option" data-theme="purple">
+              <div class="theme-color theme-purple"></div>
+              <strong>Neon</strong>
+              <div class="small muted">Morado</div>
+            </div>
+
+            <div class="theme-option" data-theme="red">
+              <div class="theme-color theme-red"></div>
+              <strong>Crimson</strong>
+              <div class="small muted">Rojo</div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- GESTIÓN DE DATOS -->
+
+        <div class="card settings-grid section-space">
+
           <div class="card-title">Gestión de datos</div>
+
           <div class="card-subtitle">
             Puedes exportar una copia de tus registros o borrar todos los datos.
           </div>
 
           <div class="button-row">
+
             <button class="button" id="exportDataButton">
               Exportar datos
             </button>
@@ -1306,7 +1579,9 @@
             <button class="button danger" id="resetDataButton">
               Borrar todos los datos
             </button>
+
           </div>
+
         </div>
 
       </section>
@@ -1319,7 +1594,13 @@
   <script>
     /*
       VANTA FITNESS TRACKER
-      Todos los datos se guardan en localStorage.
+      Versión ampliada con:
+      - Seguimiento de proteína
+      - Cálculo de proteína
+      - Temas
+      - Estadísticas de proteína
+
+      Todos los datos se guardan localmente en localStorage.
     */
 
     const STORAGE_KEY = "vanta_fitness_tracker_v1";
@@ -1332,7 +1613,10 @@
         height: 180,
         trainingDays: 5,
         activityLevel: 1.5,
-        calorieGoal: 2800
+        calorieGoal: 2800,
+        proteinFactor: 2,
+        proteinGoal: 160,
+        theme: "vanta"
       },
       days: {}
     };
@@ -1381,6 +1665,7 @@
             ...defaultData.settings,
             ...(parsed.settings || {})
           },
+
           days: Object.fromEntries(
             Object.entries(parsed.days || {}).filter(([date, day]) =>
               day && (
@@ -1388,11 +1673,13 @@
                 day.creatine !== null ||
                 day.weight !== "" ||
                 day.workout !== "" ||
-                (Array.isArray(day.calorieEntries) && day.calorieEntries.length > 0)
+                (Array.isArray(day.calorieEntries) && day.calorieEntries.length > 0) ||
+                (Array.isArray(day.proteinEntries) && day.proteinEntries.length > 0)
               )
             )
           )
         };
+
       } catch (error) {
         return structuredClone(defaultData);
       }
@@ -1449,7 +1736,8 @@
         gymTime: "",
         creatine: null,
         weight: "",
-        calorieEntries: []
+        calorieEntries: [],
+        proteinEntries: []
       };
     }
 
@@ -1461,8 +1749,17 @@
           gymTime: "",
           creatine: null,
           weight: "",
-          calorieEntries: []
+          calorieEntries: [],
+          proteinEntries: []
         };
+      }
+
+      if (!Array.isArray(appData.days[selectedDate].calorieEntries)) {
+        appData.days[selectedDate].calorieEntries = [];
+      }
+
+      if (!Array.isArray(appData.days[selectedDate].proteinEntries)) {
+        appData.days[selectedDate].proteinEntries = [];
       }
 
       return appData.days[selectedDate];
@@ -1511,8 +1808,22 @@
       }, 0);
     }
 
+    function getDayProtein(day) {
+      if (!day || !Array.isArray(day.proteinEntries)) {
+        return 0;
+      }
+
+      return day.proteinEntries.reduce((total, entry) => {
+        return total + Number(entry.protein || 0);
+      }, 0);
+    }
+
     function getCalorieGoalForDay() {
       return Number(appData.settings.calorieGoal || 0);
+    }
+
+    function getProteinGoalForDay() {
+      return Number(appData.settings.proteinGoal || 0);
     }
 
     function setToggle(elementId, selected) {
@@ -1536,6 +1847,12 @@
         formatLongDate(selectedDate);
 
       document.getElementById("caloriesDayDate").textContent =
+        formatShortDate(selectedDate);
+
+      document.getElementById("proteinDayTitle").textContent =
+        formatLongDate(selectedDate);
+
+      document.getElementById("proteinDayDate").textContent =
         formatShortDate(selectedDate);
 
       document.getElementById("globalDatePicker").value = selectedDate;
@@ -1578,6 +1895,10 @@
       const goal = getCalorieGoalForDay();
       const remaining = goal - consumed;
 
+      const proteinConsumed = getDayProtein(day);
+      const proteinGoal = getProteinGoalForDay();
+      const proteinRemaining = proteinGoal - proteinConsumed;
+
       document.getElementById("dayGoalSummary").textContent =
         `${goal} kcal`;
 
@@ -1585,7 +1906,20 @@
         `${consumed} kcal`;
 
       document.getElementById("dayRemainingSummary").textContent =
-        remaining >= 0 ? `${remaining} kcal` : `+${Math.abs(remaining)} kcal`;
+        remaining >= 0
+          ? `${remaining} kcal`
+          : `+${Math.abs(remaining)} kcal`;
+
+      document.getElementById("dayProteinGoalSummary").textContent =
+        `${formatNumber(proteinGoal)} g`;
+
+      document.getElementById("dayProteinConsumedSummary").textContent =
+        `${formatNumber(proteinConsumed)} g`;
+
+      document.getElementById("dayProteinRemainingSummary").textContent =
+        proteinRemaining >= 0
+          ? `${formatNumber(proteinRemaining)} g`
+          : `+${formatNumber(Math.abs(proteinRemaining))} g`;
     }
 
     function renderCaloriesView() {
@@ -1599,7 +1933,10 @@
         ? Math.round((consumed / goal) * 100)
         : 0;
 
-      const visiblePercentage = Math.min(Math.max(consumed / goal, 0), 1);
+      const visiblePercentage = goal > 0
+        ? Math.min(Math.max(consumed / goal, 0), 1)
+        : 0;
+
       const degrees = visiblePercentage * 360;
 
       const ring = document.getElementById("calorieRing");
@@ -1625,6 +1962,7 @@
 
       document.getElementById("calorieGoal").textContent = goal;
       document.getElementById("calorieConsumed").textContent = consumed;
+
       document.getElementById("calorieRemaining").textContent =
         remaining >= 0 ? remaining : `+${Math.abs(remaining)}`;
 
@@ -1634,21 +1972,30 @@
       document.getElementById("calorieSummaryConsumed").textContent =
         `${consumed} kcal`;
 
-      const balanceElement = document.getElementById("calorieSummaryBalance");
+      const balanceElement =
+        document.getElementById("calorieSummaryBalance");
 
       if (remaining >= 0) {
-        balanceElement.textContent = `${remaining} kcal restantes`;
-        balanceElement.className = "stat-box-value green";
+        balanceElement.textContent =
+          `${remaining} kcal restantes`;
+
+        balanceElement.className =
+          "stat-box-value green";
       } else {
-        balanceElement.textContent = `+${Math.abs(remaining)} kcal`;
-        balanceElement.className = "stat-box-value red";
+        balanceElement.textContent =
+          `+${Math.abs(remaining)} kcal`;
+
+        balanceElement.className =
+          "stat-box-value red";
       }
 
       renderCalorieEntries(day);
     }
 
     function renderCalorieEntries(day) {
-      const container = document.getElementById("calorieEntries");
+      const container =
+        document.getElementById("calorieEntries");
+
       container.innerHTML = "";
 
       if (!day.calorieEntries || day.calorieEntries.length === 0) {
@@ -1657,113 +2004,356 @@
             Todavía no has registrado kcal en este día.
           </div>
         `;
+
         return;
       }
 
       day.calorieEntries.forEach((entry, index) => {
+
         const element = document.createElement("div");
+
         element.className = "entry";
 
         element.innerHTML = `
           <div>
-            <div class="entry-name">${escapeHtml(entry.name)}</div>
-            <div class="entry-info">Registro del día seleccionado</div>
+            <div class="entry-name">
+              ${escapeHtml(entry.name)}
+            </div>
+
+            <div class="entry-info">
+              Registro del día seleccionado
+            </div>
           </div>
 
           <div class="entry-right">
-            <div class="entry-calories">${entry.calories} kcal</div>
-            <button class="delete-entry" data-index="${index}" title="Eliminar">
+
+            <div class="entry-calories">
+              ${entry.calories} kcal
+            </div>
+
+            <button
+              class="delete-entry"
+              data-type="calories"
+              data-index="${index}"
+              title="Eliminar"
+            >
               ×
             </button>
+
           </div>
         `;
 
         container.appendChild(element);
       });
 
-      document.querySelectorAll(".delete-entry").forEach(button => {
-        button.addEventListener("click", () => {
-          const index = Number(button.dataset.index);
+      container
+        .querySelectorAll(".delete-entry")
+        .forEach(button => {
 
-          day.calorieEntries.splice(index, 1);
-          saveData();
-          renderAll();
+          button.addEventListener("click", () => {
 
-          showNotification("Registro eliminado");
+            const index =
+              Number(button.dataset.index);
+
+            day.calorieEntries.splice(index, 1);
+
+            saveData();
+            renderAll();
+
+            showNotification("Registro eliminado");
+          });
+
         });
+    }
+
+    function renderProteinView() {
+      const day = getCurrentDay();
+
+      const goal = getProteinGoalForDay();
+      const consumed = getDayProtein(day);
+      const remaining = goal - consumed;
+
+      const percentage = goal > 0
+        ? Math.round((consumed / goal) * 100)
+        : 0;
+
+      const visiblePercentage = goal > 0
+        ? Math.min(Math.max(consumed / goal, 0), 1)
+        : 0;
+
+      const degrees = visiblePercentage * 360;
+
+      const ring = document.getElementById("proteinRing");
+
+      if (goal <= 0) {
+        ring.style.background =
+          "conic-gradient(#292e38 0deg, #292e38 360deg)";
+      } else if (consumed > goal) {
+        ring.style.background =
+          "conic-gradient(var(--red) 0deg, var(--red) 360deg)";
+      } else {
+        ring.style.background =
+          `conic-gradient(var(--accent) 0deg, var(--accent) ${degrees}deg, #292e38 ${degrees}deg, #292e38 360deg)`;
+      }
+
+      document.getElementById("proteinRingRemaining").textContent =
+        remaining >= 0
+          ? formatNumber(remaining)
+          : `+${formatNumber(Math.abs(remaining))}`;
+
+      document.getElementById("proteinRingPercentage").textContent =
+        consumed > goal
+          ? `${percentage}% · objetivo superado`
+          : `${percentage}% completado`;
+
+      document.getElementById("proteinGoal").textContent =
+        formatNumber(goal);
+
+      document.getElementById("proteinConsumed").textContent =
+        formatNumber(consumed);
+
+      document.getElementById("proteinRemaining").textContent =
+        remaining >= 0
+          ? formatNumber(remaining)
+          : `+${formatNumber(Math.abs(remaining))}`;
+
+      document.getElementById("proteinSummaryGoal").textContent =
+        `${formatNumber(goal)} g`;
+
+      document.getElementById("proteinSummaryConsumed").textContent =
+        `${formatNumber(consumed)} g`;
+
+      const balanceElement =
+        document.getElementById("proteinSummaryBalance");
+
+      if (remaining >= 0) {
+
+        balanceElement.textContent =
+          `${formatNumber(remaining)} g restantes`;
+
+        balanceElement.className =
+          "stat-box-value green";
+
+      } else {
+
+        balanceElement.textContent =
+          `+${formatNumber(Math.abs(remaining))} g`;
+
+        balanceElement.className =
+          "stat-box-value red";
+      }
+
+      renderProteinEntries(day);
+    }
+
+    function renderProteinEntries(day) {
+      const container =
+        document.getElementById("proteinEntries");
+
+      container.innerHTML = "";
+
+      if (!day.proteinEntries || day.proteinEntries.length === 0) {
+
+        container.innerHTML = `
+          <div class="empty">
+            Todavía no has registrado proteína en este día.
+          </div>
+        `;
+
+        return;
+      }
+
+      day.proteinEntries.forEach((entry, index) => {
+
+        const element = document.createElement("div");
+
+        element.className = "entry";
+
+        element.innerHTML = `
+          <div>
+            <div class="entry-name">
+              ${escapeHtml(entry.name)}
+            </div>
+
+            <div class="entry-info">
+              Registro del día seleccionado
+            </div>
+          </div>
+
+          <div class="entry-right">
+
+            <div class="entry-protein">
+              ${formatNumber(entry.protein)} g
+            </div>
+
+            <button
+              class="delete-entry"
+              data-type="protein"
+              data-index="${index}"
+              title="Eliminar"
+            >
+              ×
+            </button>
+
+          </div>
+        `;
+
+        container.appendChild(element);
       });
+
+      container
+        .querySelectorAll(".delete-entry")
+        .forEach(button => {
+
+          button.addEventListener("click", () => {
+
+            const index =
+              Number(button.dataset.index);
+
+            day.proteinEntries.splice(index, 1);
+
+            saveData();
+            renderAll();
+
+            showNotification("Registro de proteína eliminado");
+          });
+
+        });
     }
 
     function renderStatistics() {
+
       const days = Object.values(appData.days).filter(day =>
         day.gym !== null ||
         day.creatine !== null ||
         day.weight !== "" ||
         day.workout !== "" ||
-        (Array.isArray(day.calorieEntries) && day.calorieEntries.length > 0)
+        (Array.isArray(day.calorieEntries) &&
+          day.calorieEntries.length > 0) ||
+        (Array.isArray(day.proteinEntries) &&
+          day.proteinEntries.length > 0)
       );
 
       const totalDays = days.length;
 
-      const gymDays = days.filter(day => day.gym === true).length;
-      const restDays = days.filter(day => day.gym === false).length;
-      const creatineDays = days.filter(day => day.creatine === true).length;
+      const gymDays =
+        days.filter(day => day.gym === true).length;
 
-      const chestDays = days.filter(day =>
-        day.gym === true && day.workout === "Pecho"
-      ).length;
+      const restDays =
+        days.filter(day => day.gym === false).length;
 
-      const backDays = days.filter(day =>
-        day.gym === true && day.workout === "Espalda"
-      ).length;
+      const creatineDays =
+        days.filter(day => day.creatine === true).length;
 
-      const legDays = days.filter(day =>
-        day.gym === true && day.workout === "Pierna"
-      ).length;
+      const chestDays =
+        days.filter(day =>
+          day.gym === true &&
+          day.workout === "Pecho"
+        ).length;
 
-      const otherWorkoutDays = days.filter(day =>
-        day.gym === true &&
-        ["Pecho", "Espalda", "Pierna"].indexOf(day.workout) === -1
-      ).length;
+      const backDays =
+        days.filter(day =>
+          day.gym === true &&
+          day.workout === "Espalda"
+        ).length;
+
+      const legDays =
+        days.filter(day =>
+          day.gym === true &&
+          day.workout === "Pierna"
+        ).length;
+
+      const otherWorkoutDays =
+        days.filter(day =>
+          day.gym === true &&
+          ["Pecho", "Espalda", "Pierna"]
+            .indexOf(day.workout) === -1
+        ).length;
 
       const percentage = value => {
-        if (totalDays === 0) return 0;
-        return Math.round((value / totalDays) * 100);
+
+        if (totalDays === 0) {
+          return 0;
+        }
+
+        return Math.round(
+          (value / totalDays) * 100
+        );
       };
 
-      document.getElementById("totalDaysStat").textContent = totalDays;
-      document.getElementById("gymDaysStat").textContent = gymDays;
-      document.getElementById("restDaysStat").textContent = restDays;
-      document.getElementById("creatineDaysStat").textContent = creatineDays;
+      document.getElementById("totalDaysStat").textContent =
+        totalDays;
+
+      document.getElementById("gymDaysStat").textContent =
+        gymDays;
+
+      document.getElementById("restDaysStat").textContent =
+        restDays;
+
+      document.getElementById("creatineDaysStat").textContent =
+        creatineDays;
 
       const gymPct = percentage(gymDays);
       const restPct = percentage(restDays);
       const creatinePct = percentage(creatineDays);
 
-      document.getElementById("gymPercentage").textContent = `${gymPct} %`;
-      document.getElementById("restPercentage").textContent = `${restPct} %`;
-      document.getElementById("creatinePercentage").textContent = `${creatinePct} %`;
+      document.getElementById("gymPercentage").textContent =
+        `${gymPct} %`;
 
-      document.getElementById("gymProgress").style.width = `${gymPct}%`;
-      document.getElementById("restProgress").style.width = `${restPct}%`;
-      document.getElementById("creatineProgress").style.width = `${creatinePct}%`;
+      document.getElementById("restPercentage").textContent =
+        `${restPct} %`;
+
+      document.getElementById("creatinePercentage").textContent =
+        `${creatinePct} %`;
+
+      document.getElementById("gymProgress").style.width =
+        `${gymPct}%`;
+
+      document.getElementById("restProgress").style.width =
+        `${restPct}%`;
+
+      document.getElementById("creatineProgress").style.width =
+        `${creatinePct}%`;
 
       const trainedDays = gymDays || 1;
 
-      const chestPct = Math.round((chestDays / trainedDays) * 100);
-      const backPct = Math.round((backDays / trainedDays) * 100);
-      const legPct = Math.round((legDays / trainedDays) * 100);
-      const otherPct = Math.round((otherWorkoutDays / trainedDays) * 100);
+      const chestPct =
+        Math.round((chestDays / trainedDays) * 100);
 
-      document.getElementById("chestPercentage").textContent = `${chestPct} %`;
-      document.getElementById("backPercentage").textContent = `${backPct} %`;
-      document.getElementById("legPercentage").textContent = `${legPct} %`;
-      document.getElementById("otherPercentage").textContent = `${otherPct} %`;
+      const backPct =
+        Math.round((backDays / trainedDays) * 100);
 
-      document.getElementById("chestProgress").style.width = `${chestPct}%`;
-      document.getElementById("backProgress").style.width = `${backPct}%`;
-      document.getElementById("legProgress").style.width = `${legPct}%`;
-      document.getElementById("otherProgress").style.width = `${otherPct}%`;
+      const legPct =
+        Math.round((legDays / trainedDays) * 100);
+
+      const otherPct =
+        Math.round((otherWorkoutDays / trainedDays) * 100);
+
+      document.getElementById("chestPercentage").textContent =
+        `${chestPct} %`;
+
+      document.getElementById("backPercentage").textContent =
+        `${backPct} %`;
+
+      document.getElementById("legPercentage").textContent =
+        `${legPct} %`;
+
+      document.getElementById("otherPercentage").textContent =
+        `${otherPct} %`;
+
+      document.getElementById("chestProgress").style.width =
+        `${chestPct}%`;
+
+      document.getElementById("backProgress").style.width =
+        `${backPct}%`;
+
+      document.getElementById("legProgress").style.width =
+        `${legPct}%`;
+
+      document.getElementById("otherProgress").style.width =
+        `${otherPct}%`;
+
+      /* MEDIA KCAL */
 
       const calorieValues = days
         .map(day => getDayCalories(day))
@@ -1771,10 +2361,29 @@
 
       const averageCalories = calorieValues.length
         ? Math.round(
-            calorieValues.reduce((sum, value) => sum + value, 0) /
-            calorieValues.length
+            calorieValues.reduce(
+              (sum, value) => sum + value,
+              0
+            ) / calorieValues.length
           )
         : 0;
+
+      /* MEDIA PROTEÍNA */
+
+      const proteinValues = days
+        .map(day => getDayProtein(day))
+        .filter(value => value > 0);
+
+      const averageProtein = proteinValues.length
+        ? (
+            proteinValues.reduce(
+              (sum, value) => sum + value,
+              0
+            ) / proteinValues.length
+          ).toFixed(1)
+        : null;
+
+      /* MEDIA PESO */
 
       const weightValues = days
         .map(day => Number(day.weight))
@@ -1782,122 +2391,244 @@
 
       const averageWeight = weightValues.length
         ? (
-            weightValues.reduce((sum, value) => sum + value, 0) /
-            weightValues.length
+            weightValues.reduce(
+              (sum, value) => sum + value,
+              0
+            ) / weightValues.length
           ).toFixed(1)
         : null;
 
       document.getElementById("averageCaloriesStat").textContent =
-        averageCalories ? `${averageCalories} kcal` : "—";
+        averageCalories
+          ? `${averageCalories} kcal`
+          : "—";
+
+      document.getElementById("averageProteinStat").textContent =
+        averageProtein
+          ? `${averageProtein} g`
+          : "—";
 
       document.getElementById("averageWeightStat").textContent =
-        averageWeight ? `${averageWeight} kg` : "—";
+        averageWeight
+          ? `${averageWeight} kg`
+          : "—";
+
+      /* ENTRENAMIENTO MÁS FRECUENTE */
 
       const workoutCounts = {};
 
       days.forEach(day => {
+
         if (day.gym === true && day.workout) {
+
           workoutCounts[day.workout] =
             (workoutCounts[day.workout] || 0) + 1;
         }
+
       });
 
       let mostFrequentWorkout = "—";
       let highestCount = 0;
 
-      Object.entries(workoutCounts).forEach(([workout, count]) => {
-        if (count > highestCount) {
-          highestCount = count;
-          mostFrequentWorkout = workout;
-        }
-      });
+      Object.entries(workoutCounts)
+        .forEach(([workout, count]) => {
+
+          if (count > highestCount) {
+
+            highestCount = count;
+            mostFrequentWorkout = workout;
+          }
+
+        });
 
       document.getElementById("mostFrequentWorkout").textContent =
         mostFrequentWorkout;
     }
 
     function renderSettings() {
+
       const settings = appData.settings;
 
-      document.getElementById("userAge").value = settings.age || "";
-      document.getElementById("userSex").value = settings.sex || "male";
-      document.getElementById("userWeight").value = settings.weight || "";
-      document.getElementById("userHeight").value = settings.height || "";
-      document.getElementById("trainingDays").value = settings.trainingDays ?? "";
-      document.getElementById("activityLevel").value = settings.activityLevel || 1.5;
-      document.getElementById("dailyCalorieGoal").value = settings.calorieGoal || "";
+      document.getElementById("userAge").value =
+        settings.age || "";
+
+      document.getElementById("userSex").value =
+        settings.sex || "male";
+
+      document.getElementById("userWeight").value =
+        settings.weight || "";
+
+      document.getElementById("userHeight").value =
+        settings.height || "";
+
+      document.getElementById("trainingDays").value =
+        settings.trainingDays ?? "";
+
+      document.getElementById("activityLevel").value =
+        settings.activityLevel || 1.5;
+
+      document.getElementById("dailyCalorieGoal").value =
+        settings.calorieGoal || "";
+
+      document.getElementById("proteinFactor").value =
+        settings.proteinFactor || 2;
+
+      document.getElementById("dailyProteinGoal").value =
+        settings.proteinGoal || "";
 
       calculateCalories(false);
+
+      renderThemeOptions();
     }
 
     function calculateCalories(showMessage = true) {
-      const age = Number(document.getElementById("userAge").value);
-      const sex = document.getElementById("userSex").value;
-      const weight = Number(document.getElementById("userWeight").value);
-      const height = Number(document.getElementById("userHeight").value);
-      const activity = Number(document.getElementById("activityLevel").value);
+
+      const age =
+        Number(document.getElementById("userAge").value);
+
+      const sex =
+        document.getElementById("userSex").value;
+
+      const weight =
+        Number(document.getElementById("userWeight").value);
+
+      const height =
+        Number(document.getElementById("userHeight").value);
+
+      const activity =
+        Number(document.getElementById("activityLevel").value);
+
+      const proteinFactor =
+        Number(document.getElementById("proteinFactor").value);
+
+      /* KCAL */
 
       if (!age || !weight || !height) {
+
         document.getElementById("calculatedCalories").textContent =
           "Introduce tus datos";
-        return;
-      }
 
-      let bmr;
-
-      if (sex === "male") {
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
       } else {
-        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+
+        let bmr;
+
+        if (sex === "male") {
+
+          bmr =
+            (10 * weight) +
+            (6.25 * height) -
+            (5 * age) +
+            5;
+
+        } else {
+
+          bmr =
+            (10 * weight) +
+            (6.25 * height) -
+            (5 * age) -
+            161;
+        }
+
+        const estimatedCalories =
+          Math.round(bmr * activity);
+
+        document.getElementById("calculatedCalories").textContent =
+          `${estimatedCalories} kcal/día`;
+
+        if (
+          !document.getElementById("dailyCalorieGoal").value ||
+          showMessage
+        ) {
+
+          document.getElementById("dailyCalorieGoal").value =
+            estimatedCalories;
+        }
       }
 
-      const estimatedCalories = Math.round(bmr * activity);
+      /* PROTEÍNA */
 
-      document.getElementById("calculatedCalories").textContent =
-        `${estimatedCalories} kcal/día`;
+      if (!weight) {
 
-      if (
-        !document.getElementById("dailyCalorieGoal").value ||
-        showMessage
-      ) {
-        document.getElementById("dailyCalorieGoal").value =
-          estimatedCalories;
+        document.getElementById("calculatedProtein").textContent =
+          "Introduce tu peso";
+
+      } else {
+
+        const estimatedProtein =
+          Math.round(weight * proteinFactor);
+
+        document.getElementById("calculatedProtein").textContent =
+          `${estimatedProtein} g/día`;
+
+        if (
+          !document.getElementById("dailyProteinGoal").value ||
+          showMessage
+        ) {
+
+          document.getElementById("dailyProteinGoal").value =
+            estimatedProtein;
+        }
       }
 
       if (showMessage) {
-        showNotification("Estimación calculada");
+        showNotification("Kcal y proteína calculadas");
       }
     }
 
     function saveSettings() {
+
       appData.settings.age =
-        Number(document.getElementById("userAge").value) || 0;
+        Number(
+          document.getElementById("userAge").value
+        ) || 0;
 
       appData.settings.sex =
         document.getElementById("userSex").value;
 
       appData.settings.weight =
-        Number(document.getElementById("userWeight").value) || 0;
+        Number(
+          document.getElementById("userWeight").value
+        ) || 0;
 
       appData.settings.height =
-        Number(document.getElementById("userHeight").value) || 0;
+        Number(
+          document.getElementById("userHeight").value
+        ) || 0;
 
       appData.settings.trainingDays =
-        Number(document.getElementById("trainingDays").value) || 0;
+        Number(
+          document.getElementById("trainingDays").value
+        ) || 0;
 
       appData.settings.activityLevel =
-        Number(document.getElementById("activityLevel").value) || 1.5;
+        Number(
+          document.getElementById("activityLevel").value
+        ) || 1.5;
 
       appData.settings.calorieGoal =
-        Number(document.getElementById("dailyCalorieGoal").value) || 0;
+        Number(
+          document.getElementById("dailyCalorieGoal").value
+        ) || 0;
+
+      appData.settings.proteinFactor =
+        Number(
+          document.getElementById("proteinFactor").value
+        ) || 2;
+
+      appData.settings.proteinGoal =
+        Number(
+          document.getElementById("dailyProteinGoal").value
+        ) || 0;
 
       saveData();
+
       renderAll();
 
       showNotification("Configuración guardada");
     }
 
     function saveGymData() {
+
       const day = ensureDaySaved();
 
       day.gym = document
@@ -1905,12 +2636,18 @@
         .classList.contains("selected");
 
       if (!day.gym) {
+
         day.gym = false;
         day.workout = "";
         day.gymTime = "";
+
       } else {
-        day.workout = document.getElementById("workoutType").value;
-        day.gymTime = document.getElementById("gymTime").value;
+
+        day.workout =
+          document.getElementById("workoutType").value;
+
+        day.gymTime =
+          document.getElementById("gymTime").value;
       }
 
       saveData();
@@ -1920,17 +2657,34 @@
     }
 
     function saveSupplementData() {
+
       const day = ensureDaySaved();
 
-      if (document.getElementById("creatineYes").classList.contains("selected")) {
+      if (
+        document
+          .getElementById("creatineYes")
+          .classList
+          .contains("selected")
+      ) {
+
         day.creatine = true;
-      } else if (document.getElementById("creatineNo").classList.contains("selected")) {
+
+      } else if (
+        document
+          .getElementById("creatineNo")
+          .classList
+          .contains("selected")
+      ) {
+
         day.creatine = false;
+
       } else {
+
         day.creatine = null;
       }
 
-      day.weight = document.getElementById("dayWeight").value;
+      day.weight =
+        document.getElementById("dayWeight").value;
 
       saveData();
       renderAll();
@@ -1939,19 +2693,34 @@
     }
 
     function addCalorieEntry() {
-      const nameInput = document.getElementById("calorieEntryName");
-      const valueInput = document.getElementById("calorieEntryValue");
 
-      const name = nameInput.value.trim();
-      const calories = Number(valueInput.value);
+      const nameInput =
+        document.getElementById("calorieEntryName");
+
+      const valueInput =
+        document.getElementById("calorieEntryValue");
+
+      const name =
+        nameInput.value.trim();
+
+      const calories =
+        Number(valueInput.value);
 
       if (!name) {
-        showNotification("Escribe el nombre del registro");
+
+        showNotification(
+          "Escribe el nombre del registro"
+        );
+
         return;
       }
 
       if (!calories || calories < 0) {
-        showNotification("Introduce unas kcal válidas");
+
+        showNotification(
+          "Introduce unas kcal válidas"
+        );
+
         return;
       }
 
@@ -1972,7 +2741,57 @@
       showNotification("Kcal añadidas");
     }
 
+    function addProteinEntry() {
+
+      const nameInput =
+        document.getElementById("proteinEntryName");
+
+      const valueInput =
+        document.getElementById("proteinEntryValue");
+
+      const name =
+        nameInput.value.trim();
+
+      const protein =
+        Number(valueInput.value);
+
+      if (!name) {
+
+        showNotification(
+          "Escribe el nombre del alimento"
+        );
+
+        return;
+      }
+
+      if (!protein || protein < 0) {
+
+        showNotification(
+          "Introduce unos gramos de proteína válidos"
+        );
+
+        return;
+      }
+
+      const day = ensureDaySaved();
+
+      day.proteinEntries.push({
+        name,
+        protein
+      });
+
+      saveData();
+
+      nameInput.value = "";
+      valueInput.value = "";
+
+      renderAll();
+
+      showNotification("Proteína añadida");
+    }
+
     function escapeHtml(text) {
+
       return String(text)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
@@ -1981,41 +2800,128 @@
         .replaceAll("'", "&#039;");
     }
 
+    function formatNumber(value) {
+
+      const number = Number(value);
+
+      if (!Number.isFinite(number)) {
+        return "0";
+      }
+
+      if (Number.isInteger(number)) {
+        return String(number);
+      }
+
+      return number
+        .toFixed(1)
+        .replace(".", ",");
+    }
+
+    /* TEMAS */
+
+    function applyTheme(theme) {
+
+      document.body.classList.remove(
+        "theme-blue",
+        "theme-purple",
+        "theme-red"
+      );
+
+      if (theme === "blue") {
+        document.body.classList.add("theme-blue");
+      }
+
+      if (theme === "purple") {
+        document.body.classList.add("theme-purple");
+      }
+
+      if (theme === "red") {
+        document.body.classList.add("theme-red");
+      }
+
+      appData.settings.theme = theme;
+
+      saveData();
+
+      renderThemeOptions();
+    }
+
+    function renderThemeOptions() {
+
+      const currentTheme =
+        appData.settings.theme || "vanta";
+
+      document
+        .querySelectorAll(".theme-option")
+        .forEach(option => {
+
+          option.classList.toggle(
+            "active",
+            option.dataset.theme === currentTheme
+          );
+
+        });
+    }
+
     function showView(viewName) {
-      document.querySelectorAll(".view").forEach(view => {
-        view.classList.remove("active");
-      });
 
-      document.getElementById(`view-${viewName}`).classList.add("active");
+      document
+        .querySelectorAll(".view")
+        .forEach(view => {
 
-      document.querySelectorAll(".nav-button").forEach(button => {
-        button.classList.toggle(
-          "active",
-          button.dataset.view === viewName
-        );
-      });
+          view.classList.remove("active");
+
+        });
+
+      document
+        .getElementById(`view-${viewName}`)
+        .classList.add("active");
+
+      document
+        .querySelectorAll(".nav-button")
+        .forEach(button => {
+
+          button.classList.toggle(
+            "active",
+            button.dataset.view === viewName
+          );
+
+        });
 
       const titles = {
+
         day: [
           "Día seleccionado",
           "Registra y modifica la información de cualquier día."
         ],
+
         calories: [
           "Mis kcal",
           "Controla las kcal consumidas y las que te quedan."
         ],
+
+        protein: [
+          "Mi proteína",
+          "Controla la proteína consumida y la que te queda."
+        ],
+
         statistics: [
           "Estadísticas",
           "Analiza tu constancia y la distribución de tus entrenamientos."
         ],
+
         settings: [
           "Configuración",
-          "Personaliza tus datos y tu objetivo calórico."
+          "Personaliza tus datos, objetivos y estilo."
         ]
+
       };
 
-      document.getElementById("pageTitle").textContent = titles[viewName][0];
-      document.getElementById("pageDescription").textContent = titles[viewName][1];
+      document.getElementById("pageTitle").textContent =
+        titles[viewName][0];
+
+      document.getElementById("pageDescription").textContent =
+        titles[viewName][1];
 
       if (viewName === "statistics") {
         renderStatistics();
@@ -2027,131 +2933,337 @@
     }
 
     function renderAll() {
+
       renderDateHeaders();
       renderDayView();
       renderCaloriesView();
+      renderProteinView();
       renderStatistics();
       renderSettings();
     }
 
-    // Navegación lateral
+    /* NAVEGACIÓN */
 
-    document.querySelectorAll(".nav-button").forEach(button => {
-      button.addEventListener("click", () => {
-        showView(button.dataset.view);
+    document
+      .querySelectorAll(".nav-button")
+      .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+          showView(button.dataset.view);
+
+        });
+
       });
-    });
 
-    // Selector de fecha
+    /* SELECTOR DE FECHA */
 
-    document.getElementById("globalDatePicker").addEventListener("change", event => {
-      setSelectedDate(event.target.value);
-    });
+    document
+      .getElementById("globalDatePicker")
+      .addEventListener("change", event => {
 
-    // Navegación de días
+        setSelectedDate(event.target.value);
 
-    document.getElementById("previousDay").addEventListener("click", () => {
-      changeDateByDays(-1);
-    });
+      });
 
-    document.getElementById("nextDay").addEventListener("click", () => {
-      changeDateByDays(1);
-    });
+    /* NAVEGACIÓN DÍAS */
 
-    document.getElementById("previousDayCalories").addEventListener("click", () => {
-      changeDateByDays(-1);
-    });
+    document
+      .getElementById("previousDay")
+      .addEventListener("click", () => {
 
-    document.getElementById("nextDayCalories").addEventListener("click", () => {
-      changeDateByDays(1);
-    });
+        changeDateByDays(-1);
 
-    // Selección de gimnasio
+      });
 
-    document.getElementById("gymYes").addEventListener("click", () => {
-      setToggle("gymYes", true);
-      setToggle("gymNo", false);
-      document.getElementById("gymDetails").style.display = "block";
-    });
+    document
+      .getElementById("nextDay")
+      .addEventListener("click", () => {
 
-    document.getElementById("gymNo").addEventListener("click", () => {
-      setToggle("gymYes", false);
-      setToggle("gymNo", true);
-      document.getElementById("gymDetails").style.display = "none";
-    });
+        changeDateByDays(1);
 
-    // Selección de creatina
+      });
 
-    document.getElementById("creatineYes").addEventListener("click", () => {
-      setToggle("creatineYes", true);
-      setToggle("creatineNo", false);
-    });
+    document
+      .getElementById("previousDayCalories")
+      .addEventListener("click", () => {
 
-    document.getElementById("creatineNo").addEventListener("click", () => {
-      setToggle("creatineYes", false);
-      setToggle("creatineNo", true);
-    });
+        changeDateByDays(-1);
 
-    // Guardados
+      });
 
-    document.getElementById("saveGymData").addEventListener("click", saveGymData);
-    document.getElementById("saveSupplementData").addEventListener("click", saveSupplementData);
+    document
+      .getElementById("nextDayCalories")
+      .addEventListener("click", () => {
 
-    // Kcal
+        changeDateByDays(1);
 
-    document.getElementById("addCalorieEntry").addEventListener("click", addCalorieEntry);
+      });
 
-    document.getElementById("calorieEntryValue").addEventListener("keydown", event => {
-      if (event.key === "Enter") {
-        addCalorieEntry();
-      }
-    });
+    document
+      .getElementById("previousDayProtein")
+      .addEventListener("click", () => {
 
-    // Configuración
+        changeDateByDays(-1);
 
-    document.getElementById("calculateCaloriesButton").addEventListener("click", () => {
-      calculateCalories(true);
-    });
+      });
 
-    document.getElementById("saveSettingsButton").addEventListener("click", saveSettings);
+    document
+      .getElementById("nextDayProtein")
+      .addEventListener("click", () => {
 
-    // Exportar datos
+        changeDateByDays(1);
 
-    document.getElementById("exportDataButton").addEventListener("click", () => {
-      const dataString = JSON.stringify(appData, null, 2);
-      const blob = new Blob([dataString], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
+      });
 
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "vanta-fitness-backup.json";
-      link.click();
+    /* GIMNASIO */
 
-      URL.revokeObjectURL(url);
+    document
+      .getElementById("gymYes")
+      .addEventListener("click", () => {
 
-      showNotification("Datos exportados");
-    });
+        setToggle("gymYes", true);
+        setToggle("gymNo", false);
 
-    // Borrar datos
+        document.getElementById("gymDetails")
+          .style.display = "block";
 
-    document.getElementById("resetDataButton").addEventListener("click", () => {
-      const confirmed = confirm(
-        "¿Seguro que quieres borrar todos los registros? Esta acción no se puede deshacer."
+      });
+
+    document
+      .getElementById("gymNo")
+      .addEventListener("click", () => {
+
+        setToggle("gymYes", false);
+        setToggle("gymNo", true);
+
+        document.getElementById("gymDetails")
+          .style.display = "none";
+
+      });
+
+    /* CREATINA */
+
+    document
+      .getElementById("creatineYes")
+      .addEventListener("click", () => {
+
+        setToggle("creatineYes", true);
+        setToggle("creatineNo", false);
+
+      });
+
+    document
+      .getElementById("creatineNo")
+      .addEventListener("click", () => {
+
+        setToggle("creatineYes", false);
+        setToggle("creatineNo", true);
+
+      });
+
+    /* GUARDADOS */
+
+    document
+      .getElementById("saveGymData")
+      .addEventListener(
+        "click",
+        saveGymData
       );
 
-      if (!confirmed) return;
+    document
+      .getElementById("saveSupplementData")
+      .addEventListener(
+        "click",
+        saveSupplementData
+      );
 
-      appData = structuredClone(defaultData);
-      saveData();
-      renderAll();
+    /* KCAL */
 
-      showNotification("Todos los datos han sido borrados");
-    });
+    document
+      .getElementById("addCalorieEntry")
+      .addEventListener(
+        "click",
+        addCalorieEntry
+      );
 
-    // Inicio
+    document
+      .getElementById("calorieEntryValue")
+      .addEventListener(
+        "keydown",
+        event => {
 
-    document.getElementById("globalDatePicker").value = selectedDate;
+          if (event.key === "Enter") {
+            addCalorieEntry();
+          }
+
+        }
+      );
+
+    /* PROTEÍNA */
+
+    document
+      .getElementById("addProteinEntry")
+      .addEventListener(
+        "click",
+        addProteinEntry
+      );
+
+    document
+      .getElementById("proteinEntryValue")
+      .addEventListener(
+        "keydown",
+        event => {
+
+          if (event.key === "Enter") {
+            addProteinEntry();
+          }
+
+        }
+      );
+
+    /* CONFIGURACIÓN */
+
+    document
+      .getElementById("calculateCaloriesButton")
+      .addEventListener(
+        "click",
+        () => {
+
+          calculateCalories(true);
+
+        }
+      );
+
+    document
+      .getElementById("saveSettingsButton")
+      .addEventListener(
+        "click",
+        saveSettings
+      );
+
+    document
+      .getElementById("proteinFactor")
+      .addEventListener(
+        "change",
+        () => {
+
+          calculateCalories(false);
+
+        }
+      );
+
+    document
+      .querySelectorAll(".theme-option")
+      .forEach(option => {
+
+        option.addEventListener(
+          "click",
+          () => {
+
+            applyTheme(
+              option.dataset.theme
+            );
+
+            showNotification(
+              "Tema cambiado"
+            );
+
+          }
+        );
+
+      });
+
+    /* EXPORTAR */
+
+    document
+      .getElementById("exportDataButton")
+      .addEventListener(
+        "click",
+        () => {
+
+          const dataString =
+            JSON.stringify(
+              appData,
+              null,
+              2
+            );
+
+          const blob =
+            new Blob(
+              [dataString],
+              {
+                type: "application/json"
+              }
+            );
+
+          const url =
+            URL.createObjectURL(blob);
+
+          const link =
+            document.createElement("a");
+
+          link.href = url;
+
+          link.download =
+            "vanta-fitness-backup.json";
+
+          link.click();
+
+          URL.revokeObjectURL(url);
+
+          showNotification(
+            "Datos exportados"
+          );
+
+        }
+      );
+
+    /* BORRAR DATOS */
+
+    document
+      .getElementById("resetDataButton")
+      .addEventListener(
+        "click",
+        () => {
+
+          const confirmed =
+            confirm(
+              "¿Seguro que quieres borrar todos los registros? Esta acción no se puede deshacer."
+            );
+
+          if (!confirmed) {
+            return;
+          }
+
+          appData =
+            structuredClone(defaultData);
+
+          saveData();
+
+          applyTheme("vanta");
+
+          renderAll();
+
+          showNotification(
+            "Todos los datos han sido borrados"
+          );
+
+        }
+      );
+
+    /* INICIO */
+
+    applyTheme(
+      appData.settings.theme || "vanta"
+    );
+
+    document
+      .getElementById("globalDatePicker")
+      .value = selectedDate;
+
     renderAll();
+
   </script>
 </body>
 </html>
