@@ -1381,7 +1381,17 @@
             ...defaultData.settings,
             ...(parsed.settings || {})
           },
-          days: parsed.days || {}
+          days: Object.fromEntries(
+            Object.entries(parsed.days || {}).filter(([date, day]) =>
+              day && (
+                day.gym !== null ||
+                day.creatine !== null ||
+                day.weight !== "" ||
+                day.workout !== "" ||
+                (Array.isArray(day.calorieEntries) && day.calorieEntries.length > 0)
+              )
+            )
+          )
         };
       } catch (error) {
         return structuredClone(defaultData);
@@ -1433,6 +1443,17 @@
     }
 
     function getCurrentDay() {
+      return appData.days[selectedDate] || {
+        gym: null,
+        workout: "",
+        gymTime: "",
+        creatine: null,
+        weight: "",
+        calorieEntries: []
+      };
+    }
+
+    function ensureDaySaved() {
       if (!appData.days[selectedDate]) {
         appData.days[selectedDate] = {
           gym: null,
@@ -1674,7 +1695,13 @@
     }
 
     function renderStatistics() {
-      const days = Object.values(appData.days);
+      const days = Object.values(appData.days).filter(day =>
+        day.gym !== null ||
+        day.creatine !== null ||
+        day.weight !== "" ||
+        day.workout !== "" ||
+        (Array.isArray(day.calorieEntries) && day.calorieEntries.length > 0)
+      );
 
       const totalDays = days.length;
 
@@ -1871,7 +1898,7 @@
     }
 
     function saveGymData() {
-      const day = getCurrentDay();
+      const day = ensureDaySaved();
 
       day.gym = document
         .getElementById("gymYes")
@@ -1893,7 +1920,7 @@
     }
 
     function saveSupplementData() {
-      const day = getCurrentDay();
+      const day = ensureDaySaved();
 
       if (document.getElementById("creatineYes").classList.contains("selected")) {
         day.creatine = true;
@@ -1928,7 +1955,7 @@
         return;
       }
 
-      const day = getCurrentDay();
+      const day = ensureDaySaved();
 
       day.calorieEntries.push({
         name,
