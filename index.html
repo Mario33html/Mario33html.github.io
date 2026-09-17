@@ -3522,6 +3522,82 @@
         }
       );
 
+    /* IMPORTAR */
+    document
+      .getElementById("importDataButton")
+      .addEventListener(
+        "click",
+        () => {
+          document.getElementById("importDataInput").click();
+        }
+      );
+
+    document
+      .getElementById("importDataInput")
+      .addEventListener(
+        "change",
+        event => {
+          const file = event.target.files && event.target.files[0];
+
+          if (!file) {
+            return;
+          }
+
+          const reader = new FileReader();
+
+          reader.onload = () => {
+            try {
+              const imported = JSON.parse(reader.result);
+
+              if (!imported || typeof imported !== "object") {
+                throw new Error("Formato no válido");
+              }
+
+              if (imported.exportInfo &&
+                  imported.exportInfo.format !== "vanta-fitness-backup") {
+                throw new Error("Archivo no compatible");
+              }
+
+              if (!imported.settings || typeof imported.settings !== "object") {
+                throw new Error("Falta la configuración");
+              }
+
+              if (!imported.days || typeof imported.days !== "object" || Array.isArray(imported.days)) {
+                throw new Error("Faltan los registros diarios");
+              }
+
+              appData = {
+                settings: {
+                  ...structuredClone(defaultData.settings),
+                  ...imported.settings
+                },
+                days: imported.days
+              };
+
+              saveData();
+              applyTheme(appData.settings.theme || "vanta");
+              selectedDate = getTodayString();
+              document.getElementById("globalDatePicker").value = selectedDate;
+              renderAll();
+
+              showNotification("Todos los datos se han importado correctamente");
+            } catch (error) {
+              console.error("Error al importar datos:", error);
+              showNotification("El archivo no es un backup válido de VANTA");
+            } finally {
+              event.target.value = "";
+            }
+          };
+
+          reader.onerror = () => {
+            showNotification("No se pudo leer el archivo");
+            event.target.value = "";
+          };
+
+          reader.readAsText(file);
+        }
+      );
+
     /* BORRAR DATOS */
 
     document
