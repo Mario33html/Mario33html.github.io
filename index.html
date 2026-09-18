@@ -1076,20 +1076,20 @@
 
     .attendance-calendar {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
     }
 
     .attendance-month {
       background: var(--panel-2);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
+      border-radius: 11px;
+      padding: 9px;
       min-width: 0;
     }
 
     .attendance-month-title {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 800;
       margin-bottom: 10px;
       text-transform: capitalize;
@@ -1099,7 +1099,7 @@
     .attendance-days {
       display: grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 4px;
+      gap: 2px;
     }
 
     .attendance-weekday {
@@ -1119,7 +1119,7 @@
       color: var(--muted);
       display: grid;
       place-items: center;
-      font-size: 10px;
+      font-size: 9px;
       cursor: default;
       transition: transform 0.15s, border-color 0.15s, background 0.15s, color 0.15s;
     }
@@ -2254,7 +2254,7 @@ html, body, body * { cursor: none !important; }
 @keyframes vantaRankPulse { 50% { box-shadow:0 0 22px rgba(213,169,58,.24); } }
 
 #vantaGymCursor {
-  position:fixed; z-index:100000; left:0; top:0; width:22px; height:22px;
+  position:fixed; z-index:100000; left:0; top:0; width:30px; height:30px;
   pointer-events:none; display:none; transform:translate(-3px,-3px) rotate(-28deg);
   filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)); transition:filter .08s ease;
 }
@@ -2267,6 +2267,35 @@ html, body, body * { cursor: none !important; }
   .xp-stats { grid-template-columns:1fr 1fr 1fr; }
 }
 
+
+/* VANTA v2: rangos, resumen semanal e historial */
+.xp-hero { position:relative; background:radial-gradient(circle at 92% 8%, color-mix(in srgb,var(--accent) 18%,transparent), transparent 34%), var(--card,#111); }
+.xp-hero::after { content:""; position:absolute; width:180px; height:180px; right:-70px; top:-90px; border:1px solid color-mix(in srgb,var(--accent) 25%,transparent); border-radius:50%; box-shadow:0 0 0 18px color-mix(in srgb,var(--accent) 4%,transparent),0 0 0 36px color-mix(in srgb,var(--accent) 3%,transparent); pointer-events:none; }
+.xp-rank-shield, .xp-badge { position:relative; isolation:isolate; background:linear-gradient(145deg,#fff4a8 0%,var(--accent) 38%,#9b6815 100%); color:#241900; border:2px solid color-mix(in srgb,var(--accent) 75%,white); box-shadow:0 0 0 3px rgba(255,255,255,.08),0 0 24px color-mix(in srgb,var(--accent) 35%,transparent), inset 0 1px 0 rgba(255,255,255,.7); text-shadow:0 1px 0 rgba(255,255,255,.35); }
+.xp-rank-shield { min-width:38px; height:44px; padding:0 10px; font-size:13px; clip-path:polygon(50% 0,92% 13%,86% 72%,50% 100%,14% 72%,8% 13%); }
+.xp-badge { width:68px; height:68px; border-radius:20px; font-size:29px; clip-path:polygon(50% 0,92% 13%,86% 72%,50% 100%,14% 72%,8% 13%); border-radius:0; }
+.xp-rank-line { gap:10px; }
+.xp-rank-chip { transition:.2s; }
+.xp-rank-chip.active { background:color-mix(in srgb,var(--accent) 10%,transparent); }
+.xp-rank-chip.current { transform:translateY(-2px) scale(1.04); }
+.weekly-summary-card, .rank-history-card { margin-top:18px; }
+.weekly-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; margin-top:14px; }
+.weekly-stat { padding:12px; border:1px solid var(--border); border-radius:13px; background:var(--panel-2); }
+.weekly-stat span { display:block; color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.05em; }
+.weekly-stat strong { display:block; font-size:21px; margin-top:4px; }
+.weekly-bar { height:8px; border-radius:99px; background:rgba(127,127,127,.16); overflow:hidden; margin-top:14px; }
+.weekly-bar-fill { height:100%; width:0; border-radius:inherit; background:linear-gradient(90deg,var(--accent),#fff0a1); transition:width .5s; }
+.rank-history-list { display:grid; gap:8px; margin-top:13px; }
+.rank-history-item { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 12px; border:1px solid var(--border); border-radius:12px; background:var(--panel-2); }
+.rank-history-left { display:flex; align-items:center; gap:10px; min-width:0; }
+.rank-history-mini { display:grid; place-items:center; width:34px; height:38px; flex:none; clip-path:polygon(50% 0,92% 13%,86% 72%,50% 100%,14% 72%,8% 13%); background:linear-gradient(145deg,#fff4a8,var(--accent),#9b6815); color:#241900; font-size:11px; font-weight:950; }
+.rank-history-name { font-weight:850; font-size:12px; }
+.rank-history-date { color:var(--muted); font-size:10px; margin-top:2px; }
+.rank-history-xp { color:var(--accent); font-weight:900; font-size:11px; white-space:nowrap; }
+@media(max-width:900px){ .attendance-calendar{grid-template-columns:repeat(3,minmax(0,1fr));} }
+@media(max-width:700px){ .weekly-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.attendance-calendar{grid-template-columns:repeat(2,minmax(0,1fr));}.xp-badge{width:58px;height:58px;font-size:24px;} }
+
+.top-date-hidden{display:none!important;}
 </style>
 </head>
 
@@ -2879,6 +2908,24 @@ html, body, body * { cursor: none !important; }
     <div><div class="streak-label">Racha de constancia</div><div><span class="streak-number" id="heroStreak">0</span> <span style="font-weight:800">días</span></div></div>
   </div>
   <div class="streak-meta"><span class="streak-pill">⚡ Mejor racha: <b id="heroBestStreak">0</b> días</span><span class="streak-pill">🏋️ Días registrados: <b id="heroGymDays">0</b></span></div>
+</div>
+
+<div class="card weekly-summary-card" id="weeklySummaryCard">
+  <div class="card-title">📊 Resumen semanal</div>
+  <div class="card-subtitle" id="weeklySummaryRange">Últimos 7 días</div>
+  <div class="weekly-grid">
+    <div class="weekly-stat"><span>Entrenamientos</span><strong id="weeklyWorkouts">0</strong></div>
+    <div class="weekly-stat"><span>XP ganada</span><strong id="weeklyXp">0</strong></div>
+    <div class="weekly-stat"><span>Días activos</span><strong id="weeklyActiveDays">0</strong></div>
+    <div class="weekly-stat"><span>Constancia</span><strong id="weeklyConsistency">0%</strong></div>
+  </div>
+  <div class="weekly-bar"><div class="weekly-bar-fill" id="weeklyBarFill"></div></div>
+</div>
+
+<div class="card rank-history-card" id="rankHistoryCard">
+  <div class="card-title">🏅 Historial de rangos</div>
+  <div class="card-subtitle">Aquí aparecerán los rangos que vayas desbloqueando.</div>
+  <div class="rank-history-list" id="rankHistoryList"></div>
 </div>
 
 <section class="view" id="view-settings">
@@ -5400,64 +5447,83 @@ html, body, body * { cursor: none !important; }
 
   // ---------- XP / levels ----------
   const ranks = [
-    {min:0, name:'Novato', badge:'I'},
-    {min:250, name:'Constante', badge:'II'},
-    {min:600, name:'Disciplinado', badge:'III'},
-    {min:1100, name:'Guerrero', badge:'IV'},
-    {min:1800, name:'Élite', badge:'V'},
-    {min:2800, name:'Titán', badge:'VI'},
-    {min:4200, name:'Leyenda', badge:'VII'}
+    {min:0, name:'Novato', badge:'I', color:'bronze'},
+    {min:180, name:'Constante', badge:'II', color:'silver'},
+    {min:480, name:'Disciplinado', badge:'III', color:'gold'},
+    {min:900, name:'Guerrero', badge:'IV', color:'red'},
+    {min:1450, name:'Élite', badge:'V', color:'violet'},
+    {min:2150, name:'Titán', badge:'VI', color:'blue'},
+    {min:3100, name:'Leyenda', badge:'VII', color:'rainbow'}
   ];
   function dateKeyFromDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+  function getRankForXp(xp){ let r=ranks[0]; ranks.forEach(item=>{if(xp>=item.min) r=item;}); return r; }
+  function getNextRank(xp){ return ranks.find(r=>xp<r.min) || null; }
+  function xpForDay(d, index, allKeys){
+    let amount = d.gym===true ? 55 : 0;
+    if(d.workout) amount += 12;
+    if(d.gymTime) amount += 6;
+    if(d.creatine===true) amount += 4;
+    if(Array.isArray(d.calorieEntries) && d.calorieEntries.length) amount += 8;
+    if(Array.isArray(d.proteinEntries) && d.proteinEntries.length) amount += 8;
+    if(d.note && String(d.note).trim()) amount += 4;
+    // Bonus por sesiones especialmente completas, sin hacer que todas den lo mismo.
+    const completed = [d.workout,d.gymTime,d.creatine===true,Array.isArray(d.calorieEntries)&&d.calorieEntries.length,Array.isArray(d.proteinEntries)&&d.proteinEntries.length,d.note&&String(d.note).trim()].filter(Boolean).length;
+    if(d.gym===true && completed>=4) amount += 15;
+    if(d.gym===true && completed>=6) amount += 15;
+    return amount;
+  }
   function calcXp(){
-    const data = window.vantaGetAppData ? window.vantaGetAppData() : {days:{}}; const days = data.days || {};
-    const gymKeys = Object.keys(days).filter(k=>days[k] && days[k].gym===true).sort();
-    let xp=0;
-    gymKeys.forEach(k=>{
-      const d=days[k];
-      xp += 50;
-      if (d.workout) xp += 10;
-      if (d.gymTime) xp += 5;
-      if (d.creatine===true) xp += 5;
-      if (Array.isArray(d.calorieEntries) && d.calorieEntries.length) xp += 5;
-      if (Array.isArray(d.proteinEntries) && d.proteinEntries.length) xp += 5;
-    });
-    // Small consistency bonus: 7-day streaks.
-    let streak=0, best=0, prev=null;
-    gymKeys.forEach(k=>{
-      const dt=getDateObject(k);
-      if(prev){
-        const diff=Math.round((dt-prev)/86400000);
-        streak = diff===1 ? streak+1 : 1;
-      } else streak=1;
-      best=Math.max(best,streak); prev=dt;
-      if(streak>1) xp += 3;
-    });
-    return {xp, gymDays:gymKeys.length, streak:best};
+    const data = window.vantaGetAppData ? window.vantaGetAppData() : {days:{}}; const days=data.days||{};
+    const gymKeys=Object.keys(days).filter(k=>days[k]&&days[k].gym===true).sort();
+    let xp=0; gymKeys.forEach((k,i)=>{xp+=xpForDay(days[k],i,gymKeys);});
+    let streak=0,best=0,run=0,prev=null;
+    gymKeys.forEach(k=>{const dt=getDateObject(k); if(prev&&Math.round((dt-prev)/86400000)===1) run++; else run=1; best=Math.max(best,run); prev=dt; if(run>1) xp+=Math.min(20,run*3);});
+    return {xp,gymDays:gymKeys.length,streak:best,gymKeys};
   }
   function renderXp(){
-    const root=document.getElementById('vantaXpSection');
-    if(!root) return;
-    const {xp,gymDays,streak}=calcXp();
-    let rank=ranks[0], next=ranks[1];
-    for(let i=0;i<ranks.length;i++){ if(xp>=ranks[i].min) rank=ranks[i]; if(xp<ranks[i].min){next=ranks[i];break;} next=null; }
-    const level=Math.floor(xp/100)+1;
-    const levelBase=(level-1)*100, levelProgress=xp-levelBase;
+    const root=document.getElementById('vantaXpSection'); if(!root) return;
+    const {xp,gymDays,streak}=calcXp(); const rank=getRankForXp(xp), next=getNextRank(xp);
+    const level=ranks.findIndex(r=>r===rank)+1;
+    const base=rank.min, ceiling=next?next.min:base+1000, progress=next?((xp-base)/(ceiling-base))*100:100;
     document.getElementById('xpRankName').textContent=rank.name;
     document.getElementById('xpLevel').textContent=`Nivel ${level}`;
     document.getElementById('xpBadge').textContent=rank.badge;
-    const shield=document.getElementById('xpShield'); if(shield) shield.textContent=rank.badge;
-    const heroStreak=document.getElementById('heroStreak'); if(heroStreak) heroStreak.textContent=streak;
-    const heroBest=document.getElementById('heroBestStreak'); if(heroBest) heroBest.textContent=streak;
-    const heroDays=document.getElementById('heroGymDays'); if(heroDays) heroDays.textContent=gymDays;
-    document.getElementById('xpFill').style.width=`${Math.min(100,levelProgress)}%`;
+    const shield=document.getElementById('xpShield'); if(shield){shield.textContent=rank.badge;shield.dataset.rank=rank.color;}
+    const badge=document.getElementById('xpBadge'); if(badge) badge.dataset.rank=rank.color;
+    document.getElementById('xpFill').style.width=`${Math.max(0,Math.min(100,progress))}%`;
     document.getElementById('xpCurrent').textContent=`${xp.toLocaleString('es-ES')} XP`;
-    document.getElementById('xpNext').textContent=`${(levelBase+100).toLocaleString('es-ES')} XP`;
+    document.getElementById('xpNext').textContent=next?`${next.min.toLocaleString('es-ES')} XP`:'Rango máximo';
     document.getElementById('xpTotal').textContent=xp.toLocaleString('es-ES');
     document.getElementById('xpGymDays').textContent=gymDays;
     document.getElementById('xpStreak').textContent=streak;
+    ['heroStreak','heroBestStreak'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=streak;});
+    const heroDays=document.getElementById('heroGymDays');if(heroDays)heroDays.textContent=gymDays;
     const ranksEl=document.getElementById('xpRanks');
-    ranksEl.innerHTML=ranks.map(r=>`<span class="xp-rank-chip ${xp>=r.min?'active':''} ${xp>=r.min && (!next || r.min===rank.min)?'current':''}">${r.badge} · ${r.name}</span>`).join('');
+    if(ranksEl) ranksEl.innerHTML=ranks.map(r=>`<span class="xp-rank-chip ${xp>=r.min?'active':''} ${r===rank?'current':''}">${r.badge} · ${r.name}</span>`).join('');
+    updateRankHistory(xp,rank);
+    renderWeeklySummary();
+  }
+  function updateRankHistory(xp,rank){
+    const data=window.vantaGetAppData?window.vantaGetAppData():null; if(!data)return;
+    if(!Array.isArray(data.rankHistory)) data.rankHistory=[];
+    const last=data.rankHistory[data.rankHistory.length-1];
+    if(!last || last.badge!==rank.badge){
+      data.rankHistory.push({badge:rank.badge,name:rank.name,xp,date:dateKeyFromDate(new Date())});
+      if(window.vantaSaveAppData) window.vantaSaveAppData();
+    } else if(last.xp!==xp){ last.xp=xp; }
+    const list=document.getElementById('rankHistoryList'); if(!list)return;
+    const history=data.rankHistory.slice().reverse();
+    list.innerHTML=history.length?history.map(h=>`<div class="rank-history-item"><div class="rank-history-left"><div class="rank-history-mini">${h.badge}</div><div><div class="rank-history-name">${h.name}</div><div class="rank-history-date">Desbloqueado el ${new Date(h.date+'T12:00:00').toLocaleDateString('es-ES')}</div></div></div><div class="rank-history-xp">${Number(h.xp||0).toLocaleString('es-ES')} XP</div></div>`).join(''):'<div class="small muted">Aún no hay rangos registrados.</div>';
+  }
+  function renderWeeklySummary(){
+    const data=window.vantaGetAppData?window.vantaGetAppData():{days:{}}; const days=data.days||{}; const now=new Date(); now.setHours(0,0,0,0);
+    let workouts=0,active=0,xp=0;
+    for(let i=6;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-i);const key=dateKeyFromDate(d), day=days[key];if(day){active++;}if(day&&day.gym===true){workouts++;xp+=xpForDay(day,0,[]);}}
+    const pct=Math.round((workouts/5)*100);
+    const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+    set('weeklyWorkouts',workouts);set('weeklyXp',xp.toLocaleString('es-ES'));set('weeklyActiveDays',active);set('weeklyConsistency',`${Math.min(100,pct)}%`);
+    const fill=document.getElementById('weeklyBarFill');if(fill)fill.style.width=`${Math.min(100,pct)}%`;
+    const range=document.getElementById('weeklySummaryRange');if(range)range.textContent=`${new Date(now.getTime()-6*86400000).toLocaleDateString('es-ES',{day:'numeric',month:'short'})} — ${now.toLocaleDateString('es-ES',{day:'numeric',month:'short'})}`;
   }
 
   // Hook into existing render functions without replacing their functionality.
@@ -5487,7 +5553,7 @@ html, body, body * { cursor: none !important; }
     if(previousXpState){
       const gained=current.xp-previousXpState.xp;
       if(gained>0) showXpGain(gained);
-      const oldLevel=Math.floor(previousXpState.xp/100)+1, newLevel=Math.floor(current.xp/100)+1;
+      const oldLevel=ranks.findIndex(r=>previousXpState.xp>=r.min)+1, newLevel=ranks.findIndex(r=>current.xp>=r.min)+1;
       if(newLevel>oldLevel){
         const overlay=document.getElementById('levelUpOverlay');
         document.getElementById('levelUpTitle').textContent=`¡Nivel ${newLevel} desbloqueado!`;
