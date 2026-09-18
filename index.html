@@ -4845,6 +4845,7 @@ html, body, body * { cursor: none !important; }
       if (viewName === "statistics") {
         renderStatistics();
         renderAttendanceCalendar();
+        if (typeof renderXp === "function") renderXp();
       }
 
       if (viewName === "settings") {
@@ -4861,6 +4862,11 @@ html, body, body * { cursor: none !important; }
       renderStatistics();
       renderAttendanceCalendar();
       renderSettings();
+      if (typeof renderXp === "function") renderXp();
+      // Comprueba y muestra la ganancia de XP después de cada actualización real.
+      if (typeof window.vantaCheckProgression === "function") {
+        window.vantaCheckProgression();
+      }
     }
 
     document.getElementById("attendancePrevYear")?.addEventListener("click", () => {
@@ -5541,8 +5547,7 @@ html, body, body * { cursor: none !important; }
     const root=document.getElementById('vantaXpSection'); if(!root) return;
     const {xp,gymDays,streak}=calcXp(); const rank=getRankForXp(xp), next=getNextRank(xp);
     const userName=(window.vantaGetAppData?.().settings?.userName||'').trim();
-    const pageTitle=document.getElementById('pageTitle');
-    if(pageTitle && document.body.classList.contains('name-greeting-ready')) pageTitle.textContent=userName?`VANTA · ${userName}`:'VANTA · Tu progreso';
+    // El título superior debe pertenecer al apartado actual; nunca lo sustituimos por VANTA/nombre.
     const greeting=document.getElementById('userGreeting');
     if(greeting) greeting.textContent=userName?`Vamos a por ello, ${userName}. 💪`:'Tu panel personal de progreso y constancia.';
     const level=ranks.findIndex(r=>r===rank)+1;
@@ -5588,27 +5593,22 @@ html, body, body * { cursor: none !important; }
     const range=document.getElementById('weeklySummaryRange');if(range)range.textContent=`${new Date(now.getTime()-6*86400000).toLocaleDateString('es-ES',{day:'numeric',month:'short'})} — ${now.toLocaleDateString('es-ES',{day:'numeric',month:'short'})}`;
   }
 
-  // Hook into existing render functions without replacing their functionality.
-  const hookNames=['renderAll','renderStatistics'];
-  hookNames.forEach(name=>{
-    if(typeof window[name]==='function'){
-      const original=window[name];
-      window[name]=function(){
-        const result=original.apply(this,arguments);
-        try {
-          if(name==='renderStatistics') { renderXp(); }
-          if(name==='renderAll') { renderXp(); renderDailyNote(); checkProgression(); }
-        } catch(e){}
-        return result;
-      };
-    }
-  });
+  // La actualización de XP se realiza desde renderAll(), porque las funciones
+  // internas no están expuestas como propiedades de window.
   // Visual XP feedback and level-up celebration.
   let previousXpState=null;
   function showXpGain(amount){
     if(!amount || amount<=0) return;
-    const el=document.createElement('div'); el.className='xp-gain'; el.textContent=`+${amount} XP`;
-    el.style.left='50%'; el.style.top='38%'; document.body.appendChild(el); setTimeout(()=>el.remove(),1250);
+    const el=document.createElement('div');
+    el.className='xp-gain';
+    el.textContent=`+${amount} XP`;
+    el.style.left='50%';
+    el.style.top='38%';
+    document.body.appendChild(el);
+    // Fuerza el reinicio visual para que la animación se vea siempre.
+    void el.offsetWidth;
+    el.classList.add('xp-gain-active');
+    setTimeout(()=>el.remove(),1600);
   }
   function checkProgression(){
     const current=calcXp();
