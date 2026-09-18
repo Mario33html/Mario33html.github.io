@@ -2337,6 +2337,22 @@ html, body, body * { cursor: none !important; }
 .xp-gain { z-index:2147483001 !important; font-size:28px !important; font-weight:1000 !important; animation:xpFloat .95s ease-out forwards, xpFlash .95s ease-out forwards !important; }
 @keyframes xpFlash { 0%{filter:brightness(2) scale(.7)} 30%{filter:brightness(1.5) scale(1.2)} 100%{filter:brightness(1) scale(1)} }
 </style>
+
+<style>
+/* VANTA: configuración compacta */
+.theme-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important}
+.theme-option{min-height:66px!important;padding:7px!important;border-radius:9px!important}
+.theme-color{height:24px!important;margin-bottom:5px!important;border-radius:6px!important}
+.theme-option strong{font-size:9px!important;line-height:1.1!important}
+.theme-option .small{font-size:7px!important;line-height:1.15!important;margin-top:2px!important}
+.theme-option.active::before{top:4px!important;right:4px!important;width:15px!important;height:15px!important;font-size:8px!important}
+.font-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important}
+.font-option{min-height:60px!important;padding:8px!important;border-radius:9px!important}
+.font-option.active::after{right:4px!important;top:4px!important;width:15px!important;height:15px!important;font-size:8px!important}
+@media(max-width:1100px){.theme-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}.font-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}}
+@media(max-width:700px){.theme-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}.font-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}.theme-option{min-height:60px!important;padding:6px!important}.font-option{min-height:56px!important;padding:7px!important}}
+</style>
+
 </head>
 
 <body>
@@ -3384,7 +3400,8 @@ html, body, body * { cursor: none !important; }
                 day.note
               )
             )
-          )
+          ),
+          rankHistory: Array.isArray(parsed.rankHistory) ? parsed.rankHistory : []
         };
 
       } catch (error) {
@@ -3393,9 +3410,8 @@ html, body, body * { cursor: none !important; }
     }
 
     function saveData() {
+      // Guardado puro: no dispara renders ni vuelve a entrar en el flujo de XP.
       localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-      // Comprueba la XP justo después de guardar cualquier cambio, sin esperar a otro render.
-      if (window.vantaCheckProgression) window.vantaCheckProgression();
     }
 
     function getTodayString() {
@@ -4862,8 +4878,8 @@ html, body, body * { cursor: none !important; }
       renderStatistics();
       renderAttendanceCalendar();
       renderSettings();
+      // Primero se pinta la XP nueva y después se comprueba la ganancia.
       if (typeof renderXp === "function") renderXp();
-      // Comprueba y muestra la ganancia de XP después de cada actualización real.
       if (typeof window.vantaCheckProgression === "function") {
         window.vantaCheckProgression();
       }
@@ -5574,10 +5590,18 @@ html, body, body * { cursor: none !important; }
     const data=window.vantaGetAppData?window.vantaGetAppData():null; if(!data)return;
     if(!Array.isArray(data.rankHistory)) data.rankHistory=[];
     const last=data.rankHistory[data.rankHistory.length-1];
+    let historyChanged = false;
     if(!last || last.badge!==rank.badge){
       data.rankHistory.push({badge:rank.badge,name:rank.name,xp,date:dateKeyFromDate(new Date())});
-      if(window.vantaSaveAppData) window.vantaSaveAppData();
-    } else if(last.xp!==xp){ last.xp=xp; }
+      historyChanged = true;
+    } else if(last.xp!==xp){
+      last.xp=xp;
+      historyChanged = true;
+    }
+    if(historyChanged){
+      // Guardamos el historial sin volver a entrar en saveData()/checkProgression().
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
     const list=document.getElementById('rankHistoryList'); if(!list)return;
     const history=data.rankHistory.slice().reverse();
     list.innerHTML=history.length?history.map(h=>`<div class="rank-history-item"><div class="rank-history-left"><div class="rank-history-mini">${h.badge}</div><div><div class="rank-history-name">${h.name}</div><div class="rank-history-date">Desbloqueado el ${new Date(h.date+'T12:00:00').toLocaleDateString('es-ES')}</div></div></div><div class="rank-history-xp">${Number(h.xp||0).toLocaleString('es-ES')} XP</div></div>`).join(''):'<div class="small muted">Aún no hay rangos registrados.</div>';
