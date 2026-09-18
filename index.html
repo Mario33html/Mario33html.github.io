@@ -1003,6 +1003,201 @@
       color: var(--red);
     }
 
+
+    /* CALENDARIO ANUAL DE CONSTANCIA */
+    .attendance-calendar-card {
+      margin-top: 18px;
+    }
+
+    .attendance-calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .attendance-calendar-title-wrap {
+      min-width: 0;
+    }
+
+    .attendance-calendar-year {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .attendance-calendar-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .attendance-calendar-controls {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .attendance-calendar-controls .button {
+      min-width: 42px;
+      padding: 10px 12px;
+    }
+
+    .attendance-calendar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 18px;
+    }
+
+    .attendance-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .attendance-legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--panel-3);
+    }
+
+    .attendance-legend-dot.trained {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 35%, transparent);
+    }
+
+    .attendance-calendar {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .attendance-month {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .attendance-month-title {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      text-transform: capitalize;
+    }
+
+    .attendance-weekdays,
+    .attendance-days {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 4px;
+    }
+
+    .attendance-weekday {
+      color: var(--muted);
+      font-size: 9px;
+      text-align: center;
+      padding-bottom: 3px;
+      text-transform: uppercase;
+    }
+
+    .attendance-day {
+      aspect-ratio: 1;
+      min-width: 0;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.035);
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      cursor: default;
+      transition: transform 0.15s, border-color 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .attendance-day.empty {
+      background: transparent;
+      border-color: transparent;
+      pointer-events: none;
+    }
+
+    .attendance-day.trained {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #101500;
+      font-weight: 900;
+      box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 28%, transparent);
+    }
+
+    .attendance-day.recorded-rest {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .attendance-day.today {
+      outline: 1px solid var(--blue);
+      outline-offset: 1px;
+    }
+
+    .attendance-day:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+    }
+
+    .attendance-calendar-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .attendance-summary-item {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .attendance-summary-label {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .attendance-summary-value {
+      margin-top: 4px;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 1100px) {
+      .attendance-calendar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .attendance-calendar-header {
+        align-items: flex-start;
+      }
+
+      .attendance-calendar {
+        grid-template-columns: 1fr;
+      }
+
+      .attendance-calendar-summary {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* STATISTICS */
 
     .stat-box {
@@ -1934,7 +2129,145 @@
         grid-template-columns: 1fr;
       }
     }
-  </style>
+  
+/* ===== VANTA progression polish ===== */
+html, body, body * { cursor: none !important; }
+.vanta-gym-cursor { pointer-events:none !important; }
+.xp-hero { position:relative; overflow:hidden; border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border)); background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 12%,var(--panel)), var(--panel)); box-shadow:0 0 35px color-mix(in srgb,var(--accent) 10%,transparent); }
+.xp-hero::after { content:""; position:absolute; inset:-60%; background:conic-gradient(from 0deg,transparent,var(--accent),transparent 30%); opacity:.06; animation:xpOrbit 8s linear infinite; pointer-events:none; }
+.xp-hero > * { position:relative; z-index:1; }
+.xp-badge { font-size:30px; background:radial-gradient(circle at 35% 25%, color-mix(in srgb,var(--accent) 35%,white), color-mix(in srgb,var(--accent) 12%,var(--panel-2)) 55%, var(--panel)); box-shadow:0 0 22px color-mix(in srgb,var(--accent) 25%,transparent), inset 0 1px 0 rgba(255,255,255,.2); }
+.xp-rank-line { display:flex; align-items:center; gap:8px; margin-top:5px; }
+.xp-rank-shield { display:inline-grid; place-items:center; min-width:25px; height:29px; padding:0 7px; background:var(--accent); color:#101500; clip-path:polygon(50% 0,92% 15%,84% 72%,50% 100%,16% 72%,8% 15%); font-size:10px; font-weight:950; }
+.xp-level-big { font-size:31px; font-weight:950; letter-spacing:-1px; }
+.xp-gain { position:fixed; z-index:9999; pointer-events:none; color:var(--accent); font-size:22px; font-weight:950; text-shadow:0 0 18px color-mix(in srgb,var(--accent) 55%,transparent); animation:xpFloat 1.2s ease-out forwards; }
+.level-up-overlay { position:fixed; inset:0; z-index:9998; display:grid; place-items:center; background:rgba(0,0,0,.62); backdrop-filter:blur(7px); opacity:0; pointer-events:none; transition:opacity .25s; }
+.level-up-overlay.show { opacity:1; pointer-events:auto; }
+.level-up-card { text-align:center; padding:34px 42px; border:1px solid var(--accent); border-radius:24px; background:var(--panel); box-shadow:0 0 70px color-mix(in srgb,var(--accent) 30%,transparent); transform:scale(.75); transition:transform .35s cubic-bezier(.2,.9,.2,1); }
+.level-up-overlay.show .level-up-card { transform:scale(1); }
+.level-up-icon { font-size:56px; margin-bottom:8px; }
+.level-up-card h2 { color:var(--accent); font-size:30px; margin-bottom:7px; }
+.level-up-card p { color:var(--muted); font-size:13px; }
+.streak-hero { position:relative; overflow:hidden; border-color:color-mix(in srgb,var(--orange) 35%,var(--border)); background:linear-gradient(135deg, color-mix(in srgb,var(--orange) 13%,var(--panel)), var(--panel)); }
+.streak-hero .streak-flame { font-size:44px; filter:drop-shadow(0 0 12px color-mix(in srgb,var(--orange) 55%,transparent)); animation:flamePulse 1.5s ease-in-out infinite; }
+.streak-number { font-size:38px; font-weight:950; color:var(--orange); line-height:1; }
+.streak-label { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.12em; }
+.streak-meta { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.streak-pill { padding:7px 10px; border-radius:999px; background:rgba(255,173,92,.1); color:var(--orange); border:1px solid rgba(255,173,92,.2); font-size:11px; font-weight:700; }
+.daily-note-card { margin-top:18px; }
+.daily-note-card textarea { width:100%; min-height:125px; resize:vertical; background:var(--panel-2); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:13px; outline:none; font:inherit; font-size:13px; line-height:1.5; }
+.daily-note-card textarea:focus { border-color:var(--accent); }
+.note-status { color:var(--muted); font-size:11px; min-height:16px; }
+@keyframes xpFloat { 0%{opacity:0;transform:translate(-50%,10px) scale(.8)} 15%{opacity:1} 100%{opacity:0;transform:translate(-50%,-75px) scale(1.15)} }
+@keyframes xpOrbit { to{transform:rotate(360deg)} }
+@keyframes flamePulse { 50%{transform:translateY(-3px) scale(1.08)} }
+@media(max-width:700px){ .xp-level-big{font-size:25px}.level-up-card{margin:20px;padding:28px 24px}.streak-number{font-size:32px} }
+
+/* ===== VANTA additions: calendar details, interval timer, cursor, XP system ===== */
+.calendar-day { position: relative; }
+.calendar-day.trained { cursor: pointer; }
+.calendar-day:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.calendar-day-tooltip {
+  position: fixed;
+  z-index: 10000;
+  width: min(290px, calc(100vw - 24px));
+  padding: 12px;
+  border: 1px solid var(--border, rgba(255,255,255,.12));
+  border-radius: 14px;
+  background: var(--card, #121212);
+  color: var(--text, #fff);
+  box-shadow: 0 16px 50px rgba(0,0,0,.45);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity .12s ease, transform .12s ease;
+  font-size: 12px;
+}
+.calendar-day-tooltip.visible { opacity: 1; transform: translateY(0); }
+.calendar-day-tooltip .tt-date { font-weight: 800; margin-bottom: 7px; }
+.calendar-day-tooltip .tt-grid { display:grid; grid-template-columns:1fr 1fr; gap:5px 10px; }
+.calendar-day-tooltip .tt-item span { opacity:.62; display:block; font-size:10px; text-transform:uppercase; letter-spacing:.05em; }
+.calendar-day-tooltip .tt-item strong { font-size:12px; }
+.calendar-day-tooltip .tt-note { margin-top:8px; opacity:.72; font-size:10px; }
+
+.vanta-interval-widget {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9998;
+  width: 238px;
+  padding: 14px;
+  border: 1px solid var(--border, rgba(255,255,255,.12));
+  border-radius: 18px;
+  background: var(--card, #111);
+  box-shadow: 0 18px 55px rgba(0,0,0,.5);
+  backdrop-filter: blur(14px);
+}
+.vanta-interval-widget.collapsed { width: auto; padding: 9px; border-radius: 999px; }
+.vanta-interval-widget.collapsed .interval-body { display:none; }
+.interval-fab {
+  border:0; background:transparent; color:inherit; cursor:pointer;
+  font:inherit; font-weight:800; display:flex; align-items:center; gap:8px;
+}
+.interval-body { margin-top:10px; }
+.interval-display {
+  text-align:center; font-size:34px; font-weight:900; letter-spacing:.04em;
+  font-variant-numeric: tabular-nums; margin: 4px 0 10px;
+}
+.interval-row { display:flex; gap:6px; align-items:center; }
+.interval-row input {
+  min-width:0; width:72px; padding:8px; border-radius:10px;
+  border:1px solid var(--border, rgba(255,255,255,.12));
+  background:var(--bg, #0b0b0b); color:inherit;
+}
+.interval-btn {
+  flex:1; padding:8px 7px; border-radius:10px; border:1px solid var(--border, rgba(255,255,255,.12));
+  background:transparent; color:inherit; cursor:pointer; font-weight:750;
+}
+.interval-btn.primary { background:var(--accent, #d5a93a); color:#080808; border-color:transparent; }
+.interval-presets { display:flex; gap:5px; margin-top:7px; }
+.interval-presets button { flex:1; font-size:10px; padding:6px 3px; border-radius:8px; border:1px solid var(--border, rgba(255,255,255,.12)); background:transparent; color:inherit; cursor:pointer; }
+.interval-status { text-align:center; min-height:16px; margin-top:6px; opacity:.68; font-size:10px; }
+.vanta-timer-done { animation: vantaTimerPulse .55s ease-in-out 0s 5; }
+@keyframes vantaTimerPulse { 50% { transform:scale(1.04); filter:brightness(1.45); } }
+
+.vanta-xp-section {
+  margin-top:18px; padding:18px; border:1px solid var(--border, rgba(255,255,255,.12));
+  border-radius:18px; background:var(--card, #111); overflow:hidden;
+}
+.xp-head { display:flex; justify-content:space-between; gap:14px; align-items:center; }
+.xp-rank { font-size:11px; text-transform:uppercase; letter-spacing:.12em; opacity:.65; }
+.xp-level { font-size:26px; font-weight:950; margin-top:2px; }
+.xp-badge { width:54px; height:54px; border-radius:16px; display:grid; place-items:center; font-size:25px; border:1px solid var(--border, rgba(255,255,255,.12)); animation:vantaRankFloat 2.2s ease-in-out infinite; }
+.xp-bar { height:10px; border-radius:999px; background:rgba(127,127,127,.18); overflow:hidden; margin:14px 0 7px; }
+.xp-fill { height:100%; width:0; border-radius:999px; background:var(--accent, #d5a93a); transition:width .55s cubic-bezier(.2,.8,.2,1); }
+.xp-meta { display:flex; justify-content:space-between; font-size:10px; opacity:.65; }
+.xp-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; }
+.xp-stat { padding:9px; border-radius:12px; background:rgba(127,127,127,.08); }
+.xp-stat span { display:block; font-size:9px; opacity:.6; text-transform:uppercase; }
+.xp-stat strong { display:block; margin-top:2px; font-size:15px; }
+.xp-ranks { display:flex; gap:7px; flex-wrap:wrap; margin-top:12px; }
+.xp-rank-chip { font-size:9px; padding:5px 8px; border-radius:999px; border:1px solid var(--border, rgba(255,255,255,.12)); opacity:.42; }
+.xp-rank-chip.active { opacity:1; border-color:var(--accent, #d5a93a); box-shadow:0 0 18px rgba(213,169,58,.13); }
+.xp-rank-chip.current { animation:vantaRankPulse 1.8s ease-in-out infinite; }
+@keyframes vantaRankFloat { 50% { transform:translateY(-3px) rotate(2deg); } }
+@keyframes vantaRankPulse { 50% { box-shadow:0 0 22px rgba(213,169,58,.24); } }
+
+#vantaGymCursor {
+  position:fixed; z-index:100000; left:0; top:0; width:22px; height:22px;
+  pointer-events:none; display:none; transform:translate(-3px,-3px) rotate(-28deg);
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)); transition:filter .08s ease;
+}
+#vantaGymCursor svg { width:100%; height:100%; overflow:visible; }
+#vantaGymCursor.clicked { filter:drop-shadow(0 2px 4px rgba(212,167,54,.65)); }
+#vantaGymCursor.clicked svg { transform:scale(1.12); }
+@media (max-width:700px) {
+  #vantaGymCursor { display:none !important; }
+  .vanta-interval-widget { right:10px; bottom:10px; width:calc(100vw - 20px); max-width:300px; }
+  .xp-stats { grid-template-columns:1fr 1fr 1fr; }
+}
+
+</style>
 </head>
 
 <body>
@@ -2001,6 +2334,16 @@
           </div>
 
           <button class="day-arrow" id="nextDay">→</button>
+        </div>
+
+        <div class="card daily-note-card">
+          <div class="card-title">📝 Nota del día</div>
+          <div class="card-subtitle">Apunta sensaciones, energía, sueño, progresos o cualquier cosa que quieras recordar.</div>
+          <textarea id="dailyNote" placeholder="¿Cómo ha ido hoy? ¿Qué has mejorado? ¿Cómo te has sentido?"></textarea>
+          <div class="button-row" style="margin-top:10px;align-items:center">
+            <button class="button primary" id="saveDailyNote">Guardar nota</button>
+            <span class="note-status" id="dailyNoteStatus"></span>
+          </div>
         </div>
 
         <div class="grid grid-2">
@@ -2462,11 +2805,83 @@
 
         </div>
 
+        <div class="card attendance-calendar-card">
+          <div class="attendance-calendar-header">
+            <div class="attendance-calendar-title-wrap">
+              <div class="card-title">Calendario de constancia</div>
+              <div class="attendance-calendar-year" id="attendanceCalendarYear">2026</div>
+              <div class="attendance-calendar-subtitle">
+                Los días en los que has indicado que has ido al gimnasio aparecen marcados.
+              </div>
+            </div>
+
+            <div class="attendance-calendar-controls">
+              <button class="button" id="attendancePrevYear" type="button" aria-label="Año anterior">←</button>
+              <button class="button" id="attendanceNextYear" type="button" aria-label="Año siguiente">→</button>
+            </div>
+          </div>
+
+          <div class="attendance-calendar-legend">
+            <span class="attendance-legend-item">
+              <span class="attendance-legend-dot trained"></span>
+              Día de gimnasio
+            </span>
+            <span class="attendance-legend-item">
+              <span class="attendance-legend-dot"></span>
+              Sin gimnasio registrado
+            </span>
+          </div>
+
+          <div class="attendance-calendar" id="attendanceCalendar"></div>
+
+          <div class="attendance-calendar-summary">
+            <div class="attendance-summary-item">
+              <div class="attendance-summary-label">Días de gimnasio</div>
+              <div class="attendance-summary-value accent" id="attendanceTrainedDays">0</div>
+            </div>
+            <div class="attendance-summary-item">
+              <div class="attendance-summary-label">Días registrados como descanso</div>
+              <div class="attendance-summary-value" id="attendanceRestDays">0</div>
+            </div>
+            <div class="attendance-summary-item">
+              <div class="attendance-summary-label">Constancia del año</div>
+              <div class="attendance-summary-value" id="attendancePercentage">0 %</div>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <!-- VISTA CONFIGURACIÓN -->
 
-      <section class="view" id="view-settings">
+      
+<div class="vanta-xp-section xp-hero" id="vantaXpSection">
+  <div class="xp-head">
+    <div>
+      <div class="xp-rank" id="xpRankName">Rango</div>
+      <div class="xp-rank-line"><span class="xp-rank-shield" id="xpShield">I</span><div class="xp-level-big" id="xpLevel">Nivel 1</div></div>
+    </div>
+    <div class="xp-badge" id="xpBadge">I</div>
+  </div>
+  <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+  <div class="xp-meta"><span id="xpCurrent">0 XP</span><span id="xpNext">100 XP</span></div>
+  <div class="xp-stats">
+    <div class="xp-stat"><span>XP total</span><strong id="xpTotal">0</strong></div>
+    <div class="xp-stat"><span>Días gym</span><strong id="xpGymDays">0</strong></div>
+    <div class="xp-stat"><span>Racha</span><strong id="xpStreak">0</strong></div>
+  </div>
+  <div class="xp-ranks" id="xpRanks"></div>
+</div>
+
+<div class="card streak-hero" id="vantaStreakSection" style="margin-top:18px">
+  <div class="row" style="display:flex;align-items:center;gap:15px">
+    <div class="streak-flame">🔥</div>
+    <div><div class="streak-label">Racha de constancia</div><div><span class="streak-number" id="heroStreak">0</span> <span style="font-weight:800">días</span></div></div>
+  </div>
+  <div class="streak-meta"><span class="streak-pill">⚡ Mejor racha: <b id="heroBestStreak">0</b> días</span><span class="streak-pill">🏋️ Días registrados: <b id="heroGymDays">0</b></span></div>
+</div>
+
+<section class="view" id="view-settings">
 
         <div class="card settings-grid">
 
@@ -2770,6 +3185,14 @@
     </main>
   </div>
 
+  <div class="level-up-overlay" id="levelUpOverlay" role="dialog" aria-live="polite">
+    <div class="level-up-card">
+      <div class="level-up-icon" id="levelUpIcon">🏆</div>
+      <h2 id="levelUpTitle">¡Subiste de nivel!</h2>
+      <p id="levelUpMessage">Has alcanzado un nuevo nivel.</p>
+      <button class="button primary" id="closeLevelUp" style="margin-top:18px">Continuar</button>
+    </div>
+  </div>
   <div class="notification" id="notification"></div>
 
   <script>
@@ -2804,6 +3227,12 @@
     };
 
     let appData = loadData();
+    // VANTA additions: read-only bridge for the extra UI components.
+    window.vantaGetAppData = () => appData;
+    window.vantaGetDateObject = (dateString) => getDateObject(dateString);
+    window.vantaGetSelectedDate = () => selectedDate;
+    window.vantaSaveAppData = () => saveData();
+
 
     let selectedDate = getTodayString();
 
@@ -2856,7 +3285,8 @@
                 day.weight !== "" ||
                 day.workout !== "" ||
                 (Array.isArray(day.calorieEntries) && day.calorieEntries.length > 0) ||
-                (Array.isArray(day.proteinEntries) && day.proteinEntries.length > 0)
+                (Array.isArray(day.proteinEntries) && day.proteinEntries.length > 0) ||
+                day.note
               )
             )
           )
@@ -3401,6 +3831,117 @@
           });
 
         });
+    }
+
+    let attendanceCalendarYear = new Date().getFullYear();
+
+    function getCalendarDayKey(year, monthIndex, dayNumber) {
+      return `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(dayNumber).padStart(2, "0")}`;
+    }
+
+    function renderAttendanceCalendar() {
+      const calendar = document.getElementById("attendanceCalendar");
+      const yearLabel = document.getElementById("attendanceCalendarYear");
+
+      if (!calendar || !yearLabel) return;
+
+      yearLabel.textContent = attendanceCalendarYear;
+      calendar.innerHTML = "";
+
+      const weekdays = ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"];
+      let trainedDays = 0;
+      let restDays = 0;
+      const todayKey = getTodayString();
+
+      for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
+        const month = document.createElement("div");
+        month.className = "attendance-month";
+
+        const monthTitle = document.createElement("div");
+        monthTitle.className = "attendance-month-title";
+        monthTitle.textContent = monthNames[monthIndex];
+        month.appendChild(monthTitle);
+
+        const weekdaysRow = document.createElement("div");
+        weekdaysRow.className = "attendance-weekdays";
+
+        weekdays.forEach(weekday => {
+          const weekdayEl = document.createElement("div");
+          weekdayEl.className = "attendance-weekday";
+          weekdayEl.textContent = weekday;
+          weekdaysRow.appendChild(weekdayEl);
+        });
+
+        month.appendChild(weekdaysRow);
+
+        const daysGrid = document.createElement("div");
+        daysGrid.className = "attendance-days";
+
+        const firstDay = new Date(attendanceCalendarYear, monthIndex, 1);
+        const daysInMonth = new Date(attendanceCalendarYear, monthIndex + 1, 0).getDate();
+
+        // Convertimos domingo=0 a lunes=0 para que la semana empiece en lunes.
+        const leadingEmptyDays = (firstDay.getDay() + 6) % 7;
+
+        for (let i = 0; i < leadingEmptyDays; i++) {
+          const empty = document.createElement("div");
+          empty.className = "attendance-day empty";
+          daysGrid.appendChild(empty);
+        }
+
+        for (let dayNumber = 1; dayNumber <= daysInMonth; dayNumber++) {
+          const dateKey = getCalendarDayKey(attendanceCalendarYear, monthIndex, dayNumber);
+          const dayData = appData.days[dateKey];
+
+          const dayEl = document.createElement("div");
+          dayEl.className = "attendance-day";
+          dayEl.textContent = dayNumber;
+          dayEl.title = `${dayNumber} de ${monthNames[monthIndex]} de ${attendanceCalendarYear}`;
+
+          if (dateKey === todayKey) {
+            dayEl.classList.add("today");
+          }
+
+          if (dayData && dayData.gym === true) {
+            dayEl.classList.add("trained");
+            dayEl.title += " · Gimnasio ✓";
+            trainedDays++;
+          } else if (dayData && dayData.gym === false) {
+            dayEl.classList.add("recorded-rest");
+            dayEl.title += " · No gimnasio";
+            restDays++;
+          } else {
+            dayEl.title += " · Sin registro";
+          }
+
+          // Al pulsar un día se mantiene la navegación existente de la aplicación:
+          // simplemente cambia la fecha seleccionada a ese día.
+          dayEl.addEventListener("click", () => {
+            setSelectedDate(dateKey);
+          });
+
+          daysGrid.appendChild(dayEl);
+        }
+
+        month.appendChild(daysGrid);
+        calendar.appendChild(month);
+      }
+
+      // Número real de días del año, incluyendo años bisiestos.
+      const totalYearDays =
+        (new Date(attendanceCalendarYear, 1, 29).getMonth() === 1) ? 366 : 365;
+
+      const percentage = totalYearDays
+        ? Math.round((trainedDays / totalYearDays) * 100)
+        : 0;
+
+      const trainedEl = document.getElementById("attendanceTrainedDays");
+      const restEl = document.getElementById("attendanceRestDays");
+      const percentageEl = document.getElementById("attendancePercentage");
+
+      if (trainedEl) trainedEl.textContent = trainedDays;
+      if (restEl) restEl.textContent = restDays;
+      if (percentageEl) percentageEl.textContent = `${percentage} %`;
     }
 
     function renderStatistics() {
@@ -4201,6 +4742,7 @@
 
       if (viewName === "statistics") {
         renderStatistics();
+        renderAttendanceCalendar();
       }
 
       if (viewName === "settings") {
@@ -4215,8 +4757,19 @@
       renderCaloriesView();
       renderProteinView();
       renderStatistics();
+      renderAttendanceCalendar();
       renderSettings();
     }
+
+    document.getElementById("attendancePrevYear")?.addEventListener("click", () => {
+      attendanceCalendarYear--;
+      renderAttendanceCalendar();
+    });
+
+    document.getElementById("attendanceNextYear")?.addEventListener("click", () => {
+      attendanceCalendarYear++;
+      renderAttendanceCalendar();
+    });
 
     /* NAVEGACIÓN */
 
@@ -4659,5 +5212,361 @@
     renderAll();
 
   </script>
+
+<div id="calendarDayTooltip" class="calendar-day-tooltip" role="tooltip"></div>
+
+
+<div class="vanta-interval-widget collapsed" id="vantaIntervalWidget">
+  <button class="interval-fab" id="intervalToggle" type="button" aria-expanded="false">
+    <span>⏱</span><span id="intervalFabText">Timer</span>
+  </button>
+  <div class="interval-body">
+    <div class="interval-display" id="intervalDisplay">03:00</div>
+    <div class="interval-row">
+      <input id="intervalMinutes" type="number" min="0" max="59" step="1" value="3" aria-label="Minutos">
+      <span>:</span>
+      <input id="intervalSeconds" type="number" min="0" max="59" step="1" value="0" aria-label="Segundos">
+    </div>
+    <div class="interval-presets">
+      <button type="button" data-interval="60">1m</button>
+      <button type="button" data-interval="180">3m</button>
+      <button type="button" data-interval="300">5m</button>
+      <button type="button" data-interval="600">10m</button>
+    </div>
+    <div class="interval-row" style="margin-top:8px">
+      <button class="interval-btn primary" id="intervalStart" type="button">Empezar</button>
+      <button class="interval-btn" id="intervalReset" type="button">Reset</button>
+    </div>
+    <div class="interval-status" id="intervalStatus">Listo para la siguiente serie</div>
+  </div>
+</div>
+
+
+<div id="vantaGymCursor" aria-hidden="true">
+  <svg viewBox="0 0 24 24" fill="none">
+    <g stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.2 8.1v7.8M4.2 9.2v5.6M8.2 10.1v3.8"/>
+      <path d="M17.8 8.1v7.8M19.8 9.2v5.6M15.8 10.1v3.8"/>
+      <path d="M8.2 12h7.6"/>
+    </g>
+  </svg>
+</div>
+
+<script>
+
+/* ===== VANTA additions ===== */
+(function(){
+  // ---------- Calendar day mini-details ----------
+  const calendarTooltip = document.getElementById('calendarDayTooltip');
+
+  function formatMiniNumber(value, suffix='') {
+    if (value === undefined || value === null || value === '' || Number.isNaN(Number(value))) return '—';
+    return `${Number(value).toLocaleString('es-ES')}${suffix}`;
+  }
+  function dayMiniDetails(dateKey) {
+    const data = window.vantaGetAppData ? window.vantaGetAppData() : null; const d = data && data.days && data.days[dateKey];
+    if (!d) return { exists:false };
+    const calories = Array.isArray(d.calorieEntries) ? d.calorieEntries.reduce((s,x)=>s + (Number(x.value)||0),0) : 0;
+    const protein = Array.isArray(d.proteinEntries) ? d.proteinEntries.reduce((s,x)=>s + (Number(x.value)||0),0) : 0;
+    const workout = d.workout || (d.gym === false ? 'Descanso' : '—');
+    return {
+      exists:true,
+      gym: d.gym === true,
+      workout,
+      gymTime: d.gymTime || '—',
+      creatine: d.creatine === true ? 'Sí' : (d.creatine === false ? 'No' : '—'),
+      calories,
+      protein,
+      weight: d.weight,
+      note: d.notes || d.note || ''
+    };
+  }
+
+  function showCalendarTooltip(dayEl, dateKey) {
+    if (!calendarTooltip) return;
+    const info = dayMiniDetails(dateKey);
+    const date = window.vantaGetDateObject ? window.vantaGetDateObject(dateKey) : new Date(dateKey+'T00:00:00');
+    const dateLabel = date ? date.toLocaleDateString('es-ES', {weekday:'long', day:'numeric', month:'long', year:'numeric'}) : dateKey;
+    if (!info.exists) {
+      calendarTooltip.innerHTML = `<div class="tt-date">${dateLabel}</div><div class="tt-note">Sin datos registrados para este día.</div>`;
+    } else {
+      calendarTooltip.innerHTML = `
+        <div class="tt-date">${dateLabel}</div>
+        <div class="tt-grid">
+          <div class="tt-item"><span>Estado</span><strong>${info.gym ? '🏋️ Gym' : '🛌 Descanso'}</strong></div>
+          <div class="tt-item"><span>Entreno</span><strong>${info.workout}</strong></div>
+          <div class="tt-item"><span>Creatina</span><strong>${info.creatine}</strong></div>
+          <div class="tt-item"><span>Tiempo</span><strong>${info.gymTime}</strong></div>
+          <div class="tt-item"><span>Kcal</span><strong>${formatMiniNumber(info.calories)}</strong></div>
+          <div class="tt-item"><span>Proteína</span><strong>${formatMiniNumber(info.protein,' g')}</strong></div>
+          <div class="tt-item"><span>Peso</span><strong>${formatMiniNumber(info.weight,' kg')}</strong></div>
+        </div>
+        <div class="tt-note">Pulsa/clica para abrir ese día.</div>`;
+    }
+    const r = dayEl.getBoundingClientRect();
+    let left = r.left + r.width/2 - 145;
+    let top = r.top - 8;
+    calendarTooltip.style.left = `${Math.max(8, Math.min(window.innerWidth - 298, left))}px`;
+    calendarTooltip.style.top = `${Math.max(8, top - calendarTooltip.offsetHeight)}px`;
+    calendarTooltip.classList.add('visible');
+  }
+  function hideCalendarTooltip(){ calendarTooltip && calendarTooltip.classList.remove('visible'); }
+
+  // ---------- Interval timer ----------
+  const widget = document.getElementById('vantaIntervalWidget');
+  if (widget) {
+    const toggle = document.getElementById('intervalToggle');
+    const display = document.getElementById('intervalDisplay');
+    const minInput = document.getElementById('intervalMinutes');
+    const secInput = document.getElementById('intervalSeconds');
+    const startBtn = document.getElementById('intervalStart');
+    const resetBtn = document.getElementById('intervalReset');
+    const status = document.getElementById('intervalStatus');
+    let remaining = 180, timer = null, running = false;
+
+    const fmt = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    const setDisplay = () => display.textContent = fmt(remaining);
+    const inputSeconds = () => Math.max(0, Math.min(3599, (Number(minInput.value)||0)*60 + (Number(secInput.value)||0)));
+    const syncInputs = () => { minInput.value=Math.floor(remaining/60); secInput.value=remaining%60; setDisplay(); };
+    const beep = () => {
+      try {
+        const C = window.AudioContext || window.webkitAudioContext;
+        if (!C) return;
+        const ctx = new C(), osc = ctx.createOscillator(), gain=ctx.createGain();
+        osc.frequency.value=880; gain.gain.value=.07; osc.connect(gain); gain.connect(ctx.destination);
+        osc.start(); osc.stop(ctx.currentTime+.28);
+      } catch(e){}
+    };
+    const finish = () => {
+      running=false; timer=null; startBtn.textContent='Empezar'; status.textContent='¡Descanso terminado! A por la siguiente serie 💪';
+      display.classList.add('vanta-timer-done'); widget.classList.add('vanta-timer-done'); beep();
+      if (navigator.vibrate) navigator.vibrate([180,100,180]);
+      setTimeout(()=>{display.classList.remove('vanta-timer-done'); widget.classList.remove('vanta-timer-done');},2800);
+    };
+    const tick = () => {
+      remaining--;
+      setDisplay();
+      if (remaining <= 0) { remaining=0; setDisplay(); finish(); }
+    };
+    toggle.addEventListener('click',()=>{
+      const collapsed=widget.classList.toggle('collapsed');
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+      document.getElementById('intervalFabText').textContent = collapsed ? 'Timer' : 'Ocultar';
+    });
+    [minInput,secInput].forEach(i=>i.addEventListener('change',()=>{ if(!running){remaining=inputSeconds();setDisplay();}}));
+    document.querySelectorAll('[data-interval]').forEach(b=>b.addEventListener('click',()=>{
+      if (running) return;
+      remaining=Number(b.dataset.interval); syncInputs(); status.textContent='Tiempo preparado';
+    }));
+    startBtn.addEventListener('click',()=>{
+      if (running) {
+        clearInterval(timer); timer=null; running=false; startBtn.textContent='Continuar'; status.textContent='Pausado';
+      } else {
+        if (remaining<=0) remaining=inputSeconds()||180;
+        running=true; startBtn.textContent='Pausar'; status.textContent='Descansando…';
+        clearInterval(timer); timer=setInterval(tick,1000);
+      }
+    });
+    resetBtn.addEventListener('click',()=>{
+      clearInterval(timer); timer=null; running=false; remaining=inputSeconds()||180; syncInputs();
+      startBtn.textContent='Empezar'; status.textContent='Listo para la siguiente serie';
+    });
+    syncInputs();
+  }
+
+  // ---------- Daily notes ----------
+  function renderDailyNote(){
+    const area=document.getElementById('dailyNote');
+    if(!area) return;
+    const data=window.vantaGetAppData ? window.vantaGetAppData() : null;
+    const day=data?.days?.[window.vantaGetSelectedDate ? window.vantaGetSelectedDate() : ''];
+    area.value=day?.note || '';
+    const status=document.getElementById('dailyNoteStatus'); if(status) status.textContent='';
+  }
+  function saveDailyNote(){
+    const area=document.getElementById('dailyNote');
+    if(!area || !window.vantaGetAppData) return;
+    const data=window.vantaGetAppData();
+    const key=window.vantaGetSelectedDate ? window.vantaGetSelectedDate() : null;
+    if(!key) return;
+    if(!data.days[key]) data.days[key]={gym:null,creatine:null,weight:'',workout:'',gymTime:'',calorieEntries:[],proteinEntries:[]};
+    data.days[key].note=area.value.trim();
+    if(window.vantaSaveAppData) window.vantaSaveAppData();
+    const status=document.getElementById('dailyNoteStatus'); if(status) status.textContent='✓ Nota guardada';
+    setTimeout(()=>{if(status) status.textContent='';},1800);
+  }
+  document.getElementById('saveDailyNote')?.addEventListener('click',saveDailyNote);
+  setTimeout(renderDailyNote,50);
+
+  // ---------- XP / levels ----------
+  const ranks = [
+    {min:0, name:'Novato', badge:'I'},
+    {min:250, name:'Constante', badge:'II'},
+    {min:600, name:'Disciplinado', badge:'III'},
+    {min:1100, name:'Guerrero', badge:'IV'},
+    {min:1800, name:'Élite', badge:'V'},
+    {min:2800, name:'Titán', badge:'VI'},
+    {min:4200, name:'Leyenda', badge:'VII'}
+  ];
+  function dateKeyFromDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+  function calcXp(){
+    const data = window.vantaGetAppData ? window.vantaGetAppData() : {days:{}}; const days = data.days || {};
+    const gymKeys = Object.keys(days).filter(k=>days[k] && days[k].gym===true).sort();
+    let xp=0;
+    gymKeys.forEach(k=>{
+      const d=days[k];
+      xp += 50;
+      if (d.workout) xp += 10;
+      if (d.gymTime) xp += 5;
+      if (d.creatine===true) xp += 5;
+      if (Array.isArray(d.calorieEntries) && d.calorieEntries.length) xp += 5;
+      if (Array.isArray(d.proteinEntries) && d.proteinEntries.length) xp += 5;
+    });
+    // Small consistency bonus: 7-day streaks.
+    let streak=0, best=0, prev=null;
+    gymKeys.forEach(k=>{
+      const dt=getDateObject(k);
+      if(prev){
+        const diff=Math.round((dt-prev)/86400000);
+        streak = diff===1 ? streak+1 : 1;
+      } else streak=1;
+      best=Math.max(best,streak); prev=dt;
+      if(streak>1) xp += 3;
+    });
+    return {xp, gymDays:gymKeys.length, streak:best};
+  }
+  function renderXp(){
+    const root=document.getElementById('vantaXpSection');
+    if(!root) return;
+    const {xp,gymDays,streak}=calcXp();
+    let rank=ranks[0], next=ranks[1];
+    for(let i=0;i<ranks.length;i++){ if(xp>=ranks[i].min) rank=ranks[i]; if(xp<ranks[i].min){next=ranks[i];break;} next=null; }
+    const level=Math.floor(xp/100)+1;
+    const levelBase=(level-1)*100, levelProgress=xp-levelBase;
+    document.getElementById('xpRankName').textContent=rank.name;
+    document.getElementById('xpLevel').textContent=`Nivel ${level}`;
+    document.getElementById('xpBadge').textContent=rank.badge;
+    const shield=document.getElementById('xpShield'); if(shield) shield.textContent=rank.badge;
+    const heroStreak=document.getElementById('heroStreak'); if(heroStreak) heroStreak.textContent=streak;
+    const heroBest=document.getElementById('heroBestStreak'); if(heroBest) heroBest.textContent=streak;
+    const heroDays=document.getElementById('heroGymDays'); if(heroDays) heroDays.textContent=gymDays;
+    document.getElementById('xpFill').style.width=`${Math.min(100,levelProgress)}%`;
+    document.getElementById('xpCurrent').textContent=`${xp.toLocaleString('es-ES')} XP`;
+    document.getElementById('xpNext').textContent=`${(levelBase+100).toLocaleString('es-ES')} XP`;
+    document.getElementById('xpTotal').textContent=xp.toLocaleString('es-ES');
+    document.getElementById('xpGymDays').textContent=gymDays;
+    document.getElementById('xpStreak').textContent=streak;
+    const ranksEl=document.getElementById('xpRanks');
+    ranksEl.innerHTML=ranks.map(r=>`<span class="xp-rank-chip ${xp>=r.min?'active':''} ${xp>=r.min && (!next || r.min===rank.min)?'current':''}">${r.badge} · ${r.name}</span>`).join('');
+  }
+
+  // Hook into existing render functions without replacing their functionality.
+  const hookNames=['renderAll','renderStatistics'];
+  hookNames.forEach(name=>{
+    if(typeof window[name]==='function'){
+      const original=window[name];
+      window[name]=function(){
+        const result=original.apply(this,arguments);
+        try {
+          if(name==='renderStatistics') { renderXp(); }
+          if(name==='renderAll') { renderXp(); renderDailyNote(); checkProgression(); }
+        } catch(e){}
+        return result;
+      };
+    }
+  });
+  // Visual XP feedback and level-up celebration.
+  let previousXpState=null;
+  function showXpGain(amount){
+    if(!amount || amount<=0) return;
+    const el=document.createElement('div'); el.className='xp-gain'; el.textContent=`+${amount} XP`;
+    el.style.left='50%'; el.style.top='38%'; document.body.appendChild(el); setTimeout(()=>el.remove(),1250);
+  }
+  function checkProgression(){
+    const current=calcXp();
+    if(previousXpState){
+      const gained=current.xp-previousXpState.xp;
+      if(gained>0) showXpGain(gained);
+      const oldLevel=Math.floor(previousXpState.xp/100)+1, newLevel=Math.floor(current.xp/100)+1;
+      if(newLevel>oldLevel){
+        const overlay=document.getElementById('levelUpOverlay');
+        document.getElementById('levelUpTitle').textContent=`¡Nivel ${newLevel} desbloqueado!`;
+        document.getElementById('levelUpMessage').textContent='Cada sesión cuenta. Sigue construyendo tu progreso.';
+        if(overlay) overlay.classList.add('show');
+      }
+    }
+    previousXpState=current;
+  }
+  document.getElementById('closeLevelUp')?.addEventListener('click',()=>document.getElementById('levelUpOverlay')?.classList.remove('show'));
+  setTimeout(()=>{ renderXp(); previousXpState=calcXp(); renderDailyNote(); }, 0);
+
+  // ---------- Custom dumbbell cursor ----------
+  const cursor=document.getElementById('vantaGymCursor');
+  if(cursor && window.matchMedia('(pointer:fine)').matches){
+    cursor.style.display='block';
+    document.addEventListener('mousemove',e=>{
+      cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px';
+    },{passive:true});
+    document.addEventListener('mousedown',()=>{
+      cursor.classList.add('clicked');
+      cursor.style.color='var(--accent, #d5a93a)';
+    });
+    document.addEventListener('mouseup',()=>{
+      setTimeout(()=>{cursor.classList.remove('clicked'); cursor.style.color='';},650);
+    });
+  }
+})();
+
+</script>
+
+<script>
+(function(){
+  const tip=document.getElementById('calendarDayTooltip');
+  if(!tip) return;
+  function details(k){ const data=window.vantaGetAppData ? window.vantaGetAppData() : null; const d=data?.days?.[k]; return d; }
+  function show(el){
+    const k=el.dataset.date; if(!k) return;
+    const d=details(k); const date=window.vantaGetDateObject ? window.vantaGetDateObject(k) : new Date(k+'T00:00:00');
+    const label=date?date.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):k;
+    if(!d){ tip.innerHTML=`<div class="tt-date">${label}</div><div class="tt-note">Sin datos registrados para este día.</div>`; }
+    else {
+      const cal=Array.isArray(d.calorieEntries)?d.calorieEntries.reduce((s,x)=>s+(Number(x.value)||0),0):0;
+      const pro=Array.isArray(d.proteinEntries)?d.proteinEntries.reduce((s,x)=>s+(Number(x.value)||0),0):0;
+      tip.innerHTML=`<div class="tt-date">${label}</div><div class="tt-grid">
+      <div class="tt-item"><span>Estado</span><strong>${d.gym===true?'🏋️ Gym':'🛌 Descanso'}</strong></div>
+      <div class="tt-item"><span>Entreno</span><strong>${d.workout||'—'}</strong></div>
+      <div class="tt-item"><span>Creatina</span><strong>${d.creatine===true?'Sí':d.creatine===false?'No':'—'}</strong></div>
+      <div class="tt-item"><span>Tiempo</span><strong>${d.gymTime||'—'}</strong></div>
+      <div class="tt-item"><span>Kcal</span><strong>${cal.toLocaleString('es-ES')}</strong></div>
+      <div class="tt-item"><span>Proteína</span><strong>${pro.toLocaleString('es-ES')} g</strong></div>
+      <div class="tt-item"><span>Peso</span><strong>${d.weight!=null&&d.weight!==''?Number(d.weight).toLocaleString('es-ES')+' kg':'—'}</strong></div>
+      </div><div class="tt-note">Pulsa/clica para abrir ese día.</div>`;
+    }
+    const r=el.getBoundingClientRect();
+    requestAnimationFrame(()=>{
+      let left=r.left+r.width/2-145;
+      let top=r.top-tip.offsetHeight-10;
+      tip.style.left=Math.max(8,Math.min(innerWidth-298,left))+'px';
+      tip.style.top=Math.max(8,top)+'px';
+      tip.classList.add('visible');
+    });
+  }
+  document.addEventListener('mouseover',e=>{
+    const el=e.target.closest?.('#attendanceCalendar .calendar-day');
+    if(el) show(el);
+  });
+  document.addEventListener('mouseout',e=>{
+    const el=e.target.closest?.('#attendanceCalendar .calendar-day');
+    if(el && !el.contains(e.relatedTarget)) tip.classList.remove('visible');
+  });
+  document.addEventListener('focusin',e=>{
+    const el=e.target.closest?.('#attendanceCalendar .calendar-day'); if(el) show(el);
+  });
+  document.addEventListener('focusout',e=>{
+    const el=e.target.closest?.('#attendanceCalendar .calendar-day'); if(el) tip.classList.remove('visible');
+  });
+})();
+</script>
+
 </body>
 </html>
